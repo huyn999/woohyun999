@@ -1,0 +1,14 @@
+name: fp_x_s_o_tmpfile
+# AUTO-GENERATED failprobe workload — v2 extension probe: O_TMPFILE 무명 파일 (이름이 애초에 없는 임시파일)
+# features: o_tmpfile
+# expected risks: o_tmpfile:medium — ghost의 극단형
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_o_tmpfile_l01, f_o_tmpfile_l02, f_o_tmpfile, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 10

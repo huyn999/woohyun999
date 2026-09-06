@@ -1,0 +1,14 @@
+name: fp_s_cwd_tmp
+# AUTO-GENERATED failprobe workload — single-feature probe: 작업 디렉터리 이동 (앱 데이터 디렉터리)
+# features: cwd_tmp
+# expected risks: cwd_tmp:low — cwd 경로 존재 필요
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_cwd_tmp_l01, f_cwd_tmp_l02, f_cwd_tmp, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

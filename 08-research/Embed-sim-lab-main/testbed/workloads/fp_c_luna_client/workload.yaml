@@ -1,0 +1,14 @@
+name: fp_c_luna_client
+# AUTO-GENERATED failprobe workload — luna-service 버스 클라이언트: 버스 연결 + 이벤트 루프
+# features: unix_conn,epoll,eventfd
+# expected risks: unix_conn:medium — established unix; epoll:low; eventfd:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_unix_conn_l01, f_unix_conn_l02, f_unix_conn_l03, f_unix_conn_l04, f_unix_conn_l05, f_unix_conn, f_epoll_l01, f_epoll_l02, f_epoll_l03, f_epoll_l04, f_epoll, f_eventfd, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

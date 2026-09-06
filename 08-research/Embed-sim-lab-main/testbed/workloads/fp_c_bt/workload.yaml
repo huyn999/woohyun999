@@ -1,0 +1,14 @@
+name: fp_c_bt
+# AUTO-GENERATED failprobe workload — 블루투스 매니저: netlink + 워커 + 이벤트 fd
+# features: netlink,thread1,eventfd
+# expected risks: netlink:HIGH — netlink 복원 제한; thread1:low; eventfd:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_netlink_l01, f_netlink_l02, f_netlink_l03, f_netlink_l04, f_netlink_l05, f_netlink, f_thread1, f_eventfd, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

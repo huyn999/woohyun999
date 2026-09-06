@@ -1,0 +1,15 @@
+name: initburst
+params:
+  buf_bytes:   {default: 1048576}
+  iters:       {default: 100}
+  interval_ms: {default: 200}
+  port:        {default: 18080}   # config 경로는 명시 포트 필수 (0 거부)
+phases: [init, ready, served_first]
+metrics: [compute_ms]
+resident:
+  from_param: buf_bytes       # 버퍼가 그대로 상주 (buf_bytes sweep 시 선언도 함께 스케일)
+  bytes_per_unit: 1
+  overhead_mib: 1             # 코드/스택/libc/소켓 (실측: 기본 1MiB 버퍼에서 총 RSS ≈2.1~2.7MiB)
+calibration:
+  param: iters
+  metric: compute_ms

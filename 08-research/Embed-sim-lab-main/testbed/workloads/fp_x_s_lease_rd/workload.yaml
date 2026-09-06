@@ -1,0 +1,14 @@
+name: fp_x_s_lease_rd
+# AUTO-GENERATED failprobe workload — v2 extension probe: 파일 read lease (F_SETLEASE — 캐시 무결성 프로토콜)
+# features: lease_rd
+# expected risks: lease_rd:HIGH — lease 복원
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_lease_rd_l01, f_lease_rd_l02, f_lease_rd_l03, f_lease_rd_l04, f_lease_rd_l05, f_lease_rd, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 9

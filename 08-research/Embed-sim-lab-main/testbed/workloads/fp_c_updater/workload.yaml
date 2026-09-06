@@ -1,0 +1,14 @@
+name: fp_c_updater
+# AUTO-GENERATED failprobe workload — 업데이트 데몬: 디렉터리 감시 + 임시파일 + DB 락
+# features: inotify,tmpunlink,lock_posix
+# expected risks: inotify:medium — watch 경로 복원; tmpunlink:medium — ghost file 복원 경로; lock_posix:HIGH — --file-locks 필요
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_inotify_l01, f_inotify_l02, f_inotify_l03, f_inotify_l04, f_inotify, f_tmpunlink_l01, f_tmpunlink_l02, f_tmpunlink_l03, f_tmpunlink, f_lock_posix_l01, f_lock_posix_l02, f_lock_posix_l03, f_lock_posix, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

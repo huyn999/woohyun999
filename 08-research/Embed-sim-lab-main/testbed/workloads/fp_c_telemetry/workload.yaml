@@ -1,0 +1,14 @@
+name: fp_c_telemetry
+# AUTO-GENERATED failprobe workload — 텔레메트리: UDP 송신 + 로그 + RT 타이머
+# features: udp,logfile,posix_timer
+# expected risks: udp:low; logfile:low — regular file fd; posix_timer:medium
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_udp_l01, f_udp_l02, f_udp_l03, f_udp, f_logfile_l01, f_logfile_l02, f_logfile, f_posix_timer_l01, f_posix_timer_l02, f_posix_timer_l03, f_posix_timer_l04, f_posix_timer_l05, f_posix_timer_l06, f_posix_timer, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

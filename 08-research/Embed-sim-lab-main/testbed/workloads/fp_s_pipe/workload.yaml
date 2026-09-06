@@ -1,0 +1,14 @@
+name: fp_s_pipe
+# AUTO-GENERATED failprobe workload — single-feature probe: 익명 파이프 + 미소비 데이터 (자식 헬퍼 통신)
+# features: pipe
+# expected risks: pipe:low — 파이프 버퍼 내용 dump
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_pipe_l01, f_pipe_l02, f_pipe, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

@@ -1,0 +1,14 @@
+name: fp_x_s_memfd_seal
+# AUTO-GENERATED failprobe workload — v2 extension probe: 봉인된 memfd (F_SEAL_WRITE — 불변 공유버퍼 프로토콜)
+# features: memfd_seal
+# expected risks: memfd_seal:medium
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_memfd_seal_l01, f_memfd_seal_l02, f_memfd_seal_l03, f_memfd_seal_l04, f_memfd_seal_l05, f_memfd_seal_l06, f_memfd_seal, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 12

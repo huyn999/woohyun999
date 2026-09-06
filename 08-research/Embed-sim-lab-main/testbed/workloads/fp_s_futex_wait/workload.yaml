@@ -1,0 +1,14 @@
+name: fp_s_futex_wait
+# AUTO-GENERATED failprobe workload — single-feature probe: futex(조건변수)에 영구 블록된 스레드 (유휴 워커풀)
+# features: futex_wait
+# expected risks: futex_wait:medium — 블록 상태 복원
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_futex_wait, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

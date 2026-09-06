@@ -1,0 +1,14 @@
+name: fp_x_s_epoll_excl
+# AUTO-GENERATED failprobe workload — v2 extension probe: EPOLLEXCLUSIVE 등록 (thundering-herd 회피 관용구)
+# features: epoll_excl
+# expected risks: epoll_excl:medium
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_epoll_excl_l01, f_epoll_excl_l02, f_epoll_excl_l03, f_epoll_excl_l04, f_epoll_excl_l05, f_epoll_excl, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 9

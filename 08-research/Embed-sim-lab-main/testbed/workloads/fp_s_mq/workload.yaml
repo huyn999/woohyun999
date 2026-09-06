@@ -1,0 +1,14 @@
+name: fp_s_mq
+# AUTO-GENERATED failprobe workload — single-feature probe: POSIX 메시지 큐 + 미소비 메시지 (서비스 명령 큐)
+# features: mq
+# expected risks: mq:medium
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_mq_l01, f_mq_l02, f_mq_l03, f_mq_l04, f_mq_l05, f_mq, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

@@ -1,0 +1,14 @@
+name: fp_p10_lock_flock__logfile
+# AUTO-GENERATED failprobe workload — pair probe: flock 배타 락 보유 (단일 인스턴스 락파일) + append 로그 파일 fd (모든 서비스 데몬)
+# features: lock_flock,logfile
+# expected risks: lock_flock:HIGH — 기본 옵션 dump 거부 예상 (--file-locks 필요); logfile:low — regular file fd
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_lock_flock_l01, f_lock_flock_l02, f_lock_flock, f_logfile_l01, f_logfile_l02, f_logfile, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

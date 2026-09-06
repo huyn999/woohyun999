@@ -1,0 +1,14 @@
+name: fp_s_rlimit
+# AUTO-GENERATED failprobe workload — single-feature probe: 낮춘 RLIMIT_NOFILE (샌드박스 관례)
+# features: rlimit
+# expected risks: rlimit:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_rlimit_l01, f_rlimit, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

@@ -1,0 +1,14 @@
+name: fp_c_ads
+# AUTO-GENERATED failprobe workload — 광고/비콘 모듈: UDP + 주기 타이머 + 로그
+# features: udp,itimer,logfile
+# expected risks: udp:low; itimer:medium — 진행 중 타이머+핸들러; logfile:low — regular file fd
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_udp_l01, f_udp_l02, f_udp_l03, f_udp, f_itimer_l01, f_itimer_l02, f_itimer_l03, f_itimer, f_logfile_l01, f_logfile_l02, f_logfile, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

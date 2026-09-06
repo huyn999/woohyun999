@@ -1,0 +1,14 @@
+name: fp_c_media_local
+# AUTO-GENERATED failprobe workload — 로컬 미디어 재생: 파일 매핑 + 타이머 + I/O 스레드
+# features: mmap_priv,timerfd,thread1
+# expected risks: mmap_priv:low; timerfd:low; thread1:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_mmap_priv_l01, f_mmap_priv_l02, f_mmap_priv_l03, f_mmap_priv_l04, f_mmap_priv_l05, f_mmap_priv_l06, f_mmap_priv, f_timerfd_l01, f_timerfd_l02, f_timerfd_l03, f_timerfd_l04, f_timerfd, f_thread1, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 16

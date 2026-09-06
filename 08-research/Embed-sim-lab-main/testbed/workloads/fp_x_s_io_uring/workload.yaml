@@ -1,0 +1,14 @@
+name: fp_x_s_io_uring
+# AUTO-GENERATED failprobe workload — v2 extension probe: io_uring 링 fd (현대 비동기 I/O)
+# features: io_uring
+# expected risks: io_uring:HIGH — CRIU 미지원 예상
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_io_uring, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 10

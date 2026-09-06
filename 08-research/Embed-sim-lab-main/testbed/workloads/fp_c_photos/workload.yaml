@@ -1,0 +1,14 @@
+name: fp_c_photos
+# AUTO-GENERATED failprobe workload — 사진 뷰어: 이미지 매핑 + 디코딩 힙
+# features: mmap_priv,large_heap
+# expected risks: mmap_priv:low; large_heap:none — dump 이미지만 커짐
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_mmap_priv_l01, f_mmap_priv_l02, f_mmap_priv_l03, f_mmap_priv_l04, f_mmap_priv_l05, f_mmap_priv_l06, f_mmap_priv, f_large_heap_l01, f_large_heap_l02, f_large_heap, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 316

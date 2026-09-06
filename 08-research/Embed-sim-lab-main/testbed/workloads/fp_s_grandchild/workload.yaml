@@ -1,0 +1,14 @@
+name: fp_s_grandchild
+# AUTO-GENERATED failprobe workload — single-feature probe: 자식의 자식 (2단 트리 — 앱이 띄운 헬퍼의 헬퍼)
+# features: grandchild
+# expected risks: grandchild:medium — 깊은 트리
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_grandchild, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

@@ -1,0 +1,14 @@
+name: fp_s_mmap_shared
+# AUTO-GENERATED failprobe workload — single-feature probe: 파일 MAP_SHARED rw 매핑 (설정 캐시 파일)
+# features: mmap_shared
+# expected risks: mmap_shared:medium — 파일 동기화 의미
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_mmap_shared_l01, f_mmap_shared_l02, f_mmap_shared_l03, f_mmap_shared_l04, f_mmap_shared_l05, f_mmap_shared_l06, f_mmap_shared, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 16

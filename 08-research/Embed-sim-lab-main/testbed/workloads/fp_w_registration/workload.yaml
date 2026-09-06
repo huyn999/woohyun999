@@ -1,0 +1,14 @@
+name: fp_w_registration
+# AUTO-GENERATED failprobe workload — [U] webOS-faithful: 버스 등록 순간 — luna 전송(UNIX)의 connect~accept 창: 유일한 미측정 성분
+# features: unix_inflight
+# expected risks: unix_inflight:HIGH — tcp in-flight의 유닉스 대응 여부
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_unix_inflight_l01, f_unix_inflight_l02, f_unix_inflight_l03, f_unix_inflight_l04, f_unix_inflight_l05, f_unix_inflight_l06, f_unix_inflight_l07, f_unix_inflight_l08, f_unix_inflight_l09, f_unix_inflight_l10, f_unix_inflight, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 9

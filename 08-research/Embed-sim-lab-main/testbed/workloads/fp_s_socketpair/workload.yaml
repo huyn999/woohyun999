@@ -1,0 +1,14 @@
+name: fp_s_socketpair
+# AUTO-GENERATED failprobe workload — single-feature probe: AF_UNIX socketpair (프로세스 내부 채널)
+# features: socketpair
+# expected risks: socketpair:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_socketpair_l01, f_socketpair, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

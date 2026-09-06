@@ -1,0 +1,14 @@
+name: fp_w_tempdb
+# AUTO-GENERATED failprobe workload — [P] webOS-faithful: tempdb — 인메모리 저장(memfd) + 수신 버스
+# features: memfd,unix_listen,epoll
+# expected risks: memfd:low (CRIU 4.x 지원); unix_listen:medium — bind 경로 재생성; epoll:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_memfd_l01, f_memfd_l02, f_memfd_l03, f_memfd_l04, f_memfd_l05, f_memfd, f_unix_listen_l01, f_unix_listen_l02, f_unix_listen_l03, f_unix_listen_l04, f_unix_listen_l05, f_unix_listen_l06, f_unix_listen, f_epoll_l01, f_epoll_l02, f_epoll_l03, f_epoll_l04, f_epoll, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 24

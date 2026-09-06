@@ -1,0 +1,14 @@
+name: fp_c_luna_daemon
+# AUTO-GENERATED failprobe workload — 버스 데몬: UNIX listen + 이벤트 루프 + 워커 프로세스
+# features: unix_listen,epoll,child
+# expected risks: unix_listen:medium — bind 경로 재생성; epoll:low; child:low — 프로세스 트리 dump
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_unix_listen_l01, f_unix_listen_l02, f_unix_listen_l03, f_unix_listen_l04, f_unix_listen_l05, f_unix_listen_l06, f_unix_listen, f_epoll_l01, f_epoll_l02, f_epoll_l03, f_epoll_l04, f_epoll, f_child, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

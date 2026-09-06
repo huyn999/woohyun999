@@ -1,0 +1,14 @@
+name: fp_c_voice
+# AUTO-GENERATED failprobe workload — 음성 에이전트: 시그널 제어 + 오디오 스레드 + 파이프
+# features: signalfd,thread1,pipe
+# expected risks: signalfd:low; thread1:low; pipe:low — 파이프 버퍼 내용 dump
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_signalfd_l01, f_signalfd_l02, f_signalfd, f_thread1, f_pipe_l01, f_pipe_l02, f_pipe, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

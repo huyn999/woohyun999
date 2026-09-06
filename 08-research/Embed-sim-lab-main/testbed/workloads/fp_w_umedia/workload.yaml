@@ -1,0 +1,14 @@
+name: fp_w_umedia
+# AUTO-GENERATED failprobe workload — [P] webOS-faithful: uMediaServer 워커 — 디코더 스레드 + 프레임클록 + 버퍼 + 버스
+# features: thread4,timerfd,memfd,unix_conn
+# expected risks: thread4:low; timerfd:low; memfd:low (CRIU 4.x 지원); unix_conn:medium — established unix
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_thread4, f_timerfd_l01, f_timerfd_l02, f_timerfd_l03, f_timerfd_l04, f_timerfd, f_memfd_l01, f_memfd_l02, f_memfd_l03, f_memfd_l04, f_memfd_l05, f_memfd, f_unix_conn_l01, f_unix_conn_l02, f_unix_conn_l03, f_unix_conn_l04, f_unix_conn_l05, f_unix_conn, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 32

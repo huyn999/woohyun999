@@ -1,0 +1,14 @@
+name: fp_s_udp
+# AUTO-GENERATED failprobe workload — single-feature probe: 바인드된 UDP 소켓 (텔레메트리/디스커버리)
+# features: udp
+# expected risks: udp:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_udp_l01, f_udp_l02, f_udp_l03, f_udp, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

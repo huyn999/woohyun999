@@ -1,0 +1,14 @@
+name: fp_s_tcp_established
+# AUTO-GENERATED failprobe workload — single-feature probe: 연결 성립된 loopback TCP 쌍 (스트리밍/앱스토어 연결)
+# features: tcp_established
+# expected risks: tcp_established:HIGH — 기본 옵션 dump 거부 예상 (--tcp-established 필요)
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_tcp_established_l01, f_tcp_established_l02, f_tcp_established_l03, f_tcp_established_l04, f_tcp_established_l05, f_tcp_established_l06, f_tcp_established_l07, f_tcp_established, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

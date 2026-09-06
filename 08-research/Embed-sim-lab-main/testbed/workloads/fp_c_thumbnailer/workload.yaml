@@ -1,0 +1,14 @@
+name: fp_c_thumbnailer
+# AUTO-GENERATED failprobe workload — 썸네일 생성기: 자식 워커 + 파이프 + 임시파일
+# features: child,pipe,tmpunlink
+# expected risks: child:low — 프로세스 트리 dump; pipe:low — 파이프 버퍼 내용 dump; tmpunlink:medium — ghost file 복원 경로
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_child, f_pipe_l01, f_pipe_l02, f_pipe, f_tmpunlink_l01, f_tmpunlink_l02, f_tmpunlink_l03, f_tmpunlink, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

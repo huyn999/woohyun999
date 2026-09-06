@@ -1,0 +1,14 @@
+name: fp_c_epg
+# AUTO-GENERATED failprobe workload — EPG 캐시 서비스: 공유메모리 + 데이터 갱신 감시 + 캐시 파일 매핑
+# features: shm_posix,inotify,mmap_shared
+# expected risks: shm_posix:medium; inotify:medium — watch 경로 복원; mmap_shared:medium — 파일 동기화 의미
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_shm_posix_l01, f_shm_posix_l02, f_shm_posix_l03, f_shm_posix_l04, f_shm_posix_l05, f_shm_posix_l06, f_shm_posix_l07, f_shm_posix, f_inotify_l01, f_inotify_l02, f_inotify_l03, f_inotify_l04, f_inotify, f_mmap_shared_l01, f_mmap_shared_l02, f_mmap_shared_l03, f_mmap_shared_l04, f_mmap_shared_l05, f_mmap_shared_l06, f_mmap_shared, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 32

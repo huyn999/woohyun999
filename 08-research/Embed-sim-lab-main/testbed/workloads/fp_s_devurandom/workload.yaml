@@ -1,0 +1,14 @@
+name: fp_s_devurandom
+# AUTO-GENERATED failprobe workload — single-feature probe: /dev/urandom fd (난수 소스 상시 오픈)
+# features: devurandom
+# expected risks: devurandom:medium — 캐릭터 디바이스
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_devurandom_l01, f_devurandom, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

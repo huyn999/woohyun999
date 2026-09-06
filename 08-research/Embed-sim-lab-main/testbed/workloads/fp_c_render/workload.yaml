@@ -1,0 +1,14 @@
+name: fp_c_render
+# AUTO-GENERATED failprobe workload — 렌더 서비스: memfd + 공유메모리 + 스레드풀
+# features: memfd,shm_posix,thread4
+# expected risks: memfd:low (CRIU 4.x 지원); shm_posix:medium; thread4:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_memfd_l01, f_memfd_l02, f_memfd_l03, f_memfd_l04, f_memfd_l05, f_memfd, f_shm_posix_l01, f_shm_posix_l02, f_shm_posix_l03, f_shm_posix_l04, f_shm_posix_l05, f_shm_posix_l06, f_shm_posix_l07, f_shm_posix, f_thread4, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 48

@@ -1,0 +1,14 @@
+name: fp_x_s_scm_inflight
+# AUTO-GENERATED failprobe workload — v2 extension probe: UNIX 소켓 버퍼에 '배달 중' fd (SCM_RIGHTS 미수신)
+# features: scm_inflight
+# expected risks: scm_inflight:HIGH — fd-passing in-flight
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_scm_inflight_l01, f_scm_inflight_l02, f_scm_inflight_l03, f_scm_inflight_l04, f_scm_inflight_l05, f_scm_inflight_l06, f_scm_inflight_l07, f_scm_inflight_l08, f_scm_inflight_l09, f_scm_inflight_l10, f_scm_inflight, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 9

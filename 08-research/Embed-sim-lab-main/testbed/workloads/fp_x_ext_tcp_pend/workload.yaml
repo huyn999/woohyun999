@@ -1,0 +1,14 @@
+name: fp_x_ext_tcp_pend
+# AUTO-GENERATED failprobe workload — [X] 봉쇄 행렬: 봉쇄B: 리스너=외부 서버(덤프 밖), 미accept
+# features: ext_tcp_pend
+# expected risks: ext_tcp_pend:HIGH — 실제 HLS 수립 창
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_ext_tcp_pend_l01, f_ext_tcp_pend_l02, f_ext_tcp_pend_l03, f_ext_tcp_pend_l04, f_ext_tcp_pend, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 9

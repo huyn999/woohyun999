@@ -1,0 +1,6 @@
+# testbed python 의존성.
+# Debian/Ubuntu/Raspberry Pi OS에선 bootstrap.sh가 apt(python3-yaml, python3-matplotlib)로
+# 설치하므로 이 파일이 필요 없다 — 비-apt 배포판이나 venv에서만:
+#   pip install -r testbed/requirements.txt
+PyYAML>=6.0        # runner/* 전 도구 (config_to_env/expand_campaign/...)
+matplotlib>=3.5    # reports/ 그림 전용 — 측정 파이프라인은 PyYAML만 필요

@@ -1,0 +1,14 @@
+name: fp_x_s_unix_dgram
+# AUTO-GENERATED failprobe workload — v2 extension probe: UNIX 데이터그램 쌍 + 미수신 패킷
+# features: unix_dgram
+# expected risks: unix_dgram:medium
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_unix_dgram_l01, f_unix_dgram_l02, f_unix_dgram, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 9

@@ -1,0 +1,14 @@
+name: fp_w_dynamic_svc
+# AUTO-GENERATED failprobe workload — [P] webOS-faithful: 동적 서비스 — 요청 시 spawn + 버스 연결
+# features: child,unix_conn,epoll
+# expected risks: child:low — 프로세스 트리 dump; unix_conn:medium — established unix; epoll:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_child, f_unix_conn_l01, f_unix_conn_l02, f_unix_conn_l03, f_unix_conn_l04, f_unix_conn_l05, f_unix_conn, f_epoll_l01, f_epoll_l02, f_epoll_l03, f_epoll_l04, f_epoll, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

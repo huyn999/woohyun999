@@ -1,0 +1,14 @@
+name: fp_s_timerfd
+# AUTO-GENERATED failprobe workload — single-feature probe: 주기 timerfd (프레임/폴링 타이머)
+# features: timerfd
+# expected risks: timerfd:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_timerfd_l01, f_timerfd_l02, f_timerfd_l03, f_timerfd_l04, f_timerfd, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

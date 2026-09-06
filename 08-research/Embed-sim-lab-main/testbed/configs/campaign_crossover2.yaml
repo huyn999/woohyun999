@@ -1,0 +1,16 @@
+# crossover 재산출 캠페인 (2026-07-05) — 새 testbed(관측 슬랙 제거판)로 initburst crossover 재측정.
+# 배경: PLAN.md §2·§3 아티팩트 2호 — old(wsk_redesign)의 crossover(busy <50ms / idle ~100ms)는
+#   restore에 +15~30ms 불리한 관측 슬랙 포함. 새 수치와 old 수치는 직접 비교 금지(§3 철칙).
+# 구성은 old initburst sweep과 동일 물리 조건: nominal 50~700ms(calibration으로 iters 산출),
+#   stress-memory 상시(Option B 1278MiB 흡수), cpu busy/idle, kdat on/off, n=10.
+campaign: crossover2
+reps: 10
+stress: {target_total_mib: 1278, workers: 29}
+axes:
+  cpu: [busy, idle]
+  kdat: [on, off]
+workloads:
+  - name: initburst
+    sweep: {param: iters, calibrate_from_ms: [50, 100, 150, 200, 300, 500, 700]}
+    dump_at: [served_first]      # old "워밍업 1회 후 dump" 의미론
+warmup_pings: 1

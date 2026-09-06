@@ -1,0 +1,14 @@
+name: fp_c_launcher
+# AUTO-GENERATED failprobe workload — 앱 런처: 2단 자식 트리 + 세션 분리
+# features: child,grandchild,session
+# expected risks: child:low — 프로세스 트리 dump; grandchild:medium — 깊은 트리; session:medium — 세션 리더 복원
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_child, f_grandchild, f_session, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

@@ -1,0 +1,14 @@
+name: fp_c_screensaver
+# AUTO-GENERATED failprobe workload — 스크린세이버: 타이머 + 리소스 매핑
+# features: timerfd,mmap_priv
+# expected risks: timerfd:low; mmap_priv:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_timerfd_l01, f_timerfd_l02, f_timerfd_l03, f_timerfd_l04, f_timerfd, f_mmap_priv_l01, f_mmap_priv_l02, f_mmap_priv_l03, f_mmap_priv_l04, f_mmap_priv_l05, f_mmap_priv_l06, f_mmap_priv, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 16

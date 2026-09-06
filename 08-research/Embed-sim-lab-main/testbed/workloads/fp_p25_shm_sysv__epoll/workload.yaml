@@ -1,0 +1,14 @@
+name: fp_p25_shm_sysv__epoll
+# AUTO-GENERATED failprobe workload — pair probe: SysV 공유메모리, attach 후 IPC_RMID (오디오/AV 파이프라인 레거시) + epoll 인스턴스 + 등록 fd (이벤트 루프)
+# features: shm_sysv,epoll
+# expected risks: shm_sysv:HIGH — RMID된 세그먼트 복원; epoll:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_shm_sysv_l01, f_shm_sysv_l02, f_shm_sysv_l03, f_shm_sysv_l04, f_shm_sysv, f_epoll_l01, f_epoll_l02, f_epoll_l03, f_epoll_l04, f_epoll, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 24

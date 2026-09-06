@@ -1,0 +1,14 @@
+name: fp_s_itimer
+# AUTO-GENERATED failprobe workload — single-feature probe: setitimer 주기 SIGALRM (레거시 워치독)
+# features: itimer
+# expected risks: itimer:medium — 진행 중 타이머+핸들러
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_itimer_l01, f_itimer_l02, f_itimer_l03, f_itimer, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

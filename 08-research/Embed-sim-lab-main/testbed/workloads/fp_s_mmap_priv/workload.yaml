@@ -1,0 +1,14 @@
+name: fp_s_mmap_priv
+# AUTO-GENERATED failprobe workload — single-feature probe: 파일 MAP_PRIVATE 매핑 (리소스/폰트 로딩)
+# features: mmap_priv
+# expected risks: mmap_priv:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_mmap_priv_l01, f_mmap_priv_l02, f_mmap_priv_l03, f_mmap_priv_l04, f_mmap_priv_l05, f_mmap_priv_l06, f_mmap_priv, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 16

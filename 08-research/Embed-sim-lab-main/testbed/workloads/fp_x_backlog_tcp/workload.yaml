@@ -1,0 +1,14 @@
+name: fp_x_backlog_tcp
+# AUTO-GENERATED failprobe workload — [X] 봉쇄 행렬: 봉쇄A: 동일 조건의 TCP — self-loopback 교란 제거
+# features: backlog_tcp
+# expected risks: backlog_tcp:HIGH — self-loopback이 아니어도 sk-inet.c:185가 나는가
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_backlog_tcp, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 9

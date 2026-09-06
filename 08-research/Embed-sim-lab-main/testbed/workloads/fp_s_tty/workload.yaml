@@ -1,0 +1,14 @@
+name: fp_s_tty
+# AUTO-GENERATED failprobe workload — single-feature probe: /dev/tty 오픈 시도 (디버그 콘솔)
+# features: tty
+# expected risks: tty:HIGH — 터미널 fd; ctty 없으면 open 자체가 skip
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_tty_l01, f_tty_l02, f_tty_l03, f_tty, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

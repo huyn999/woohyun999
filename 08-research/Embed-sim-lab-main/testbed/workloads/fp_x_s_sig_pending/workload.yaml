@@ -1,0 +1,14 @@
+name: fp_x_s_sig_pending
+# AUTO-GENERATED failprobe workload — v2 extension probe: 블록된 RT 시그널 3개 pending (미처리 이벤트 큐)
+# features: sig_pending
+# expected risks: sig_pending:medium — 시그널 큐 복원
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_sig_pending_l01, f_sig_pending_l02, f_sig_pending_l03, f_sig_pending_l04, f_sig_pending_l05, f_sig_pending, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 9

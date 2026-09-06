@@ -1,0 +1,14 @@
+name: fp_c_dvr
+# AUTO-GENERATED failprobe workload — DVR 녹화 서비스: 녹화 로그 + 파일 락 + 스케줄 타이머
+# features: logfile,lock_flock,timerfd
+# expected risks: logfile:low — regular file fd; lock_flock:HIGH — 기본 옵션 dump 거부 예상 (--file-locks 필요); timerfd:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_logfile_l01, f_logfile_l02, f_logfile, f_lock_flock_l01, f_lock_flock_l02, f_lock_flock, f_timerfd_l01, f_timerfd_l02, f_timerfd_l03, f_timerfd_l04, f_timerfd, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

@@ -1,0 +1,14 @@
+name: fp_w_epg_cache
+# AUTO-GENERATED failprobe workload — [P] webOS-faithful: EPG 캐시 — 지속 dirty 갱신 + 공유 매핑 + 파일 감시
+# features: dirty_churn,mmap_shared,inotify
+# expected risks: dirty_churn:none — dump 시점 dirty 양 변동; mmap_shared:medium — 파일 동기화 의미; inotify:medium — watch 경로 복원
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_dirty_churn, f_mmap_shared_l01, f_mmap_shared_l02, f_mmap_shared_l03, f_mmap_shared_l04, f_mmap_shared_l05, f_mmap_shared_l06, f_mmap_shared, f_inotify_l01, f_inotify_l02, f_inotify_l03, f_inotify_l04, f_inotify, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 16

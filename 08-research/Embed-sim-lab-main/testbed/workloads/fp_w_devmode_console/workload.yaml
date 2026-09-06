@@ -1,0 +1,14 @@
+name: fp_w_devmode_console
+# AUTO-GENERATED failprobe workload — [R] webOS-faithful: 개발자 모드 진단 도구 — 셸 상속 ctty (클러스터 ③의 B급 맥락 재현)
+# features: tty,pipe,unix_conn
+# expected risks: tty:HIGH — 터미널 fd; ctty 없으면 open 자체가 skip; pipe:low — 파이프 버퍼 내용 dump; unix_conn:medium — established unix
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_tty_l01, f_tty_l02, f_tty_l03, f_tty, f_pipe_l01, f_pipe_l02, f_pipe, f_unix_conn_l01, f_unix_conn_l02, f_unix_conn_l03, f_unix_conn_l04, f_unix_conn_l05, f_unix_conn, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

@@ -1,0 +1,14 @@
+name: fp_x_backlog_unix
+# AUTO-GENERATED failprobe workload — [X] 봉쇄 행렬: 봉쇄A: 리스너=나, 커넥터=자식(덤프 안), 미accept
+# features: backlog_unix
+# expected risks: backlog_unix:HIGH — self-loopback이 아닌 조건에서 UNIX 백로그가 살아남는가
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_backlog_unix, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 9

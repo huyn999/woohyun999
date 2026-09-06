@@ -1,0 +1,14 @@
+name: fp_s_large_heap
+# AUTO-GENERATED failprobe workload — single-feature probe: 대형 힙 (브라우저/게임의 리소스 로딩)
+# features: large_heap
+# expected risks: large_heap:none — dump 이미지만 커짐
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_large_heap_l01, f_large_heap_l02, f_large_heap, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 308

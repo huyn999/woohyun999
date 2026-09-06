@@ -1,0 +1,14 @@
+name: fp_x_ext_tcp_est
+# AUTO-GENERATED failprobe workload — [X] 봉쇄 행렬: 봉쇄C: 외부 서버와 성립 완료 — 대조군
+# features: ext_tcp_est
+# expected risks: ext_tcp_est:medium — 외부 TCP dump/restore
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_ext_tcp_est_l01, f_ext_tcp_est_l02, f_ext_tcp_est_l03, f_ext_tcp_est_l04, f_ext_tcp_est_l05, f_ext_tcp_est, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 9

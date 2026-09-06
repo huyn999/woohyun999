@@ -1,0 +1,14 @@
+name: fp_c_input
+# AUTO-GENERATED failprobe workload — 입력 서비스: 이벤트 루프 + 리핏 타이머 + UNIX listen
+# features: epoll,timerfd,unix_listen
+# expected risks: epoll:low; timerfd:low; unix_listen:medium — bind 경로 재생성
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_epoll_l01, f_epoll_l02, f_epoll_l03, f_epoll_l04, f_epoll, f_timerfd_l01, f_timerfd_l02, f_timerfd_l03, f_timerfd_l04, f_timerfd, f_unix_listen_l01, f_unix_listen_l02, f_unix_listen_l03, f_unix_listen_l04, f_unix_listen_l05, f_unix_listen_l06, f_unix_listen, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

@@ -1,0 +1,14 @@
+name: fp_x_s_uffd
+# AUTO-GENERATED failprobe workload — v2 extension probe: userfaultfd + 등록 페이지 (사용자 공간 페이징)
+# features: uffd
+# expected risks: uffd:HIGH
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_uffd, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 10

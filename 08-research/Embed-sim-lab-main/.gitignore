@@ -1,0 +1,15 @@
+runs/
+testbed/runs/
+testbed/workloads/target_simple
+testbed/workloads/target_memory
+testbed/workloads/target_compute
+testbed/runner/cprobe
+__pycache__/
+*.py[cod]
+.claude/
+.codex/
+*.pptx
+slides/
+testbed/criu/bin/
+testbed/criu/.build/
+testbed/workloads/bin/

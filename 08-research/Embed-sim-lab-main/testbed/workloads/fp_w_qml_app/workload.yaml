@@ -1,0 +1,14 @@
+name: fp_w_qml_app
+# AUTO-GENERATED failprobe workload — [P] webOS-faithful: QML 시스템 UI 앱 — 씬 리소스 매핑 + 렌더 스레드 + 버스
+# features: large_heap,thread4,mmap_priv,unix_conn
+# expected risks: large_heap:none — dump 이미지만 커짐; thread4:low; mmap_priv:low; unix_conn:medium — established unix
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_large_heap_l01, f_large_heap_l02, f_large_heap, f_thread4, f_mmap_priv_l01, f_mmap_priv_l02, f_mmap_priv_l03, f_mmap_priv_l04, f_mmap_priv_l05, f_mmap_priv_l06, f_mmap_priv, f_unix_conn_l01, f_unix_conn_l02, f_unix_conn_l03, f_unix_conn_l04, f_unix_conn_l05, f_unix_conn, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 324

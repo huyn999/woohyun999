@@ -1,0 +1,14 @@
+name: fp_s_shm_posix
+# AUTO-GENERATED failprobe workload — single-feature probe: POSIX 공유메모리 (컴포지터/서비스 간 버퍼)
+# features: shm_posix
+# expected risks: shm_posix:medium
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_shm_posix_l01, f_shm_posix_l02, f_shm_posix_l03, f_shm_posix_l04, f_shm_posix_l05, f_shm_posix_l06, f_shm_posix_l07, f_shm_posix, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 24

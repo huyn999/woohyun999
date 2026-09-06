@@ -1,0 +1,148 @@
+name: pbs_mock_lbl
+# webOS pbs(EPG 배너 서비스) 상세 모사 — pbsprobe/ 실험 패키지의 측정 대상.
+# 계약 v2 준수 (A4는 탐침 목적상 의도적 위반 — hub/tcp/timerfd/inotify fd가 실험 대상).
+# hub_disconnected / hub_reregistered / clock_tick / hub_dead 는 이벤트 phase로,
+# dump_at 대상이 아니라 로그 관측용이다 (pbs_sweep.sh가 scenarios.csv 기반으로 소비).
+params:
+  port:          {default: 18080}
+  phase_gap_ms:  {default: 400}
+  db_mib:        {default: 8}
+  channels:      {default: 60}
+  slots:         {default: 48}
+  parse_iters:   {default: 120000}
+  index_mib:     {default: 12}
+  reserve_mib:   {default: 0}
+  hub_conns:     {default: 4}
+  hub_pending:   {default: 2}
+  hub_reconnect: {default: 1}
+  selfhub:       {default: 0}
+  tcp:           {default: none}
+  refresh_ms:    {default: 1000}
+  refresh_kib:   {default: 256}
+  timer:         {default: 1}
+  timer_s:       {default: 60}
+  watch:         {default: 1}
+  mmap_db:       {default: 0}
+  resume_file:   {default: ""}
+  threads:       {default: 0}
+  selfpipe:      {default: 0}
+  eventfd:       {default: 0}
+  db_lock:       {default: none}
+  shm_mib:       {default: 0}
+  log_dgram:     {default: 0}
+  render:        {default: 0}
+  workdir:       {default: 0}
+  hub_port:      {default: 0}
+  epoll:         {default: 0}
+  tmpunlink:     {default: 0}
+  urandom:       {default: 0}
+  tcp_halfclose: {default: 0}
+  flood_name:    {default: 0}
+  child:         {default: 0}
+  zombie:        {default: 0}
+  sigpend:       {default: 0}
+  unix_listen:   {default: 0}
+  udp:           {default: 0}
+  netlink:       {default: 0}
+  substeps:      {default: 0}
+phases:
+  - init
+  - sig_pending
+  - dev_urandom
+  - log_open
+  - db_open
+  - db_lock
+  - db_read
+  - db_read_p25
+  - db_read_p50
+  - db_read_p75
+  - db_parse_p25
+  - db_parse_p50
+  - db_parse_p75
+  - db_parse
+  - epg_index_p25
+  - epg_index_p50
+  - epg_index_p75
+  - epg_index
+  - epg_text
+  - epg_reserve
+  - thread1
+  - thread2
+  - thread3
+  - thread4
+  - helper_forked
+  - zombie_made
+  - selfpipe
+  - eventfd_open
+  - shm_map
+  - workdir
+  - tmp_journal
+  - hub_conn1
+  - hub_conn2
+  - hub_conn3
+  - hub_conn4
+  - hub_conn5
+  - hub_conn6
+  - hub_conn7
+  - hub_conn8
+  - hub_subscribed
+  - render_conn
+  - tcp_conn
+  - tcp_halfclosed
+  - epoll_open
+  - svc_listen
+  - udp_open
+  - netlink_open
+  - timer_armed
+  - db_watch
+  - db_mmap
+  - ready
+  - served_first
+  - steady
+metrics:
+  - parse_ms
+  - sched_crc
+  - hub_ok
+resident:
+  from_param: index_mib
+  bytes_per_unit: 1048576
+  overhead_mib: 8   # DB read 청크 버퍼(1MiB) + libc/stdio + 소켓. reserve는 untouched라 RSS 미포함
+
+# 줄 단위 phase (자동 생성)
+#  - Lsrc_001
+#  - Lsrc_002
+#  - Lsrc_003
+#  - Lsrc_004
+#  - Lsrc_005
+#  - Lsrc_006
+#  - Lsrc_007
+#  - Lsrc_008
+#  - Lsrc_009
+#  - Lsrc_010
+#  - Lsrc_011
+#  - Lsrc_012
+#  - Lsrc_013
+#  - Lsrc_014
+#  - Lsrc_015
+#  - Lsrc_016
+#  - Lsrc_017
+#  - Lsrc_018
+#  - Lsrc_019
+#  - Lsrc_020
+#  - Lsrc_021
+#  - Lsrc_022
+#  - Lsrc_023
+#  - Lsrc_024
+#  - Lsrc_025
+#  - Lsrc_026
+#  - Lsrc_027
+#  - Lsrc_028
+#  - Lsrc_029
+#  - Lsrc_030
+#  - Lsrc_031
+#  - Lsrc_032
+#  - Lsrc_033
+#  - Lsrc_034
+#  - Lsrc_035
+#  - Lsrc_036
+#  - Lsrc_037

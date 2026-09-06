@@ -1,0 +1,14 @@
+name: fp_x_s_pidfd
+# AUTO-GENERATED failprobe workload — v2 extension probe: pidfd (프로세스 핸들 — 신형 감시/워치독)
+# features: pidfd
+# expected risks: pidfd:medium
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_pidfd, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 9

@@ -1,0 +1,2 @@
+bash: sudo: command not found
+bash: pbsprobe/pbs_sweep.sh: Permission denied

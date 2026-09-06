@@ -1,0 +1,14 @@
+name: fp_c_appstore
+# AUTO-GENERATED failprobe workload — 앱스토어 다운로더: 서버 연결 + 다운로드 임시파일 + 로그
+# features: tcp_established,tmpunlink,logfile
+# expected risks: tcp_established:HIGH — 기본 옵션 dump 거부 예상 (--tcp-established 필요); tmpunlink:medium — ghost file 복원 경로; logfile:low — regular file fd
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_tcp_established_l01, f_tcp_established_l02, f_tcp_established_l03, f_tcp_established_l04, f_tcp_established_l05, f_tcp_established_l06, f_tcp_established_l07, f_tcp_established, f_tmpunlink_l01, f_tmpunlink_l02, f_tmpunlink_l03, f_tmpunlink, f_logfile_l01, f_logfile_l02, f_logfile, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

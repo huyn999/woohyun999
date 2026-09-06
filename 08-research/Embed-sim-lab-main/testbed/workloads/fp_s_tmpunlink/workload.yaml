@@ -1,0 +1,14 @@
+name: fp_s_tmpunlink
+# AUTO-GENERATED failprobe workload — single-feature probe: 열어둔 채 unlink한 임시파일 (캐시/다운로드 중간파일)
+# features: tmpunlink
+# expected risks: tmpunlink:medium — ghost file 복원 경로
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_tmpunlink_l01, f_tmpunlink_l02, f_tmpunlink_l03, f_tmpunlink, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

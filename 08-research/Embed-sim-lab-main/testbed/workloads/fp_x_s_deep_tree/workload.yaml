@@ -1,0 +1,14 @@
+name: fp_x_s_deep_tree
+# AUTO-GENERATED failprobe workload — v2 extension probe: 6단 프로세스 체인 (깊은 트리 — 위상 축)
+# features: deep_tree
+# expected risks: deep_tree:medium — 깊이 스케일
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_deep_tree, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 9

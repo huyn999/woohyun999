@@ -1,0 +1,14 @@
+name: fp_c_wifi
+# AUTO-GENERATED failprobe workload — Wi-Fi 매니저: netlink 감시 + 이벤트 루프
+# features: netlink,epoll
+# expected risks: netlink:HIGH — netlink 복원 제한; epoll:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_netlink_l01, f_netlink_l02, f_netlink_l03, f_netlink_l04, f_netlink_l05, f_netlink, f_epoll_l01, f_epoll_l02, f_epoll_l03, f_epoll_l04, f_epoll, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

@@ -1,0 +1,1040 @@
+workload,phase,c_line_no,statement
+fp_s_plain,init,100,g_port = (int)port;
+fp_s_plain,base_mem,108,}
+fp_s_plain,f_plain,108,}
+fp_s_plain,steady,119,"probe_serve_pending(lfd, 100);"
+fp_s_large_heap,init,100,g_port = (int)port;
+fp_s_large_heap,base_mem,108,}
+fp_s_large_heap,f_large_heap_l01,111,"{ size_t n = 300ull << 20; char *p = malloc(n); if (!p) die(""large_heap malloc"");"
+fp_s_large_heap,f_large_heap_l02,113,for (size_t i = 0; i < n; i += 4096) p[i] = 1;
+fp_s_large_heap,f_large_heap,115,KEEP(p); }
+fp_s_large_heap,steady,124,"probe_serve_pending(lfd, 100);"
+fp_s_dirty_churn,init,100,g_port = (int)port;
+fp_s_dirty_churn,base_mem,108,}
+fp_s_dirty_churn,f_dirty_churn,108,}
+fp_s_dirty_churn,steady,122,off = (off + span) % (g_base_n ? g_base_n : 1); }
+fp_s_logfile,init,100,g_port = (int)port;
+fp_s_logfile,base_mem,108,}
+fp_s_logfile,f_logfile_l01,111,"{ snprintf(g_path_logfile, sizeof(g_path_logfile), ""/tmp/criuprobe_log_p%d"", g_port);"
+fp_s_logfile,f_logfile_l02,113,"int fd = open(g_path_logfile, O_CREAT | O_WRONLY | O_APPEND, 0644);"
+fp_s_logfile,f_logfile,116,"dprintf(fd, ""start\n""); KEEPFD(fd); g_logfd = fd; }"
+fp_s_logfile,steady,126,"if (g_logfd >= 0) dprintf(g_logfd, ""t\n"");"
+fp_s_tmpunlink,init,100,g_port = (int)port;
+fp_s_tmpunlink,base_mem,108,}
+fp_s_tmpunlink,f_tmpunlink_l01,111,"{ char tmpl[] = ""/tmp/criuprobe_ghost_XXXXXX""; int fd = mkstemp(tmpl);"
+fp_s_tmpunlink,f_tmpunlink_l02,114,"char b[4096]; memset(b, 7, sizeof(b));"
+fp_s_tmpunlink,f_tmpunlink_l03,116,"if (write(fd, b, sizeof(b)) != sizeof(b)) die(""ghost write"");"
+fp_s_tmpunlink,f_tmpunlink,119,KEEPFD(fd); }
+fp_s_tmpunlink,steady,128,"probe_serve_pending(lfd, 100);"
+fp_s_fifo,init,100,g_port = (int)port;
+fp_s_fifo,base_mem,108,}
+fp_s_fifo,f_fifo_l01,111,"{ snprintf(g_path_fifo, sizeof(g_path_fifo), ""/tmp/criuprobe_fifo_p%d"", g_port);"
+fp_s_fifo,f_fifo_l02,113,unlink(g_path_fifo);
+fp_s_fifo,f_fifo_l03,115,"if (mkfifo(g_path_fifo, 0600) < 0) die(""mkfifo"");"
+fp_s_fifo,f_fifo,117,"int fd = open(g_path_fifo, O_RDWR); if (fd < 0) die(""fifo open""); KEEPFD(fd); }"
+fp_s_fifo,steady,126,"probe_serve_pending(lfd, 100);"
+fp_s_pipe,init,100,g_port = (int)port;
+fp_s_pipe,base_mem,108,}
+fp_s_pipe,f_pipe_l01,111,"{ int p[2]; if (pipe2(p, 0) < 0) die(""pipe2"");"
+fp_s_pipe,f_pipe_l02,113,"if (write(p[1], ""pending-data\n"", 13) != 13) die(""pipe write"");"
+fp_s_pipe,f_pipe,115,KEEPFD(p[0]); KEEPFD(p[1]); }
+fp_s_pipe,steady,124,"probe_serve_pending(lfd, 100);"
+fp_s_socketpair,init,100,g_port = (int)port;
+fp_s_socketpair,base_mem,108,}
+fp_s_socketpair,f_socketpair_l01,111,"{ int sv[2]; if (socketpair(AF_UNIX, SOCK_STREAM, 0, sv) < 0) die(""socketpair"");"
+fp_s_socketpair,f_socketpair,114,KEEPFD(sv[0]); KEEPFD(sv[1]); }
+fp_s_socketpair,steady,123,"probe_serve_pending(lfd, 100);"
+fp_s_unix_listen,init,100,g_port = (int)port;
+fp_s_unix_listen,base_mem,108,}
+fp_s_unix_listen,f_unix_listen_l01,111,"{ snprintf(g_path_us, sizeof(g_path_us), ""/tmp/criuprobe_us_p%d"", g_port);"
+fp_s_unix_listen,f_unix_listen_l02,113,unlink(g_path_us);
+fp_s_unix_listen,f_unix_listen_l03,115,"int fd = socket(AF_UNIX, SOCK_STREAM, 0); if (fd < 0) die(""us socket"");"
+fp_s_unix_listen,f_unix_listen_l04,117,"struct sockaddr_un a; memset(&a, 0, sizeof(a)); a.sun_family = AF_UNIX;"
+fp_s_unix_listen,f_unix_listen_l05,119,"snprintf(a.sun_path, sizeof(a.sun_path), ""%s"", g_path_us);"
+fp_s_unix_listen,f_unix_listen_l06,121,"if (bind(fd, (struct sockaddr *)&a, sizeof(a)) < 0) die(""us bind"");"
+fp_s_unix_listen,f_unix_listen,124,KEEPFD(fd); g_usfd = fd; }
+fp_s_unix_listen,steady,133,"probe_serve_pending(lfd, 100);"
+fp_s_unix_conn,init,100,g_port = (int)port;
+fp_s_unix_conn,base_mem,108,}
+fp_s_unix_conn,f_unix_conn_l01,120,"int cl = socket(AF_UNIX, SOCK_STREAM, 0); if (cl < 0) die(""uconn socket"");"
+fp_s_unix_conn,f_unix_conn_l02,122,"struct sockaddr_un a; memset(&a, 0, sizeof(a)); a.sun_family = AF_UNIX;"
+fp_s_unix_conn,f_unix_conn_l03,124,"snprintf(a.sun_path, sizeof(a.sun_path), ""%s"", g_path_us);"
+fp_s_unix_conn,f_unix_conn_l04,126,"if (connect(cl, (struct sockaddr *)&a, sizeof(a)) < 0) die(""uconn connect"");"
+fp_s_unix_conn,f_unix_conn_l05,128,"int sv = accept(g_usfd, NULL, NULL); if (sv < 0) die(""uconn accept"");"
+fp_s_unix_conn,f_unix_conn,130,KEEPFD(cl); KEEPFD(sv); }
+fp_s_unix_conn,steady,139,"probe_serve_pending(lfd, 100);"
+fp_s_tcp_listen2,init,100,g_port = (int)port;
+fp_s_tcp_listen2,base_mem,108,}
+fp_s_tcp_listen2,f_tcp_listen2,111,"{ int extra_port = 0; int fd = probe_listen(0, &extra_port); KEEPFD(fd); (void)extra_port; }"
+fp_s_tcp_listen2,steady,120,"probe_serve_pending(lfd, 100);"
+fp_s_tcp_established,init,100,g_port = (int)port;
+fp_s_tcp_established,base_mem,108,}
+fp_s_tcp_established,f_tcp_established_l01,111,"{ int lp = 0; int l = probe_listen(0, &lp);"
+fp_s_tcp_established,f_tcp_established_l02,113,"int cl = socket(AF_INET, SOCK_STREAM, 0); if (cl < 0) die(""tcp cl socket"");"
+fp_s_tcp_established,f_tcp_established_l03,115,"struct sockaddr_in a; memset(&a, 0, sizeof(a)); a.sin_family = AF_INET;"
+fp_s_tcp_established,f_tcp_established_l04,117,a.sin_addr.s_addr = htonl(INADDR_LOOPBACK); a.sin_port = htons((uint16_t)lp);
+fp_s_tcp_established,f_tcp_established_l05,119,"if (connect(cl, (struct sockaddr *)&a, sizeof(a)) < 0) die(""tcp connect"");"
+fp_s_tcp_established,f_tcp_established_l06,121,"int sv = accept(l, NULL, NULL); if (sv < 0) die(""tcp accept"");"
+fp_s_tcp_established,f_tcp_established_l07,123,"if (write(cl, ""hello"", 5) != 5) die(""tcp write"");"
+fp_s_tcp_established,f_tcp_established,125,KEEPFD(l); KEEPFD(cl); KEEPFD(sv); }
+fp_s_tcp_established,steady,134,"probe_serve_pending(lfd, 100);"
+fp_s_udp,init,100,g_port = (int)port;
+fp_s_udp,base_mem,108,}
+fp_s_udp,f_udp_l01,111,"{ int fd = socket(AF_INET, SOCK_DGRAM, 0); if (fd < 0) die(""udp socket"");"
+fp_s_udp,f_udp_l02,113,"struct sockaddr_in a; memset(&a, 0, sizeof(a)); a.sin_family = AF_INET;"
+fp_s_udp,f_udp_l03,115,a.sin_addr.s_addr = htonl(INADDR_LOOPBACK); a.sin_port = 0;
+fp_s_udp,f_udp,118,KEEPFD(fd); }
+fp_s_udp,steady,127,"probe_serve_pending(lfd, 100);"
+fp_s_timerfd,init,100,g_port = (int)port;
+fp_s_timerfd,base_mem,108,}
+fp_s_timerfd,f_timerfd_l01,111,"{ int fd = timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK);"
+fp_s_timerfd,f_timerfd_l02,113,"if (fd < 0) die(""timerfd_create"");"
+fp_s_timerfd,f_timerfd_l03,115,"struct itimerspec its = { .it_interval = { 0, 100000000L }, .it_value = { 0, 100000000L } };"
+fp_s_timerfd,f_timerfd_l04,117,"if (timerfd_settime(fd, 0, &its, NULL) < 0) die(""timerfd_settime"");"
+fp_s_timerfd,f_timerfd,119,KEEPFD(fd); g_tfd = fd; }
+fp_s_timerfd,steady,129,"if (g_tfd >= 0) { uint64_t exp; while (read(g_tfd, &exp, sizeof(exp)) > 0) {} }"
+fp_s_eventfd,init,100,g_port = (int)port;
+fp_s_eventfd,base_mem,108,}
+fp_s_eventfd,f_eventfd,111,"{ int fd = eventfd(1, EFD_NONBLOCK); if (fd < 0) die(""eventfd""); KEEPFD(fd); }"
+fp_s_eventfd,steady,120,"probe_serve_pending(lfd, 100);"
+fp_s_signalfd,init,100,g_port = (int)port;
+fp_s_signalfd,base_mem,108,}
+fp_s_signalfd,f_signalfd_l01,111,"{ sigset_t m; sigemptyset(&m); sigaddset(&m, SIGUSR1);"
+fp_s_signalfd,f_signalfd_l02,113,"if (sigprocmask(SIG_BLOCK, &m, NULL) < 0) die(""sigprocmask"");"
+fp_s_signalfd,f_signalfd,115,"int fd = signalfd(-1, &m, SFD_NONBLOCK); if (fd < 0) die(""signalfd""); KEEPFD(fd); }"
+fp_s_signalfd,steady,124,"probe_serve_pending(lfd, 100);"
+fp_s_epoll,init,100,g_port = (int)port;
+fp_s_epoll,base_mem,108,}
+fp_s_epoll,f_epoll_l01,111,"{ int ep = epoll_create1(0); if (ep < 0) die(""epoll_create1"");"
+fp_s_epoll,f_epoll_l02,113,"int ev = eventfd(0, EFD_NONBLOCK); if (ev < 0) die(""epoll eventfd"");"
+fp_s_epoll,f_epoll_l03,115,"struct epoll_event e = { .events = EPOLLIN, .data = { .fd = ev } };"
+fp_s_epoll,f_epoll_l04,117,"if (epoll_ctl(ep, EPOLL_CTL_ADD, ev, &e) < 0) die(""epoll_ctl"");"
+fp_s_epoll,f_epoll,119,KEEPFD(ep); KEEPFD(ev); }
+fp_s_epoll,steady,128,"probe_serve_pending(lfd, 100);"
+fp_s_inotify,init,100,g_port = (int)port;
+fp_s_inotify,base_mem,108,}
+fp_s_inotify,f_inotify_l01,111,"{ snprintf(g_path_watch, sizeof(g_path_watch), ""/tmp/criuprobe_watch_p%d"", g_port);"
+fp_s_inotify,f_inotify_l02,113,"mkdir(g_path_watch, 0755);"
+fp_s_inotify,f_inotify_l03,115,"int fd = inotify_init1(IN_NONBLOCK); if (fd < 0) die(""inotify_init1"");"
+fp_s_inotify,f_inotify_l04,117,"if (inotify_add_watch(fd, g_path_watch, IN_CREATE | IN_MODIFY) < 0) die(""inotify_add_watch"");"
+fp_s_inotify,f_inotify,119,KEEPFD(fd); }
+fp_s_inotify,steady,128,"probe_serve_pending(lfd, 100);"
+fp_s_memfd,init,100,g_port = (int)port;
+fp_s_memfd,base_mem,108,}
+fp_s_memfd,f_memfd_l01,111,"{ int fd = memfd_create(""criuprobe"", 0); if (fd < 0) die(""memfd_create"");"
+fp_s_memfd,f_memfd_l02,113,"size_t n = 16ull << 20; if (ftruncate(fd, n) < 0) die(""memfd ftruncate"");"
+fp_s_memfd,f_memfd_l03,115,"char *p = mmap(NULL, n, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);"
+fp_s_memfd,f_memfd_l04,117,"if (p == MAP_FAILED) die(""memfd mmap"");"
+fp_s_memfd,f_memfd_l05,119,for (size_t i = 0; i < n; i += 4096) p[i] = 2;
+fp_s_memfd,f_memfd,121,KEEP(p); KEEPFD(fd); }
+fp_s_memfd,steady,130,"probe_serve_pending(lfd, 100);"
+fp_s_shm_posix,init,100,g_port = (int)port;
+fp_s_shm_posix,base_mem,108,}
+fp_s_shm_posix,f_shm_posix_l01,111,"{ snprintf(g_path_shm, sizeof(g_path_shm), ""/criuprobe_shm_p%d"", g_port);"
+fp_s_shm_posix,f_shm_posix_l02,113,shm_unlink(g_path_shm);
+fp_s_shm_posix,f_shm_posix_l03,115,"int fd = shm_open(g_path_shm, O_CREAT | O_RDWR, 0600); if (fd < 0) die(""shm_open"");"
+fp_s_shm_posix,f_shm_posix_l04,117,"size_t n = 16ull << 20; if (ftruncate(fd, n) < 0) die(""shm ftruncate"");"
+fp_s_shm_posix,f_shm_posix_l05,119,"char *p = mmap(NULL, n, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);"
+fp_s_shm_posix,f_shm_posix_l06,121,"if (p == MAP_FAILED) die(""shm mmap"");"
+fp_s_shm_posix,f_shm_posix_l07,123,for (size_t i = 0; i < n; i += 4096) p[i] = 3;
+fp_s_shm_posix,f_shm_posix,125,KEEP(p); KEEPFD(fd); }
+fp_s_shm_posix,steady,134,"probe_serve_pending(lfd, 100);"
+fp_s_shm_sysv,init,100,g_port = (int)port;
+fp_s_shm_sysv,base_mem,108,}
+fp_s_shm_sysv,f_shm_sysv_l01,111,"{ int id = shmget(IPC_PRIVATE, 16ull << 20, IPC_CREAT | 0600);"
+fp_s_shm_sysv,f_shm_sysv_l02,113,"if (id < 0) die(""shmget"");"
+fp_s_shm_sysv,f_shm_sysv_l03,115,"char *p = shmat(id, NULL, 0); if (p == (void *)-1) die(""shmat"");"
+fp_s_shm_sysv,f_shm_sysv_l04,118,for (size_t i = 0; i < (16ull << 20); i += 4096) p[i] = 4;
+fp_s_shm_sysv,f_shm_sysv,120,KEEP(p); }
+fp_s_shm_sysv,steady,129,"probe_serve_pending(lfd, 100);"
+fp_s_mq,init,100,g_port = (int)port;
+fp_s_mq,base_mem,108,}
+fp_s_mq,f_mq_l01,111,"{ snprintf(g_path_mq, sizeof(g_path_mq), ""/criuprobe_mq_p%d"", g_port);"
+fp_s_mq,f_mq_l02,113,mq_unlink(g_path_mq);
+fp_s_mq,f_mq_l03,115,"struct mq_attr at = { .mq_flags = 0, .mq_maxmsg = 4, .mq_msgsize = 64 };"
+fp_s_mq,f_mq_l04,117,"mqd_t q = mq_open(g_path_mq, O_CREAT | O_RDWR | O_NONBLOCK, 0600, &at);"
+fp_s_mq,f_mq_l05,119,"if (q == (mqd_t)-1) die(""mq_open"");"
+fp_s_mq,f_mq,122,KEEPFD((int)q); }
+fp_s_mq,steady,131,"probe_serve_pending(lfd, 100);"
+fp_s_sem_sysv,init,100,g_port = (int)port;
+fp_s_sem_sysv,base_mem,108,}
+fp_s_sem_sysv,f_sem_sysv_l01,111,"{ int id = semget(IPC_PRIVATE, 1, IPC_CREAT | 0600); if (id < 0) die(""semget"");"
+fp_s_sem_sysv,f_sem_sysv_l02,113,union semun { int val; } arg; arg.val = 1;
+fp_s_sem_sysv,f_sem_sysv,116,g_semid = id; }
+fp_s_sem_sysv,steady,125,"probe_serve_pending(lfd, 100);"
+fp_s_thread1,init,100,g_port = (int)port;
+fp_s_thread1,base_mem,108,}
+fp_s_thread1,f_thread1,111,"{ pthread_t t; if (pthread_create(&t, NULL, wk_sleeper, NULL) != 0) die(""pthread_create""); }"
+fp_s_thread1,steady,120,"probe_serve_pending(lfd, 100);"
+fp_s_thread4,init,100,g_port = (int)port;
+fp_s_thread4,base_mem,108,}
+fp_s_thread4,f_thread4,113,} }
+fp_s_thread4,steady,122,"probe_serve_pending(lfd, 100);"
+fp_s_futex_wait,init,100,g_port = (int)port;
+fp_s_futex_wait,base_mem,108,}
+fp_s_futex_wait,f_futex_wait,111,"{ pthread_t t; if (pthread_create(&t, NULL, wk_futex_wait, NULL) != 0) die(""pthread futex""); }"
+fp_s_futex_wait,steady,120,"probe_serve_pending(lfd, 100);"
+fp_s_child,init,100,g_port = (int)port;
+fp_s_child,base_mem,108,}
+fp_s_child,f_child,112,"if (c == 0) { for (;;) { struct timespec ts = { 0, 50000000L }; nanosleep(&ts, NULL); } } }"
+fp_s_child,steady,122,"{ int st; while (waitpid(-1, &st, WNOHANG) > 0) {} }"
+fp_s_grandchild,init,100,g_port = (int)port;
+fp_s_grandchild,base_mem,108,}
+fp_s_grandchild,f_grandchild,114,"for (;;) { struct timespec ts = { 0, 50000000L }; nanosleep(&ts, NULL); } } }"
+fp_s_grandchild,steady,124,"{ int st; while (waitpid(-1, &st, WNOHANG) > 0) {} }"
+fp_s_session,init,100,g_port = (int)port;
+fp_s_session,base_mem,108,}
+fp_s_session,f_session,108,}
+fp_s_session,steady,120,"probe_serve_pending(lfd, 100);"
+fp_s_mmap_priv,init,100,g_port = (int)port;
+fp_s_mmap_priv,base_mem,108,}
+fp_s_mmap_priv,f_mmap_priv_l01,111,"{ snprintf(g_path_map, sizeof(g_path_map), ""/tmp/criuprobe_map_p%d"", g_port);"
+fp_s_mmap_priv,f_mmap_priv_l02,113,"int fd = open(g_path_map, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""map open"");"
+fp_s_mmap_priv,f_mmap_priv_l03,115,"size_t n = 8ull << 20; if (ftruncate(fd, n) < 0) die(""map ftruncate"");"
+fp_s_mmap_priv,f_mmap_priv_l04,117,"char *p = mmap(NULL, n, PROT_READ | PROT_WRITE, MAP_PRIVATE, fd, 0);"
+fp_s_mmap_priv,f_mmap_priv_l05,119,"if (p == MAP_FAILED) die(""map mmap"");"
+fp_s_mmap_priv,f_mmap_priv_l06,121,for (size_t i = 0; i < n; i += 4096) p[i] = 5;
+fp_s_mmap_priv,f_mmap_priv,123,KEEP(p); close(fd); }
+fp_s_mmap_priv,steady,132,"probe_serve_pending(lfd, 100);"
+fp_s_mmap_shared,init,100,g_port = (int)port;
+fp_s_mmap_shared,base_mem,108,}
+fp_s_mmap_shared,f_mmap_shared_l01,111,"{ snprintf(g_path_maps, sizeof(g_path_maps), ""/tmp/criuprobe_maps_p%d"", g_port);"
+fp_s_mmap_shared,f_mmap_shared_l02,113,"int fd = open(g_path_maps, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""maps open"");"
+fp_s_mmap_shared,f_mmap_shared_l03,115,"size_t n = 8ull << 20; if (ftruncate(fd, n) < 0) die(""maps ftruncate"");"
+fp_s_mmap_shared,f_mmap_shared_l04,117,"char *p = mmap(NULL, n, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);"
+fp_s_mmap_shared,f_mmap_shared_l05,119,"if (p == MAP_FAILED) die(""maps mmap"");"
+fp_s_mmap_shared,f_mmap_shared_l06,121,for (size_t i = 0; i < n; i += 4096) p[i] = 6;
+fp_s_mmap_shared,f_mmap_shared,123,KEEP(p); KEEPFD(fd); }
+fp_s_mmap_shared,steady,132,"probe_serve_pending(lfd, 100);"
+fp_s_mlock,init,100,g_port = (int)port;
+fp_s_mlock,base_mem,108,}
+fp_s_mlock,f_mlock_l01,111,{ size_t n = 1 << 20;
+fp_s_mlock,f_mlock_l02,113,"char *p = mmap(NULL, n, PROT_READ | PROT_WRITE, MAP_PRIVATE | MAP_ANONYMOUS, -1, 0);"
+fp_s_mlock,f_mlock_l03,115,"if (p == MAP_FAILED) die(""mlock mmap"");"
+fp_s_mlock,f_mlock_l04,115,"if (p == MAP_FAILED) die(""mlock mmap"");"
+fp_s_mlock,f_mlock,119,"fflush(stdout); memset(p, 8, n); KEEP(p); }"
+fp_s_mlock,steady,128,"probe_serve_pending(lfd, 100);"
+fp_s_rlimit,init,100,g_port = (int)port;
+fp_s_rlimit,base_mem,108,}
+fp_s_rlimit,f_rlimit_l01,111,"{ struct rlimit rl; if (getrlimit(RLIMIT_NOFILE, &rl) < 0) die(""getrlimit"");"
+fp_s_rlimit,f_rlimit,113,"rl.rlim_cur = 256; if (setrlimit(RLIMIT_NOFILE, &rl) < 0) die(""setrlimit""); }"
+fp_s_rlimit,steady,122,"probe_serve_pending(lfd, 100);"
+fp_s_itimer,init,100,g_port = (int)port;
+fp_s_itimer,base_mem,108,}
+fp_s_itimer,f_itimer_l01,111,"{ struct sigaction sa; memset(&sa, 0, sizeof(sa)); sa.sa_handler = wk_sig_noop;"
+fp_s_itimer,f_itimer_l02,113,"if (sigaction(SIGALRM, &sa, NULL) < 0) die(""sigaction ALRM"");"
+fp_s_itimer,f_itimer_l03,115,"struct itimerval iv = { { 0, 200000 }, { 0, 200000 } };"
+fp_s_itimer,f_itimer,118,}
+fp_s_itimer,steady,127,"probe_serve_pending(lfd, 100);"
+fp_s_posix_timer,init,100,g_port = (int)port;
+fp_s_posix_timer,base_mem,108,}
+fp_s_posix_timer,f_posix_timer_l01,111,"{ struct sigaction sa; memset(&sa, 0, sizeof(sa)); sa.sa_handler = wk_sig_noop;"
+fp_s_posix_timer,f_posix_timer_l02,113,"if (sigaction(SIGRTMIN, &sa, NULL) < 0) die(""sigaction RT"");"
+fp_s_posix_timer,f_posix_timer_l03,115,"timer_t tid; struct sigevent se; memset(&se, 0, sizeof(se));"
+fp_s_posix_timer,f_posix_timer_l04,117,se.sigev_notify = SIGEV_SIGNAL; se.sigev_signo = SIGRTMIN;
+fp_s_posix_timer,f_posix_timer_l05,119,"if (timer_create(CLOCK_MONOTONIC, &se, &tid) < 0) die(""timer_create"");"
+fp_s_posix_timer,f_posix_timer_l06,121,"struct itimerspec its = { { 0, 200000000L }, { 0, 200000000L } };"
+fp_s_posix_timer,f_posix_timer,124,}
+fp_s_posix_timer,steady,133,"probe_serve_pending(lfd, 100);"
+fp_s_sigaltstack,init,100,g_port = (int)port;
+fp_s_sigaltstack,base_mem,108,}
+fp_s_sigaltstack,f_sigaltstack_l01,111,{ stack_t ss; ss.ss_sp = malloc(SIGSTKSZ); ss.ss_size = SIGSTKSZ; ss.ss_flags = 0;
+fp_s_sigaltstack,f_sigaltstack_l02,113,"if (!ss.ss_sp) die(""sigaltstack malloc"");"
+fp_s_sigaltstack,f_sigaltstack,116,KEEP(ss.ss_sp); }
+fp_s_sigaltstack,steady,125,"probe_serve_pending(lfd, 100);"
+fp_s_cwd_tmp,init,100,g_port = (int)port;
+fp_s_cwd_tmp,base_mem,108,}
+fp_s_cwd_tmp,f_cwd_tmp_l01,111,"{ snprintf(g_path_cwd, sizeof(g_path_cwd), ""/tmp/criuprobe_cwd_p%d"", g_port);"
+fp_s_cwd_tmp,f_cwd_tmp_l02,113,"mkdir(g_path_cwd, 0755);"
+fp_s_cwd_tmp,f_cwd_tmp,116,}
+fp_s_cwd_tmp,steady,125,"probe_serve_pending(lfd, 100);"
+fp_s_devnull,init,100,g_port = (int)port;
+fp_s_devnull,base_mem,108,}
+fp_s_devnull,f_devnull,113,KEEPFD(fd); } }
+fp_s_devnull,steady,122,"probe_serve_pending(lfd, 100);"
+fp_s_devurandom,init,100,g_port = (int)port;
+fp_s_devurandom,base_mem,108,}
+fp_s_devurandom,f_devurandom_l01,111,"{ int fd = open(""/dev/urandom"", O_RDONLY); if (fd < 0) die(""urandom open"");"
+fp_s_devurandom,f_devurandom,113,"char b[16]; if (read(fd, b, sizeof(b)) < 0) die(""urandom read""); KEEPFD(fd); }"
+fp_s_devurandom,steady,122,"probe_serve_pending(lfd, 100);"
+fp_s_tty,init,100,g_port = (int)port;
+fp_s_tty,base_mem,108,}
+fp_s_tty,f_tty_l01,111,"{ int fd = open(""/dev/tty"", O_RDWR);"
+fp_s_tty,f_tty_l02,113,if (fd >= 0) KEEPFD(fd);
+fp_s_tty,f_tty_l03,113,if (fd >= 0) KEEPFD(fd);
+fp_s_tty,f_tty,117,fflush(stdout); }
+fp_s_tty,steady,126,"probe_serve_pending(lfd, 100);"
+fp_s_netlink,init,100,g_port = (int)port;
+fp_s_netlink,base_mem,108,}
+fp_s_netlink,f_netlink_l01,111,"{ int fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_ROUTE);"
+fp_s_netlink,f_netlink_l02,113,"if (fd < 0) die(""netlink socket"");"
+fp_s_netlink,f_netlink_l03,115,"struct sockaddr_nl a; memset(&a, 0, sizeof(a)); a.nl_family = AF_NETLINK;"
+fp_s_netlink,f_netlink_l04,117,a.nl_groups = RTMGRP_LINK;
+fp_s_netlink,f_netlink_l05,119,"if (bind(fd, (struct sockaddr *)&a, sizeof(a)) < 0) die(""netlink bind"");"
+fp_s_netlink,f_netlink,121,KEEPFD(fd); }
+fp_s_netlink,steady,130,"probe_serve_pending(lfd, 100);"
+fp_s_abstract_unix,init,100,g_port = (int)port;
+fp_s_abstract_unix,base_mem,108,}
+fp_s_abstract_unix,f_abstract_unix_l01,111,"{ int fd = socket(AF_UNIX, SOCK_STREAM, 0); if (fd < 0) die(""aus socket"");"
+fp_s_abstract_unix,f_abstract_unix_l02,113,"struct sockaddr_un a; memset(&a, 0, sizeof(a)); a.sun_family = AF_UNIX;"
+fp_s_abstract_unix,f_abstract_unix_l03,115,"int n = snprintf(a.sun_path + 1, sizeof(a.sun_path) - 1, ""criuprobe_abs_p%d"", g_port);"
+fp_s_abstract_unix,f_abstract_unix_l04,117,"if (bind(fd, (struct sockaddr *)&a, sizeof(sa_family_t) + 1 + n) < 0) die(""aus bind"");"
+fp_s_abstract_unix,f_abstract_unix,120,KEEPFD(fd); }
+fp_s_abstract_unix,steady,129,"probe_serve_pending(lfd, 100);"
+fp_s_lock_flock,init,100,g_port = (int)port;
+fp_s_lock_flock,base_mem,108,}
+fp_s_lock_flock,f_lock_flock_l01,111,"{ snprintf(g_path_flock, sizeof(g_path_flock), ""/tmp/criuprobe_flock_p%d"", g_port);"
+fp_s_lock_flock,f_lock_flock_l02,113,"int fd = open(g_path_flock, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""flock open"");"
+fp_s_lock_flock,f_lock_flock,116,KEEPFD(fd); }
+fp_s_lock_flock,steady,125,"probe_serve_pending(lfd, 100);"
+fp_s_lock_posix,init,100,g_port = (int)port;
+fp_s_lock_posix,base_mem,108,}
+fp_s_lock_posix,f_lock_posix_l01,111,"{ snprintf(g_path_plock, sizeof(g_path_plock), ""/tmp/criuprobe_plock_p%d"", g_port);"
+fp_s_lock_posix,f_lock_posix_l02,113,"int fd = open(g_path_plock, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""plock open"");"
+fp_s_lock_posix,f_lock_posix_l03,115,"struct flock fl; memset(&fl, 0, sizeof(fl)); fl.l_type = F_WRLCK; fl.l_whence = SEEK_SET;"
+fp_s_lock_posix,f_lock_posix,118,KEEPFD(fd); }
+fp_s_lock_posix,steady,127,"probe_serve_pending(lfd, 100);"
+fp_c_media_hls,init,100,g_port = (int)port;
+fp_c_media_hls,base_mem,108,}
+fp_c_media_hls,f_tcp_established_l01,111,"{ int lp = 0; int l = probe_listen(0, &lp);"
+fp_c_media_hls,f_tcp_established_l02,113,"int cl = socket(AF_INET, SOCK_STREAM, 0); if (cl < 0) die(""tcp cl socket"");"
+fp_c_media_hls,f_tcp_established_l03,115,"struct sockaddr_in a; memset(&a, 0, sizeof(a)); a.sin_family = AF_INET;"
+fp_c_media_hls,f_tcp_established_l04,117,a.sin_addr.s_addr = htonl(INADDR_LOOPBACK); a.sin_port = htons((uint16_t)lp);
+fp_c_media_hls,f_tcp_established_l05,119,"if (connect(cl, (struct sockaddr *)&a, sizeof(a)) < 0) die(""tcp connect"");"
+fp_c_media_hls,f_tcp_established_l06,121,"int sv = accept(l, NULL, NULL); if (sv < 0) die(""tcp accept"");"
+fp_c_media_hls,f_tcp_established_l07,123,"if (write(cl, ""hello"", 5) != 5) die(""tcp write"");"
+fp_c_media_hls,f_tcp_established,125,KEEPFD(l); KEEPFD(cl); KEEPFD(sv); }
+fp_c_media_hls,f_thread4,129,} }
+fp_c_media_hls,f_timerfd_l01,131,"{ int fd = timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK);"
+fp_c_media_hls,f_timerfd_l02,133,"if (fd < 0) die(""timerfd_create"");"
+fp_c_media_hls,f_timerfd_l03,135,"struct itimerspec its = { .it_interval = { 0, 100000000L }, .it_value = { 0, 100000000L } };"
+fp_c_media_hls,f_timerfd_l04,137,"if (timerfd_settime(fd, 0, &its, NULL) < 0) die(""timerfd_settime"");"
+fp_c_media_hls,f_timerfd,139,KEEPFD(fd); g_tfd = fd; }
+fp_c_media_hls,f_memfd_l01,141,"{ int fd = memfd_create(""criuprobe"", 0); if (fd < 0) die(""memfd_create"");"
+fp_c_media_hls,f_memfd_l02,143,"size_t n = 16ull << 20; if (ftruncate(fd, n) < 0) die(""memfd ftruncate"");"
+fp_c_media_hls,f_memfd_l03,145,"char *p = mmap(NULL, n, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);"
+fp_c_media_hls,f_memfd_l04,147,"if (p == MAP_FAILED) die(""memfd mmap"");"
+fp_c_media_hls,f_memfd_l05,149,for (size_t i = 0; i < n; i += 4096) p[i] = 2;
+fp_c_media_hls,f_memfd,151,KEEP(p); KEEPFD(fd); }
+fp_c_media_hls,steady,161,"if (g_tfd >= 0) { uint64_t exp; while (read(g_tfd, &exp, sizeof(exp)) > 0) {} }"
+fp_c_media_local,init,100,g_port = (int)port;
+fp_c_media_local,base_mem,108,}
+fp_c_media_local,f_mmap_priv_l01,111,"{ snprintf(g_path_map, sizeof(g_path_map), ""/tmp/criuprobe_map_p%d"", g_port);"
+fp_c_media_local,f_mmap_priv_l02,113,"int fd = open(g_path_map, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""map open"");"
+fp_c_media_local,f_mmap_priv_l03,115,"size_t n = 8ull << 20; if (ftruncate(fd, n) < 0) die(""map ftruncate"");"
+fp_c_media_local,f_mmap_priv_l04,117,"char *p = mmap(NULL, n, PROT_READ | PROT_WRITE, MAP_PRIVATE, fd, 0);"
+fp_c_media_local,f_mmap_priv_l05,119,"if (p == MAP_FAILED) die(""map mmap"");"
+fp_c_media_local,f_mmap_priv_l06,121,for (size_t i = 0; i < n; i += 4096) p[i] = 5;
+fp_c_media_local,f_mmap_priv,123,KEEP(p); close(fd); }
+fp_c_media_local,f_timerfd_l01,125,"{ int fd = timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK);"
+fp_c_media_local,f_timerfd_l02,127,"if (fd < 0) die(""timerfd_create"");"
+fp_c_media_local,f_timerfd_l03,129,"struct itimerspec its = { .it_interval = { 0, 100000000L }, .it_value = { 0, 100000000L } };"
+fp_c_media_local,f_timerfd_l04,131,"if (timerfd_settime(fd, 0, &its, NULL) < 0) die(""timerfd_settime"");"
+fp_c_media_local,f_timerfd,133,KEEPFD(fd); g_tfd = fd; }
+fp_c_media_local,f_thread1,135,"{ pthread_t t; if (pthread_create(&t, NULL, wk_sleeper, NULL) != 0) die(""pthread_create""); }"
+fp_c_media_local,steady,145,"if (g_tfd >= 0) { uint64_t exp; while (read(g_tfd, &exp, sizeof(exp)) > 0) {} }"
+fp_c_dvr,init,100,g_port = (int)port;
+fp_c_dvr,base_mem,108,}
+fp_c_dvr,f_logfile_l01,111,"{ snprintf(g_path_logfile, sizeof(g_path_logfile), ""/tmp/criuprobe_log_p%d"", g_port);"
+fp_c_dvr,f_logfile_l02,113,"int fd = open(g_path_logfile, O_CREAT | O_WRONLY | O_APPEND, 0644);"
+fp_c_dvr,f_logfile,116,"dprintf(fd, ""start\n""); KEEPFD(fd); g_logfd = fd; }"
+fp_c_dvr,f_lock_flock_l01,118,"{ snprintf(g_path_flock, sizeof(g_path_flock), ""/tmp/criuprobe_flock_p%d"", g_port);"
+fp_c_dvr,f_lock_flock_l02,120,"int fd = open(g_path_flock, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""flock open"");"
+fp_c_dvr,f_lock_flock,123,KEEPFD(fd); }
+fp_c_dvr,f_timerfd_l01,125,"{ int fd = timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK);"
+fp_c_dvr,f_timerfd_l02,127,"if (fd < 0) die(""timerfd_create"");"
+fp_c_dvr,f_timerfd_l03,129,"struct itimerspec its = { .it_interval = { 0, 100000000L }, .it_value = { 0, 100000000L } };"
+fp_c_dvr,f_timerfd_l04,131,"if (timerfd_settime(fd, 0, &its, NULL) < 0) die(""timerfd_settime"");"
+fp_c_dvr,f_timerfd,133,KEEPFD(fd); g_tfd = fd; }
+fp_c_dvr,steady,144,"if (g_tfd >= 0) { uint64_t exp; while (read(g_tfd, &exp, sizeof(exp)) > 0) {} }"
+fp_c_epg,init,100,g_port = (int)port;
+fp_c_epg,base_mem,108,}
+fp_c_epg,f_shm_posix_l01,111,"{ snprintf(g_path_shm, sizeof(g_path_shm), ""/criuprobe_shm_p%d"", g_port);"
+fp_c_epg,f_shm_posix_l02,113,shm_unlink(g_path_shm);
+fp_c_epg,f_shm_posix_l03,115,"int fd = shm_open(g_path_shm, O_CREAT | O_RDWR, 0600); if (fd < 0) die(""shm_open"");"
+fp_c_epg,f_shm_posix_l04,117,"size_t n = 16ull << 20; if (ftruncate(fd, n) < 0) die(""shm ftruncate"");"
+fp_c_epg,f_shm_posix_l05,119,"char *p = mmap(NULL, n, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);"
+fp_c_epg,f_shm_posix_l06,121,"if (p == MAP_FAILED) die(""shm mmap"");"
+fp_c_epg,f_shm_posix_l07,123,for (size_t i = 0; i < n; i += 4096) p[i] = 3;
+fp_c_epg,f_shm_posix,125,KEEP(p); KEEPFD(fd); }
+fp_c_epg,f_inotify_l01,127,"{ snprintf(g_path_watch, sizeof(g_path_watch), ""/tmp/criuprobe_watch_p%d"", g_port);"
+fp_c_epg,f_inotify_l02,129,"mkdir(g_path_watch, 0755);"
+fp_c_epg,f_inotify_l03,131,"int fd = inotify_init1(IN_NONBLOCK); if (fd < 0) die(""inotify_init1"");"
+fp_c_epg,f_inotify_l04,133,"if (inotify_add_watch(fd, g_path_watch, IN_CREATE | IN_MODIFY) < 0) die(""inotify_add_watch"");"
+fp_c_epg,f_inotify,135,KEEPFD(fd); }
+fp_c_epg,f_mmap_shared_l01,137,"{ snprintf(g_path_maps, sizeof(g_path_maps), ""/tmp/criuprobe_maps_p%d"", g_port);"
+fp_c_epg,f_mmap_shared_l02,139,"int fd = open(g_path_maps, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""maps open"");"
+fp_c_epg,f_mmap_shared_l03,141,"size_t n = 8ull << 20; if (ftruncate(fd, n) < 0) die(""maps ftruncate"");"
+fp_c_epg,f_mmap_shared_l04,143,"char *p = mmap(NULL, n, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);"
+fp_c_epg,f_mmap_shared_l05,145,"if (p == MAP_FAILED) die(""maps mmap"");"
+fp_c_epg,f_mmap_shared_l06,147,for (size_t i = 0; i < n; i += 4096) p[i] = 6;
+fp_c_epg,f_mmap_shared,149,KEEP(p); KEEPFD(fd); }
+fp_c_epg,steady,158,"probe_serve_pending(lfd, 100);"
+fp_c_luna_client,init,100,g_port = (int)port;
+fp_c_luna_client,base_mem,108,}
+fp_c_luna_client,f_unix_conn_l01,120,"int cl = socket(AF_UNIX, SOCK_STREAM, 0); if (cl < 0) die(""uconn socket"");"
+fp_c_luna_client,f_unix_conn_l02,122,"struct sockaddr_un a; memset(&a, 0, sizeof(a)); a.sun_family = AF_UNIX;"
+fp_c_luna_client,f_unix_conn_l03,124,"snprintf(a.sun_path, sizeof(a.sun_path), ""%s"", g_path_us);"
+fp_c_luna_client,f_unix_conn_l04,126,"if (connect(cl, (struct sockaddr *)&a, sizeof(a)) < 0) die(""uconn connect"");"
+fp_c_luna_client,f_unix_conn_l05,128,"int sv = accept(g_usfd, NULL, NULL); if (sv < 0) die(""uconn accept"");"
+fp_c_luna_client,f_unix_conn,130,KEEPFD(cl); KEEPFD(sv); }
+fp_c_luna_client,f_epoll_l01,132,"{ int ep = epoll_create1(0); if (ep < 0) die(""epoll_create1"");"
+fp_c_luna_client,f_epoll_l02,134,"int ev = eventfd(0, EFD_NONBLOCK); if (ev < 0) die(""epoll eventfd"");"
+fp_c_luna_client,f_epoll_l03,136,"struct epoll_event e = { .events = EPOLLIN, .data = { .fd = ev } };"
+fp_c_luna_client,f_epoll_l04,138,"if (epoll_ctl(ep, EPOLL_CTL_ADD, ev, &e) < 0) die(""epoll_ctl"");"
+fp_c_luna_client,f_epoll,140,KEEPFD(ep); KEEPFD(ev); }
+fp_c_luna_client,f_eventfd,142,"{ int fd = eventfd(1, EFD_NONBLOCK); if (fd < 0) die(""eventfd""); KEEPFD(fd); }"
+fp_c_luna_client,steady,151,"probe_serve_pending(lfd, 100);"
+fp_c_luna_daemon,init,100,g_port = (int)port;
+fp_c_luna_daemon,base_mem,108,}
+fp_c_luna_daemon,f_unix_listen_l01,111,"{ snprintf(g_path_us, sizeof(g_path_us), ""/tmp/criuprobe_us_p%d"", g_port);"
+fp_c_luna_daemon,f_unix_listen_l02,113,unlink(g_path_us);
+fp_c_luna_daemon,f_unix_listen_l03,115,"int fd = socket(AF_UNIX, SOCK_STREAM, 0); if (fd < 0) die(""us socket"");"
+fp_c_luna_daemon,f_unix_listen_l04,117,"struct sockaddr_un a; memset(&a, 0, sizeof(a)); a.sun_family = AF_UNIX;"
+fp_c_luna_daemon,f_unix_listen_l05,119,"snprintf(a.sun_path, sizeof(a.sun_path), ""%s"", g_path_us);"
+fp_c_luna_daemon,f_unix_listen_l06,121,"if (bind(fd, (struct sockaddr *)&a, sizeof(a)) < 0) die(""us bind"");"
+fp_c_luna_daemon,f_unix_listen,124,KEEPFD(fd); g_usfd = fd; }
+fp_c_luna_daemon,f_epoll_l01,126,"{ int ep = epoll_create1(0); if (ep < 0) die(""epoll_create1"");"
+fp_c_luna_daemon,f_epoll_l02,128,"int ev = eventfd(0, EFD_NONBLOCK); if (ev < 0) die(""epoll eventfd"");"
+fp_c_luna_daemon,f_epoll_l03,130,"struct epoll_event e = { .events = EPOLLIN, .data = { .fd = ev } };"
+fp_c_luna_daemon,f_epoll_l04,132,"if (epoll_ctl(ep, EPOLL_CTL_ADD, ev, &e) < 0) die(""epoll_ctl"");"
+fp_c_luna_daemon,f_epoll,134,KEEPFD(ep); KEEPFD(ev); }
+fp_c_luna_daemon,f_child,137,"if (c == 0) { for (;;) { struct timespec ts = { 0, 50000000L }; nanosleep(&ts, NULL); } } }"
+fp_c_luna_daemon,steady,147,"{ int st; while (waitpid(-1, &st, WNOHANG) > 0) {} }"
+fp_c_launcher,init,100,g_port = (int)port;
+fp_c_launcher,base_mem,108,}
+fp_c_launcher,f_child,112,"if (c == 0) { for (;;) { struct timespec ts = { 0, 50000000L }; nanosleep(&ts, NULL); } } }"
+fp_c_launcher,f_grandchild,117,"for (;;) { struct timespec ts = { 0, 50000000L }; nanosleep(&ts, NULL); } } }"
+fp_c_launcher,f_session,117,"for (;;) { struct timespec ts = { 0, 50000000L }; nanosleep(&ts, NULL); } } }"
+fp_c_launcher,steady,130,"{ int st; while (waitpid(-1, &st, WNOHANG) > 0) {} }"
+fp_c_browser,init,100,g_port = (int)port;
+fp_c_browser,base_mem,108,}
+fp_c_browser,f_thread4,113,} }
+fp_c_browser,f_large_heap_l01,115,"{ size_t n = 300ull << 20; char *p = malloc(n); if (!p) die(""large_heap malloc"");"
+fp_c_browser,f_large_heap_l02,117,for (size_t i = 0; i < n; i += 4096) p[i] = 1;
+fp_c_browser,f_large_heap,119,KEEP(p); }
+fp_c_browser,f_memfd_l01,121,"{ int fd = memfd_create(""criuprobe"", 0); if (fd < 0) die(""memfd_create"");"
+fp_c_browser,f_memfd_l02,123,"size_t n = 16ull << 20; if (ftruncate(fd, n) < 0) die(""memfd ftruncate"");"
+fp_c_browser,f_memfd_l03,125,"char *p = mmap(NULL, n, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);"
+fp_c_browser,f_memfd_l04,127,"if (p == MAP_FAILED) die(""memfd mmap"");"
+fp_c_browser,f_memfd_l05,129,for (size_t i = 0; i < n; i += 4096) p[i] = 2;
+fp_c_browser,f_memfd,131,KEEP(p); KEEPFD(fd); }
+fp_c_browser,f_socketpair_l01,133,"{ int sv[2]; if (socketpair(AF_UNIX, SOCK_STREAM, 0, sv) < 0) die(""socketpair"");"
+fp_c_browser,f_socketpair,136,KEEPFD(sv[0]); KEEPFD(sv[1]); }
+fp_c_browser,steady,145,"probe_serve_pending(lfd, 100);"
+fp_c_ads,init,100,g_port = (int)port;
+fp_c_ads,base_mem,108,}
+fp_c_ads,f_udp_l01,111,"{ int fd = socket(AF_INET, SOCK_DGRAM, 0); if (fd < 0) die(""udp socket"");"
+fp_c_ads,f_udp_l02,113,"struct sockaddr_in a; memset(&a, 0, sizeof(a)); a.sin_family = AF_INET;"
+fp_c_ads,f_udp_l03,115,a.sin_addr.s_addr = htonl(INADDR_LOOPBACK); a.sin_port = 0;
+fp_c_ads,f_udp,118,KEEPFD(fd); }
+fp_c_ads,f_itimer_l01,120,"{ struct sigaction sa; memset(&sa, 0, sizeof(sa)); sa.sa_handler = wk_sig_noop;"
+fp_c_ads,f_itimer_l02,122,"if (sigaction(SIGALRM, &sa, NULL) < 0) die(""sigaction ALRM"");"
+fp_c_ads,f_itimer_l03,124,"struct itimerval iv = { { 0, 200000 }, { 0, 200000 } };"
+fp_c_ads,f_itimer,127,}
+fp_c_ads,f_logfile_l01,129,"{ snprintf(g_path_logfile, sizeof(g_path_logfile), ""/tmp/criuprobe_log_p%d"", g_port);"
+fp_c_ads,f_logfile_l02,131,"int fd = open(g_path_logfile, O_CREAT | O_WRONLY | O_APPEND, 0644);"
+fp_c_ads,f_logfile,134,"dprintf(fd, ""start\n""); KEEPFD(fd); g_logfd = fd; }"
+fp_c_ads,steady,144,"if (g_logfd >= 0) dprintf(g_logfd, ""t\n"");"
+fp_c_voice,init,100,g_port = (int)port;
+fp_c_voice,base_mem,108,}
+fp_c_voice,f_signalfd_l01,111,"{ sigset_t m; sigemptyset(&m); sigaddset(&m, SIGUSR1);"
+fp_c_voice,f_signalfd_l02,113,"if (sigprocmask(SIG_BLOCK, &m, NULL) < 0) die(""sigprocmask"");"
+fp_c_voice,f_signalfd,115,"int fd = signalfd(-1, &m, SFD_NONBLOCK); if (fd < 0) die(""signalfd""); KEEPFD(fd); }"
+fp_c_voice,f_thread1,117,"{ pthread_t t; if (pthread_create(&t, NULL, wk_sleeper, NULL) != 0) die(""pthread_create""); }"
+fp_c_voice,f_pipe_l01,119,"{ int p[2]; if (pipe2(p, 0) < 0) die(""pipe2"");"
+fp_c_voice,f_pipe_l02,121,"if (write(p[1], ""pending-data\n"", 13) != 13) die(""pipe write"");"
+fp_c_voice,f_pipe,123,KEEPFD(p[0]); KEEPFD(p[1]); }
+fp_c_voice,steady,132,"probe_serve_pending(lfd, 100);"
+fp_c_photos,init,100,g_port = (int)port;
+fp_c_photos,base_mem,108,}
+fp_c_photos,f_mmap_priv_l01,111,"{ snprintf(g_path_map, sizeof(g_path_map), ""/tmp/criuprobe_map_p%d"", g_port);"
+fp_c_photos,f_mmap_priv_l02,113,"int fd = open(g_path_map, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""map open"");"
+fp_c_photos,f_mmap_priv_l03,115,"size_t n = 8ull << 20; if (ftruncate(fd, n) < 0) die(""map ftruncate"");"
+fp_c_photos,f_mmap_priv_l04,117,"char *p = mmap(NULL, n, PROT_READ | PROT_WRITE, MAP_PRIVATE, fd, 0);"
+fp_c_photos,f_mmap_priv_l05,119,"if (p == MAP_FAILED) die(""map mmap"");"
+fp_c_photos,f_mmap_priv_l06,121,for (size_t i = 0; i < n; i += 4096) p[i] = 5;
+fp_c_photos,f_mmap_priv,123,KEEP(p); close(fd); }
+fp_c_photos,f_large_heap_l01,125,"{ size_t n = 300ull << 20; char *p = malloc(n); if (!p) die(""large_heap malloc"");"
+fp_c_photos,f_large_heap_l02,127,for (size_t i = 0; i < n; i += 4096) p[i] = 1;
+fp_c_photos,f_large_heap,129,KEEP(p); }
+fp_c_photos,steady,138,"probe_serve_pending(lfd, 100);"
+fp_c_game,init,100,g_port = (int)port;
+fp_c_game,base_mem,108,}
+fp_c_game,f_large_heap_l01,111,"{ size_t n = 300ull << 20; char *p = malloc(n); if (!p) die(""large_heap malloc"");"
+fp_c_game,f_large_heap_l02,113,for (size_t i = 0; i < n; i += 4096) p[i] = 1;
+fp_c_game,f_large_heap,115,KEEP(p); }
+fp_c_game,f_thread4,119,} }
+fp_c_game,f_futex_wait,121,"{ pthread_t t; if (pthread_create(&t, NULL, wk_futex_wait, NULL) != 0) die(""pthread futex""); }"
+fp_c_game,steady,130,"probe_serve_pending(lfd, 100);"
+fp_c_settings,init,100,g_port = (int)port;
+fp_c_settings,base_mem,108,}
+fp_c_settings,f_mq_l01,111,"{ snprintf(g_path_mq, sizeof(g_path_mq), ""/criuprobe_mq_p%d"", g_port);"
+fp_c_settings,f_mq_l02,113,mq_unlink(g_path_mq);
+fp_c_settings,f_mq_l03,115,"struct mq_attr at = { .mq_flags = 0, .mq_maxmsg = 4, .mq_msgsize = 64 };"
+fp_c_settings,f_mq_l04,117,"mqd_t q = mq_open(g_path_mq, O_CREAT | O_RDWR | O_NONBLOCK, 0600, &at);"
+fp_c_settings,f_mq_l05,119,"if (q == (mqd_t)-1) die(""mq_open"");"
+fp_c_settings,f_mq,122,KEEPFD((int)q); }
+fp_c_settings,f_sem_sysv_l01,124,"{ int id = semget(IPC_PRIVATE, 1, IPC_CREAT | 0600); if (id < 0) die(""semget"");"
+fp_c_settings,f_sem_sysv_l02,126,union semun { int val; } arg; arg.val = 1;
+fp_c_settings,f_sem_sysv,129,g_semid = id; }
+fp_c_settings,f_logfile_l01,131,"{ snprintf(g_path_logfile, sizeof(g_path_logfile), ""/tmp/criuprobe_log_p%d"", g_port);"
+fp_c_settings,f_logfile_l02,133,"int fd = open(g_path_logfile, O_CREAT | O_WRONLY | O_APPEND, 0644);"
+fp_c_settings,f_logfile,136,"dprintf(fd, ""start\n""); KEEPFD(fd); g_logfd = fd; }"
+fp_c_settings,steady,146,"if (g_logfd >= 0) dprintf(g_logfd, ""t\n"");"
+fp_c_updater,init,100,g_port = (int)port;
+fp_c_updater,base_mem,108,}
+fp_c_updater,f_inotify_l01,111,"{ snprintf(g_path_watch, sizeof(g_path_watch), ""/tmp/criuprobe_watch_p%d"", g_port);"
+fp_c_updater,f_inotify_l02,113,"mkdir(g_path_watch, 0755);"
+fp_c_updater,f_inotify_l03,115,"int fd = inotify_init1(IN_NONBLOCK); if (fd < 0) die(""inotify_init1"");"
+fp_c_updater,f_inotify_l04,117,"if (inotify_add_watch(fd, g_path_watch, IN_CREATE | IN_MODIFY) < 0) die(""inotify_add_watch"");"
+fp_c_updater,f_inotify,119,KEEPFD(fd); }
+fp_c_updater,f_tmpunlink_l01,121,"{ char tmpl[] = ""/tmp/criuprobe_ghost_XXXXXX""; int fd = mkstemp(tmpl);"
+fp_c_updater,f_tmpunlink_l02,124,"char b[4096]; memset(b, 7, sizeof(b));"
+fp_c_updater,f_tmpunlink_l03,126,"if (write(fd, b, sizeof(b)) != sizeof(b)) die(""ghost write"");"
+fp_c_updater,f_tmpunlink,129,KEEPFD(fd); }
+fp_c_updater,f_lock_posix_l01,131,"{ snprintf(g_path_plock, sizeof(g_path_plock), ""/tmp/criuprobe_plock_p%d"", g_port);"
+fp_c_updater,f_lock_posix_l02,133,"int fd = open(g_path_plock, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""plock open"");"
+fp_c_updater,f_lock_posix_l03,135,"struct flock fl; memset(&fl, 0, sizeof(fl)); fl.l_type = F_WRLCK; fl.l_whence = SEEK_SET;"
+fp_c_updater,f_lock_posix,138,KEEPFD(fd); }
+fp_c_updater,steady,147,"probe_serve_pending(lfd, 100);"
+fp_c_screensaver,init,100,g_port = (int)port;
+fp_c_screensaver,base_mem,108,}
+fp_c_screensaver,f_timerfd_l01,111,"{ int fd = timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK);"
+fp_c_screensaver,f_timerfd_l02,113,"if (fd < 0) die(""timerfd_create"");"
+fp_c_screensaver,f_timerfd_l03,115,"struct itimerspec its = { .it_interval = { 0, 100000000L }, .it_value = { 0, 100000000L } };"
+fp_c_screensaver,f_timerfd_l04,117,"if (timerfd_settime(fd, 0, &its, NULL) < 0) die(""timerfd_settime"");"
+fp_c_screensaver,f_timerfd,119,KEEPFD(fd); g_tfd = fd; }
+fp_c_screensaver,f_mmap_priv_l01,121,"{ snprintf(g_path_map, sizeof(g_path_map), ""/tmp/criuprobe_map_p%d"", g_port);"
+fp_c_screensaver,f_mmap_priv_l02,123,"int fd = open(g_path_map, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""map open"");"
+fp_c_screensaver,f_mmap_priv_l03,125,"size_t n = 8ull << 20; if (ftruncate(fd, n) < 0) die(""map ftruncate"");"
+fp_c_screensaver,f_mmap_priv_l04,127,"char *p = mmap(NULL, n, PROT_READ | PROT_WRITE, MAP_PRIVATE, fd, 0);"
+fp_c_screensaver,f_mmap_priv_l05,129,"if (p == MAP_FAILED) die(""map mmap"");"
+fp_c_screensaver,f_mmap_priv_l06,131,for (size_t i = 0; i < n; i += 4096) p[i] = 5;
+fp_c_screensaver,f_mmap_priv,133,KEEP(p); close(fd); }
+fp_c_screensaver,steady,143,"if (g_tfd >= 0) { uint64_t exp; while (read(g_tfd, &exp, sizeof(exp)) > 0) {} }"
+fp_c_telemetry,init,100,g_port = (int)port;
+fp_c_telemetry,base_mem,108,}
+fp_c_telemetry,f_udp_l01,111,"{ int fd = socket(AF_INET, SOCK_DGRAM, 0); if (fd < 0) die(""udp socket"");"
+fp_c_telemetry,f_udp_l02,113,"struct sockaddr_in a; memset(&a, 0, sizeof(a)); a.sin_family = AF_INET;"
+fp_c_telemetry,f_udp_l03,115,a.sin_addr.s_addr = htonl(INADDR_LOOPBACK); a.sin_port = 0;
+fp_c_telemetry,f_udp,118,KEEPFD(fd); }
+fp_c_telemetry,f_logfile_l01,120,"{ snprintf(g_path_logfile, sizeof(g_path_logfile), ""/tmp/criuprobe_log_p%d"", g_port);"
+fp_c_telemetry,f_logfile_l02,122,"int fd = open(g_path_logfile, O_CREAT | O_WRONLY | O_APPEND, 0644);"
+fp_c_telemetry,f_logfile,125,"dprintf(fd, ""start\n""); KEEPFD(fd); g_logfd = fd; }"
+fp_c_telemetry,f_posix_timer_l01,127,"{ struct sigaction sa; memset(&sa, 0, sizeof(sa)); sa.sa_handler = wk_sig_noop;"
+fp_c_telemetry,f_posix_timer_l02,129,"if (sigaction(SIGRTMIN, &sa, NULL) < 0) die(""sigaction RT"");"
+fp_c_telemetry,f_posix_timer_l03,131,"timer_t tid; struct sigevent se; memset(&se, 0, sizeof(se));"
+fp_c_telemetry,f_posix_timer_l04,133,se.sigev_notify = SIGEV_SIGNAL; se.sigev_signo = SIGRTMIN;
+fp_c_telemetry,f_posix_timer_l05,135,"if (timer_create(CLOCK_MONOTONIC, &se, &tid) < 0) die(""timer_create"");"
+fp_c_telemetry,f_posix_timer_l06,137,"struct itimerspec its = { { 0, 200000000L }, { 0, 200000000L } };"
+fp_c_telemetry,f_posix_timer,140,}
+fp_c_telemetry,steady,150,"if (g_logfd >= 0) dprintf(g_logfd, ""t\n"");"
+fp_c_broker,init,100,g_port = (int)port;
+fp_c_broker,base_mem,108,}
+fp_c_broker,f_socketpair_l01,111,"{ int sv[2]; if (socketpair(AF_UNIX, SOCK_STREAM, 0, sv) < 0) die(""socketpair"");"
+fp_c_broker,f_socketpair,114,KEEPFD(sv[0]); KEEPFD(sv[1]); }
+fp_c_broker,f_unix_listen_l01,116,"{ snprintf(g_path_us, sizeof(g_path_us), ""/tmp/criuprobe_us_p%d"", g_port);"
+fp_c_broker,f_unix_listen_l02,118,unlink(g_path_us);
+fp_c_broker,f_unix_listen_l03,120,"int fd = socket(AF_UNIX, SOCK_STREAM, 0); if (fd < 0) die(""us socket"");"
+fp_c_broker,f_unix_listen_l04,122,"struct sockaddr_un a; memset(&a, 0, sizeof(a)); a.sun_family = AF_UNIX;"
+fp_c_broker,f_unix_listen_l05,124,"snprintf(a.sun_path, sizeof(a.sun_path), ""%s"", g_path_us);"
+fp_c_broker,f_unix_listen_l06,126,"if (bind(fd, (struct sockaddr *)&a, sizeof(a)) < 0) die(""us bind"");"
+fp_c_broker,f_unix_listen,129,KEEPFD(fd); g_usfd = fd; }
+fp_c_broker,f_epoll_l01,131,"{ int ep = epoll_create1(0); if (ep < 0) die(""epoll_create1"");"
+fp_c_broker,f_epoll_l02,133,"int ev = eventfd(0, EFD_NONBLOCK); if (ev < 0) die(""epoll eventfd"");"
+fp_c_broker,f_epoll_l03,135,"struct epoll_event e = { .events = EPOLLIN, .data = { .fd = ev } };"
+fp_c_broker,f_epoll_l04,137,"if (epoll_ctl(ep, EPOLL_CTL_ADD, ev, &e) < 0) die(""epoll_ctl"");"
+fp_c_broker,f_epoll,139,KEEPFD(ep); KEEPFD(ev); }
+fp_c_broker,steady,148,"probe_serve_pending(lfd, 100);"
+fp_c_db,init,100,g_port = (int)port;
+fp_c_db,base_mem,108,}
+fp_c_db,f_lock_posix_l01,111,"{ snprintf(g_path_plock, sizeof(g_path_plock), ""/tmp/criuprobe_plock_p%d"", g_port);"
+fp_c_db,f_lock_posix_l02,113,"int fd = open(g_path_plock, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""plock open"");"
+fp_c_db,f_lock_posix_l03,115,"struct flock fl; memset(&fl, 0, sizeof(fl)); fl.l_type = F_WRLCK; fl.l_whence = SEEK_SET;"
+fp_c_db,f_lock_posix,118,KEEPFD(fd); }
+fp_c_db,f_mmap_shared_l01,120,"{ snprintf(g_path_maps, sizeof(g_path_maps), ""/tmp/criuprobe_maps_p%d"", g_port);"
+fp_c_db,f_mmap_shared_l02,122,"int fd = open(g_path_maps, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""maps open"");"
+fp_c_db,f_mmap_shared_l03,124,"size_t n = 8ull << 20; if (ftruncate(fd, n) < 0) die(""maps ftruncate"");"
+fp_c_db,f_mmap_shared_l04,126,"char *p = mmap(NULL, n, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);"
+fp_c_db,f_mmap_shared_l05,128,"if (p == MAP_FAILED) die(""maps mmap"");"
+fp_c_db,f_mmap_shared_l06,130,for (size_t i = 0; i < n; i += 4096) p[i] = 6;
+fp_c_db,f_mmap_shared,132,KEEP(p); KEEPFD(fd); }
+fp_c_db,f_logfile_l01,134,"{ snprintf(g_path_logfile, sizeof(g_path_logfile), ""/tmp/criuprobe_log_p%d"", g_port);"
+fp_c_db,f_logfile_l02,136,"int fd = open(g_path_logfile, O_CREAT | O_WRONLY | O_APPEND, 0644);"
+fp_c_db,f_logfile,139,"dprintf(fd, ""start\n""); KEEPFD(fd); g_logfd = fd; }"
+fp_c_db,steady,149,"if (g_logfd >= 0) dprintf(g_logfd, ""t\n"");"
+fp_c_thumbnailer,init,100,g_port = (int)port;
+fp_c_thumbnailer,base_mem,108,}
+fp_c_thumbnailer,f_child,112,"if (c == 0) { for (;;) { struct timespec ts = { 0, 50000000L }; nanosleep(&ts, NULL); } } }"
+fp_c_thumbnailer,f_pipe_l01,114,"{ int p[2]; if (pipe2(p, 0) < 0) die(""pipe2"");"
+fp_c_thumbnailer,f_pipe_l02,116,"if (write(p[1], ""pending-data\n"", 13) != 13) die(""pipe write"");"
+fp_c_thumbnailer,f_pipe,118,KEEPFD(p[0]); KEEPFD(p[1]); }
+fp_c_thumbnailer,f_tmpunlink_l01,120,"{ char tmpl[] = ""/tmp/criuprobe_ghost_XXXXXX""; int fd = mkstemp(tmpl);"
+fp_c_thumbnailer,f_tmpunlink_l02,123,"char b[4096]; memset(b, 7, sizeof(b));"
+fp_c_thumbnailer,f_tmpunlink_l03,125,"if (write(fd, b, sizeof(b)) != sizeof(b)) die(""ghost write"");"
+fp_c_thumbnailer,f_tmpunlink,128,KEEPFD(fd); }
+fp_c_thumbnailer,steady,138,"{ int st; while (waitpid(-1, &st, WNOHANG) > 0) {} }"
+fp_c_notify,init,100,g_port = (int)port;
+fp_c_notify,base_mem,108,}
+fp_c_notify,f_eventfd,111,"{ int fd = eventfd(1, EFD_NONBLOCK); if (fd < 0) die(""eventfd""); KEEPFD(fd); }"
+fp_c_notify,f_timerfd_l01,113,"{ int fd = timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK);"
+fp_c_notify,f_timerfd_l02,115,"if (fd < 0) die(""timerfd_create"");"
+fp_c_notify,f_timerfd_l03,117,"struct itimerspec its = { .it_interval = { 0, 100000000L }, .it_value = { 0, 100000000L } };"
+fp_c_notify,f_timerfd_l04,119,"if (timerfd_settime(fd, 0, &its, NULL) < 0) die(""timerfd_settime"");"
+fp_c_notify,f_timerfd,121,KEEPFD(fd); g_tfd = fd; }
+fp_c_notify,f_unix_conn_l01,132,"int cl = socket(AF_UNIX, SOCK_STREAM, 0); if (cl < 0) die(""uconn socket"");"
+fp_c_notify,f_unix_conn_l02,134,"struct sockaddr_un a; memset(&a, 0, sizeof(a)); a.sun_family = AF_UNIX;"
+fp_c_notify,f_unix_conn_l03,136,"snprintf(a.sun_path, sizeof(a.sun_path), ""%s"", g_path_us);"
+fp_c_notify,f_unix_conn_l04,138,"if (connect(cl, (struct sockaddr *)&a, sizeof(a)) < 0) die(""uconn connect"");"
+fp_c_notify,f_unix_conn_l05,140,"int sv = accept(g_usfd, NULL, NULL); if (sv < 0) die(""uconn accept"");"
+fp_c_notify,f_unix_conn,142,KEEPFD(cl); KEEPFD(sv); }
+fp_c_notify,steady,152,"if (g_tfd >= 0) { uint64_t exp; while (read(g_tfd, &exp, sizeof(exp)) > 0) {} }"
+fp_c_input,init,100,g_port = (int)port;
+fp_c_input,base_mem,108,}
+fp_c_input,f_epoll_l01,111,"{ int ep = epoll_create1(0); if (ep < 0) die(""epoll_create1"");"
+fp_c_input,f_epoll_l02,113,"int ev = eventfd(0, EFD_NONBLOCK); if (ev < 0) die(""epoll eventfd"");"
+fp_c_input,f_epoll_l03,115,"struct epoll_event e = { .events = EPOLLIN, .data = { .fd = ev } };"
+fp_c_input,f_epoll_l04,117,"if (epoll_ctl(ep, EPOLL_CTL_ADD, ev, &e) < 0) die(""epoll_ctl"");"
+fp_c_input,f_epoll,119,KEEPFD(ep); KEEPFD(ev); }
+fp_c_input,f_timerfd_l01,121,"{ int fd = timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK);"
+fp_c_input,f_timerfd_l02,123,"if (fd < 0) die(""timerfd_create"");"
+fp_c_input,f_timerfd_l03,125,"struct itimerspec its = { .it_interval = { 0, 100000000L }, .it_value = { 0, 100000000L } };"
+fp_c_input,f_timerfd_l04,127,"if (timerfd_settime(fd, 0, &its, NULL) < 0) die(""timerfd_settime"");"
+fp_c_input,f_timerfd,129,KEEPFD(fd); g_tfd = fd; }
+fp_c_input,f_unix_listen_l01,131,"{ snprintf(g_path_us, sizeof(g_path_us), ""/tmp/criuprobe_us_p%d"", g_port);"
+fp_c_input,f_unix_listen_l02,133,unlink(g_path_us);
+fp_c_input,f_unix_listen_l03,135,"int fd = socket(AF_UNIX, SOCK_STREAM, 0); if (fd < 0) die(""us socket"");"
+fp_c_input,f_unix_listen_l04,137,"struct sockaddr_un a; memset(&a, 0, sizeof(a)); a.sun_family = AF_UNIX;"
+fp_c_input,f_unix_listen_l05,139,"snprintf(a.sun_path, sizeof(a.sun_path), ""%s"", g_path_us);"
+fp_c_input,f_unix_listen_l06,141,"if (bind(fd, (struct sockaddr *)&a, sizeof(a)) < 0) die(""us bind"");"
+fp_c_input,f_unix_listen,144,KEEPFD(fd); g_usfd = fd; }
+fp_c_input,steady,154,"if (g_tfd >= 0) { uint64_t exp; while (read(g_tfd, &exp, sizeof(exp)) > 0) {} }"
+fp_c_wifi,init,100,g_port = (int)port;
+fp_c_wifi,base_mem,108,}
+fp_c_wifi,f_netlink_l01,111,"{ int fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_ROUTE);"
+fp_c_wifi,f_netlink_l02,113,"if (fd < 0) die(""netlink socket"");"
+fp_c_wifi,f_netlink_l03,115,"struct sockaddr_nl a; memset(&a, 0, sizeof(a)); a.nl_family = AF_NETLINK;"
+fp_c_wifi,f_netlink_l04,117,a.nl_groups = RTMGRP_LINK;
+fp_c_wifi,f_netlink_l05,119,"if (bind(fd, (struct sockaddr *)&a, sizeof(a)) < 0) die(""netlink bind"");"
+fp_c_wifi,f_netlink,121,KEEPFD(fd); }
+fp_c_wifi,f_epoll_l01,123,"{ int ep = epoll_create1(0); if (ep < 0) die(""epoll_create1"");"
+fp_c_wifi,f_epoll_l02,125,"int ev = eventfd(0, EFD_NONBLOCK); if (ev < 0) die(""epoll eventfd"");"
+fp_c_wifi,f_epoll_l03,127,"struct epoll_event e = { .events = EPOLLIN, .data = { .fd = ev } };"
+fp_c_wifi,f_epoll_l04,129,"if (epoll_ctl(ep, EPOLL_CTL_ADD, ev, &e) < 0) die(""epoll_ctl"");"
+fp_c_wifi,f_epoll,131,KEEPFD(ep); KEEPFD(ev); }
+fp_c_wifi,steady,140,"probe_serve_pending(lfd, 100);"
+fp_c_bt,init,100,g_port = (int)port;
+fp_c_bt,base_mem,108,}
+fp_c_bt,f_netlink_l01,111,"{ int fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_ROUTE);"
+fp_c_bt,f_netlink_l02,113,"if (fd < 0) die(""netlink socket"");"
+fp_c_bt,f_netlink_l03,115,"struct sockaddr_nl a; memset(&a, 0, sizeof(a)); a.nl_family = AF_NETLINK;"
+fp_c_bt,f_netlink_l04,117,a.nl_groups = RTMGRP_LINK;
+fp_c_bt,f_netlink_l05,119,"if (bind(fd, (struct sockaddr *)&a, sizeof(a)) < 0) die(""netlink bind"");"
+fp_c_bt,f_netlink,121,KEEPFD(fd); }
+fp_c_bt,f_thread1,123,"{ pthread_t t; if (pthread_create(&t, NULL, wk_sleeper, NULL) != 0) die(""pthread_create""); }"
+fp_c_bt,f_eventfd,125,"{ int fd = eventfd(1, EFD_NONBLOCK); if (fd < 0) die(""eventfd""); KEEPFD(fd); }"
+fp_c_bt,steady,134,"probe_serve_pending(lfd, 100);"
+fp_c_appstore,init,100,g_port = (int)port;
+fp_c_appstore,base_mem,108,}
+fp_c_appstore,f_tcp_established_l01,111,"{ int lp = 0; int l = probe_listen(0, &lp);"
+fp_c_appstore,f_tcp_established_l02,113,"int cl = socket(AF_INET, SOCK_STREAM, 0); if (cl < 0) die(""tcp cl socket"");"
+fp_c_appstore,f_tcp_established_l03,115,"struct sockaddr_in a; memset(&a, 0, sizeof(a)); a.sin_family = AF_INET;"
+fp_c_appstore,f_tcp_established_l04,117,a.sin_addr.s_addr = htonl(INADDR_LOOPBACK); a.sin_port = htons((uint16_t)lp);
+fp_c_appstore,f_tcp_established_l05,119,"if (connect(cl, (struct sockaddr *)&a, sizeof(a)) < 0) die(""tcp connect"");"
+fp_c_appstore,f_tcp_established_l06,121,"int sv = accept(l, NULL, NULL); if (sv < 0) die(""tcp accept"");"
+fp_c_appstore,f_tcp_established_l07,123,"if (write(cl, ""hello"", 5) != 5) die(""tcp write"");"
+fp_c_appstore,f_tcp_established,125,KEEPFD(l); KEEPFD(cl); KEEPFD(sv); }
+fp_c_appstore,f_tmpunlink_l01,127,"{ char tmpl[] = ""/tmp/criuprobe_ghost_XXXXXX""; int fd = mkstemp(tmpl);"
+fp_c_appstore,f_tmpunlink_l02,130,"char b[4096]; memset(b, 7, sizeof(b));"
+fp_c_appstore,f_tmpunlink_l03,132,"if (write(fd, b, sizeof(b)) != sizeof(b)) die(""ghost write"");"
+fp_c_appstore,f_tmpunlink,135,KEEPFD(fd); }
+fp_c_appstore,f_logfile_l01,137,"{ snprintf(g_path_logfile, sizeof(g_path_logfile), ""/tmp/criuprobe_log_p%d"", g_port);"
+fp_c_appstore,f_logfile_l02,139,"int fd = open(g_path_logfile, O_CREAT | O_WRONLY | O_APPEND, 0644);"
+fp_c_appstore,f_logfile,142,"dprintf(fd, ""start\n""); KEEPFD(fd); g_logfd = fd; }"
+fp_c_appstore,steady,152,"if (g_logfd >= 0) dprintf(g_logfd, ""t\n"");"
+fp_c_backup,init,100,g_port = (int)port;
+fp_c_backup,base_mem,108,}
+fp_c_backup,f_lock_flock_l01,111,"{ snprintf(g_path_flock, sizeof(g_path_flock), ""/tmp/criuprobe_flock_p%d"", g_port);"
+fp_c_backup,f_lock_flock_l02,113,"int fd = open(g_path_flock, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""flock open"");"
+fp_c_backup,f_lock_flock,116,KEEPFD(fd); }
+fp_c_backup,f_mmap_shared_l01,118,"{ snprintf(g_path_maps, sizeof(g_path_maps), ""/tmp/criuprobe_maps_p%d"", g_port);"
+fp_c_backup,f_mmap_shared_l02,120,"int fd = open(g_path_maps, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""maps open"");"
+fp_c_backup,f_mmap_shared_l03,122,"size_t n = 8ull << 20; if (ftruncate(fd, n) < 0) die(""maps ftruncate"");"
+fp_c_backup,f_mmap_shared_l04,124,"char *p = mmap(NULL, n, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);"
+fp_c_backup,f_mmap_shared_l05,126,"if (p == MAP_FAILED) die(""maps mmap"");"
+fp_c_backup,f_mmap_shared_l06,128,for (size_t i = 0; i < n; i += 4096) p[i] = 6;
+fp_c_backup,f_mmap_shared,130,KEEP(p); KEEPFD(fd); }
+fp_c_backup,f_child,133,"if (c == 0) { for (;;) { struct timespec ts = { 0, 50000000L }; nanosleep(&ts, NULL); } } }"
+fp_c_backup,steady,143,"{ int st; while (waitpid(-1, &st, WNOHANG) > 0) {} }"
+fp_c_debug_console,init,100,g_port = (int)port;
+fp_c_debug_console,base_mem,108,}
+fp_c_debug_console,f_tty_l01,111,"{ int fd = open(""/dev/tty"", O_RDWR);"
+fp_c_debug_console,f_tty_l02,113,if (fd >= 0) KEEPFD(fd);
+fp_c_debug_console,f_tty_l03,113,if (fd >= 0) KEEPFD(fd);
+fp_c_debug_console,f_tty,117,fflush(stdout); }
+fp_c_debug_console,f_pipe_l01,119,"{ int p[2]; if (pipe2(p, 0) < 0) die(""pipe2"");"
+fp_c_debug_console,f_pipe_l02,121,"if (write(p[1], ""pending-data\n"", 13) != 13) die(""pipe write"");"
+fp_c_debug_console,f_pipe,123,KEEPFD(p[0]); KEEPFD(p[1]); }
+fp_c_debug_console,steady,132,"probe_serve_pending(lfd, 100);"
+fp_c_watchdog,init,100,g_port = (int)port;
+fp_c_watchdog,base_mem,108,}
+fp_c_watchdog,f_itimer_l01,111,"{ struct sigaction sa; memset(&sa, 0, sizeof(sa)); sa.sa_handler = wk_sig_noop;"
+fp_c_watchdog,f_itimer_l02,113,"if (sigaction(SIGALRM, &sa, NULL) < 0) die(""sigaction ALRM"");"
+fp_c_watchdog,f_itimer_l03,115,"struct itimerval iv = { { 0, 200000 }, { 0, 200000 } };"
+fp_c_watchdog,f_itimer,118,}
+fp_c_watchdog,f_signalfd_l01,120,"{ sigset_t m; sigemptyset(&m); sigaddset(&m, SIGUSR1);"
+fp_c_watchdog,f_signalfd_l02,122,"if (sigprocmask(SIG_BLOCK, &m, NULL) < 0) die(""sigprocmask"");"
+fp_c_watchdog,f_signalfd,124,"int fd = signalfd(-1, &m, SFD_NONBLOCK); if (fd < 0) die(""signalfd""); KEEPFD(fd); }"
+fp_c_watchdog,f_logfile_l01,126,"{ snprintf(g_path_logfile, sizeof(g_path_logfile), ""/tmp/criuprobe_log_p%d"", g_port);"
+fp_c_watchdog,f_logfile_l02,128,"int fd = open(g_path_logfile, O_CREAT | O_WRONLY | O_APPEND, 0644);"
+fp_c_watchdog,f_logfile,131,"dprintf(fd, ""start\n""); KEEPFD(fd); g_logfd = fd; }"
+fp_c_watchdog,steady,141,"if (g_logfd >= 0) dprintf(g_logfd, ""t\n"");"
+fp_c_cache_mgr,init,100,g_port = (int)port;
+fp_c_cache_mgr,base_mem,108,}
+fp_c_cache_mgr,f_tmpunlink_l01,111,"{ char tmpl[] = ""/tmp/criuprobe_ghost_XXXXXX""; int fd = mkstemp(tmpl);"
+fp_c_cache_mgr,f_tmpunlink_l02,114,"char b[4096]; memset(b, 7, sizeof(b));"
+fp_c_cache_mgr,f_tmpunlink_l03,116,"if (write(fd, b, sizeof(b)) != sizeof(b)) die(""ghost write"");"
+fp_c_cache_mgr,f_tmpunlink,119,KEEPFD(fd); }
+fp_c_cache_mgr,f_inotify_l01,121,"{ snprintf(g_path_watch, sizeof(g_path_watch), ""/tmp/criuprobe_watch_p%d"", g_port);"
+fp_c_cache_mgr,f_inotify_l02,123,"mkdir(g_path_watch, 0755);"
+fp_c_cache_mgr,f_inotify_l03,125,"int fd = inotify_init1(IN_NONBLOCK); if (fd < 0) die(""inotify_init1"");"
+fp_c_cache_mgr,f_inotify_l04,127,"if (inotify_add_watch(fd, g_path_watch, IN_CREATE | IN_MODIFY) < 0) die(""inotify_add_watch"");"
+fp_c_cache_mgr,f_inotify,129,KEEPFD(fd); }
+fp_c_cache_mgr,f_shm_posix_l01,131,"{ snprintf(g_path_shm, sizeof(g_path_shm), ""/criuprobe_shm_p%d"", g_port);"
+fp_c_cache_mgr,f_shm_posix_l02,133,shm_unlink(g_path_shm);
+fp_c_cache_mgr,f_shm_posix_l03,135,"int fd = shm_open(g_path_shm, O_CREAT | O_RDWR, 0600); if (fd < 0) die(""shm_open"");"
+fp_c_cache_mgr,f_shm_posix_l04,137,"size_t n = 16ull << 20; if (ftruncate(fd, n) < 0) die(""shm ftruncate"");"
+fp_c_cache_mgr,f_shm_posix_l05,139,"char *p = mmap(NULL, n, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);"
+fp_c_cache_mgr,f_shm_posix_l06,141,"if (p == MAP_FAILED) die(""shm mmap"");"
+fp_c_cache_mgr,f_shm_posix_l07,143,for (size_t i = 0; i < n; i += 4096) p[i] = 3;
+fp_c_cache_mgr,f_shm_posix,145,KEEP(p); KEEPFD(fd); }
+fp_c_cache_mgr,steady,154,"probe_serve_pending(lfd, 100);"
+fp_c_audio,init,100,g_port = (int)port;
+fp_c_audio,base_mem,108,}
+fp_c_audio,f_shm_sysv_l01,111,"{ int id = shmget(IPC_PRIVATE, 16ull << 20, IPC_CREAT | 0600);"
+fp_c_audio,f_shm_sysv_l02,113,"if (id < 0) die(""shmget"");"
+fp_c_audio,f_shm_sysv_l03,115,"char *p = shmat(id, NULL, 0); if (p == (void *)-1) die(""shmat"");"
+fp_c_audio,f_shm_sysv_l04,118,for (size_t i = 0; i < (16ull << 20); i += 4096) p[i] = 4;
+fp_c_audio,f_shm_sysv,120,KEEP(p); }
+fp_c_audio,f_timerfd_l01,122,"{ int fd = timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK);"
+fp_c_audio,f_timerfd_l02,124,"if (fd < 0) die(""timerfd_create"");"
+fp_c_audio,f_timerfd_l03,126,"struct itimerspec its = { .it_interval = { 0, 100000000L }, .it_value = { 0, 100000000L } };"
+fp_c_audio,f_timerfd_l04,128,"if (timerfd_settime(fd, 0, &its, NULL) < 0) die(""timerfd_settime"");"
+fp_c_audio,f_timerfd,130,KEEPFD(fd); g_tfd = fd; }
+fp_c_audio,f_thread1,132,"{ pthread_t t; if (pthread_create(&t, NULL, wk_sleeper, NULL) != 0) die(""pthread_create""); }"
+fp_c_audio,steady,142,"if (g_tfd >= 0) { uint64_t exp; while (read(g_tfd, &exp, sizeof(exp)) > 0) {} }"
+fp_c_render,init,100,g_port = (int)port;
+fp_c_render,base_mem,108,}
+fp_c_render,f_memfd_l01,111,"{ int fd = memfd_create(""criuprobe"", 0); if (fd < 0) die(""memfd_create"");"
+fp_c_render,f_memfd_l02,113,"size_t n = 16ull << 20; if (ftruncate(fd, n) < 0) die(""memfd ftruncate"");"
+fp_c_render,f_memfd_l03,115,"char *p = mmap(NULL, n, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);"
+fp_c_render,f_memfd_l04,117,"if (p == MAP_FAILED) die(""memfd mmap"");"
+fp_c_render,f_memfd_l05,119,for (size_t i = 0; i < n; i += 4096) p[i] = 2;
+fp_c_render,f_memfd,121,KEEP(p); KEEPFD(fd); }
+fp_c_render,f_shm_posix_l01,123,"{ snprintf(g_path_shm, sizeof(g_path_shm), ""/criuprobe_shm_p%d"", g_port);"
+fp_c_render,f_shm_posix_l02,125,shm_unlink(g_path_shm);
+fp_c_render,f_shm_posix_l03,127,"int fd = shm_open(g_path_shm, O_CREAT | O_RDWR, 0600); if (fd < 0) die(""shm_open"");"
+fp_c_render,f_shm_posix_l04,129,"size_t n = 16ull << 20; if (ftruncate(fd, n) < 0) die(""shm ftruncate"");"
+fp_c_render,f_shm_posix_l05,131,"char *p = mmap(NULL, n, PROT_READ | PROT_WRITE, MAP_SHARED, fd, 0);"
+fp_c_render,f_shm_posix_l06,133,"if (p == MAP_FAILED) die(""shm mmap"");"
+fp_c_render,f_shm_posix_l07,135,for (size_t i = 0; i < n; i += 4096) p[i] = 3;
+fp_c_render,f_shm_posix,137,KEEP(p); KEEPFD(fd); }
+fp_c_render,f_thread4,141,} }
+fp_c_render,steady,150,"probe_serve_pending(lfd, 100);"
+fp_p00_tcp_established__timerfd,init,100,g_port = (int)port;
+fp_p00_tcp_established__timerfd,base_mem,108,}
+fp_p00_tcp_established__timerfd,f_tcp_established_l01,111,"{ int lp = 0; int l = probe_listen(0, &lp);"
+fp_p00_tcp_established__timerfd,f_tcp_established_l02,113,"int cl = socket(AF_INET, SOCK_STREAM, 0); if (cl < 0) die(""tcp cl socket"");"
+fp_p00_tcp_established__timerfd,f_tcp_established_l03,115,"struct sockaddr_in a; memset(&a, 0, sizeof(a)); a.sin_family = AF_INET;"
+fp_p00_tcp_established__timerfd,f_tcp_established_l04,117,a.sin_addr.s_addr = htonl(INADDR_LOOPBACK); a.sin_port = htons((uint16_t)lp);
+fp_p00_tcp_established__timerfd,f_tcp_established_l05,119,"if (connect(cl, (struct sockaddr *)&a, sizeof(a)) < 0) die(""tcp connect"");"
+fp_p00_tcp_established__timerfd,f_tcp_established_l06,121,"int sv = accept(l, NULL, NULL); if (sv < 0) die(""tcp accept"");"
+fp_p00_tcp_established__timerfd,f_tcp_established_l07,123,"if (write(cl, ""hello"", 5) != 5) die(""tcp write"");"
+fp_p00_tcp_established__timerfd,f_tcp_established,125,KEEPFD(l); KEEPFD(cl); KEEPFD(sv); }
+fp_p00_tcp_established__timerfd,f_timerfd_l01,127,"{ int fd = timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK);"
+fp_p00_tcp_established__timerfd,f_timerfd_l02,129,"if (fd < 0) die(""timerfd_create"");"
+fp_p00_tcp_established__timerfd,f_timerfd_l03,131,"struct itimerspec its = { .it_interval = { 0, 100000000L }, .it_value = { 0, 100000000L } };"
+fp_p00_tcp_established__timerfd,f_timerfd_l04,133,"if (timerfd_settime(fd, 0, &its, NULL) < 0) die(""timerfd_settime"");"
+fp_p00_tcp_established__timerfd,f_timerfd,135,KEEPFD(fd); g_tfd = fd; }
+fp_p00_tcp_established__timerfd,steady,145,"if (g_tfd >= 0) { uint64_t exp; while (read(g_tfd, &exp, sizeof(exp)) > 0) {} }"
+fp_p01_tcp_established__epoll,init,100,g_port = (int)port;
+fp_p01_tcp_established__epoll,base_mem,108,}
+fp_p01_tcp_established__epoll,f_tcp_established_l01,111,"{ int lp = 0; int l = probe_listen(0, &lp);"
+fp_p01_tcp_established__epoll,f_tcp_established_l02,113,"int cl = socket(AF_INET, SOCK_STREAM, 0); if (cl < 0) die(""tcp cl socket"");"
+fp_p01_tcp_established__epoll,f_tcp_established_l03,115,"struct sockaddr_in a; memset(&a, 0, sizeof(a)); a.sin_family = AF_INET;"
+fp_p01_tcp_established__epoll,f_tcp_established_l04,117,a.sin_addr.s_addr = htonl(INADDR_LOOPBACK); a.sin_port = htons((uint16_t)lp);
+fp_p01_tcp_established__epoll,f_tcp_established_l05,119,"if (connect(cl, (struct sockaddr *)&a, sizeof(a)) < 0) die(""tcp connect"");"
+fp_p01_tcp_established__epoll,f_tcp_established_l06,121,"int sv = accept(l, NULL, NULL); if (sv < 0) die(""tcp accept"");"
+fp_p01_tcp_established__epoll,f_tcp_established_l07,123,"if (write(cl, ""hello"", 5) != 5) die(""tcp write"");"
+fp_p01_tcp_established__epoll,f_tcp_established,125,KEEPFD(l); KEEPFD(cl); KEEPFD(sv); }
+fp_p01_tcp_established__epoll,f_epoll_l01,127,"{ int ep = epoll_create1(0); if (ep < 0) die(""epoll_create1"");"
+fp_p01_tcp_established__epoll,f_epoll_l02,129,"int ev = eventfd(0, EFD_NONBLOCK); if (ev < 0) die(""epoll eventfd"");"
+fp_p01_tcp_established__epoll,f_epoll_l03,131,"struct epoll_event e = { .events = EPOLLIN, .data = { .fd = ev } };"
+fp_p01_tcp_established__epoll,f_epoll_l04,133,"if (epoll_ctl(ep, EPOLL_CTL_ADD, ev, &e) < 0) die(""epoll_ctl"");"
+fp_p01_tcp_established__epoll,f_epoll,135,KEEPFD(ep); KEEPFD(ev); }
+fp_p01_tcp_established__epoll,steady,144,"probe_serve_pending(lfd, 100);"
+fp_p02_tcp_established__thread1,init,100,g_port = (int)port;
+fp_p02_tcp_established__thread1,base_mem,108,}
+fp_p02_tcp_established__thread1,f_tcp_established_l01,111,"{ int lp = 0; int l = probe_listen(0, &lp);"
+fp_p02_tcp_established__thread1,f_tcp_established_l02,113,"int cl = socket(AF_INET, SOCK_STREAM, 0); if (cl < 0) die(""tcp cl socket"");"
+fp_p02_tcp_established__thread1,f_tcp_established_l03,115,"struct sockaddr_in a; memset(&a, 0, sizeof(a)); a.sin_family = AF_INET;"
+fp_p02_tcp_established__thread1,f_tcp_established_l04,117,a.sin_addr.s_addr = htonl(INADDR_LOOPBACK); a.sin_port = htons((uint16_t)lp);
+fp_p02_tcp_established__thread1,f_tcp_established_l05,119,"if (connect(cl, (struct sockaddr *)&a, sizeof(a)) < 0) die(""tcp connect"");"
+fp_p02_tcp_established__thread1,f_tcp_established_l06,121,"int sv = accept(l, NULL, NULL); if (sv < 0) die(""tcp accept"");"
+fp_p02_tcp_established__thread1,f_tcp_established_l07,123,"if (write(cl, ""hello"", 5) != 5) die(""tcp write"");"
+fp_p02_tcp_established__thread1,f_tcp_established,125,KEEPFD(l); KEEPFD(cl); KEEPFD(sv); }
+fp_p02_tcp_established__thread1,f_thread1,127,"{ pthread_t t; if (pthread_create(&t, NULL, wk_sleeper, NULL) != 0) die(""pthread_create""); }"
+fp_p02_tcp_established__thread1,steady,136,"probe_serve_pending(lfd, 100);"
+fp_p03_tcp_established__large_heap,init,100,g_port = (int)port;
+fp_p03_tcp_established__large_heap,base_mem,108,}
+fp_p03_tcp_established__large_heap,f_tcp_established_l01,111,"{ int lp = 0; int l = probe_listen(0, &lp);"
+fp_p03_tcp_established__large_heap,f_tcp_established_l02,113,"int cl = socket(AF_INET, SOCK_STREAM, 0); if (cl < 0) die(""tcp cl socket"");"
+fp_p03_tcp_established__large_heap,f_tcp_established_l03,115,"struct sockaddr_in a; memset(&a, 0, sizeof(a)); a.sin_family = AF_INET;"
+fp_p03_tcp_established__large_heap,f_tcp_established_l04,117,a.sin_addr.s_addr = htonl(INADDR_LOOPBACK); a.sin_port = htons((uint16_t)lp);
+fp_p03_tcp_established__large_heap,f_tcp_established_l05,119,"if (connect(cl, (struct sockaddr *)&a, sizeof(a)) < 0) die(""tcp connect"");"
+fp_p03_tcp_established__large_heap,f_tcp_established_l06,121,"int sv = accept(l, NULL, NULL); if (sv < 0) die(""tcp accept"");"
+fp_p03_tcp_established__large_heap,f_tcp_established_l07,123,"if (write(cl, ""hello"", 5) != 5) die(""tcp write"");"
+fp_p03_tcp_established__large_heap,f_tcp_established,125,KEEPFD(l); KEEPFD(cl); KEEPFD(sv); }
+fp_p03_tcp_established__large_heap,f_large_heap_l01,127,"{ size_t n = 300ull << 20; char *p = malloc(n); if (!p) die(""large_heap malloc"");"
+fp_p03_tcp_established__large_heap,f_large_heap_l02,129,for (size_t i = 0; i < n; i += 4096) p[i] = 1;
+fp_p03_tcp_established__large_heap,f_large_heap,131,KEEP(p); }
+fp_p03_tcp_established__large_heap,steady,140,"probe_serve_pending(lfd, 100);"
+fp_p04_tcp_established__logfile,init,100,g_port = (int)port;
+fp_p04_tcp_established__logfile,base_mem,108,}
+fp_p04_tcp_established__logfile,f_tcp_established_l01,111,"{ int lp = 0; int l = probe_listen(0, &lp);"
+fp_p04_tcp_established__logfile,f_tcp_established_l02,113,"int cl = socket(AF_INET, SOCK_STREAM, 0); if (cl < 0) die(""tcp cl socket"");"
+fp_p04_tcp_established__logfile,f_tcp_established_l03,115,"struct sockaddr_in a; memset(&a, 0, sizeof(a)); a.sin_family = AF_INET;"
+fp_p04_tcp_established__logfile,f_tcp_established_l04,117,a.sin_addr.s_addr = htonl(INADDR_LOOPBACK); a.sin_port = htons((uint16_t)lp);
+fp_p04_tcp_established__logfile,f_tcp_established_l05,119,"if (connect(cl, (struct sockaddr *)&a, sizeof(a)) < 0) die(""tcp connect"");"
+fp_p04_tcp_established__logfile,f_tcp_established_l06,121,"int sv = accept(l, NULL, NULL); if (sv < 0) die(""tcp accept"");"
+fp_p04_tcp_established__logfile,f_tcp_established_l07,123,"if (write(cl, ""hello"", 5) != 5) die(""tcp write"");"
+fp_p04_tcp_established__logfile,f_tcp_established,125,KEEPFD(l); KEEPFD(cl); KEEPFD(sv); }
+fp_p04_tcp_established__logfile,f_logfile_l01,127,"{ snprintf(g_path_logfile, sizeof(g_path_logfile), ""/tmp/criuprobe_log_p%d"", g_port);"
+fp_p04_tcp_established__logfile,f_logfile_l02,129,"int fd = open(g_path_logfile, O_CREAT | O_WRONLY | O_APPEND, 0644);"
+fp_p04_tcp_established__logfile,f_logfile,132,"dprintf(fd, ""start\n""); KEEPFD(fd); g_logfd = fd; }"
+fp_p04_tcp_established__logfile,steady,142,"if (g_logfd >= 0) dprintf(g_logfd, ""t\n"");"
+fp_p05_tcp_established__eventfd,init,100,g_port = (int)port;
+fp_p05_tcp_established__eventfd,base_mem,108,}
+fp_p05_tcp_established__eventfd,f_tcp_established_l01,111,"{ int lp = 0; int l = probe_listen(0, &lp);"
+fp_p05_tcp_established__eventfd,f_tcp_established_l02,113,"int cl = socket(AF_INET, SOCK_STREAM, 0); if (cl < 0) die(""tcp cl socket"");"
+fp_p05_tcp_established__eventfd,f_tcp_established_l03,115,"struct sockaddr_in a; memset(&a, 0, sizeof(a)); a.sin_family = AF_INET;"
+fp_p05_tcp_established__eventfd,f_tcp_established_l04,117,a.sin_addr.s_addr = htonl(INADDR_LOOPBACK); a.sin_port = htons((uint16_t)lp);
+fp_p05_tcp_established__eventfd,f_tcp_established_l05,119,"if (connect(cl, (struct sockaddr *)&a, sizeof(a)) < 0) die(""tcp connect"");"
+fp_p05_tcp_established__eventfd,f_tcp_established_l06,121,"int sv = accept(l, NULL, NULL); if (sv < 0) die(""tcp accept"");"
+fp_p05_tcp_established__eventfd,f_tcp_established_l07,123,"if (write(cl, ""hello"", 5) != 5) die(""tcp write"");"
+fp_p05_tcp_established__eventfd,f_tcp_established,125,KEEPFD(l); KEEPFD(cl); KEEPFD(sv); }
+fp_p05_tcp_established__eventfd,f_eventfd,127,"{ int fd = eventfd(1, EFD_NONBLOCK); if (fd < 0) die(""eventfd""); KEEPFD(fd); }"
+fp_p05_tcp_established__eventfd,steady,136,"probe_serve_pending(lfd, 100);"
+fp_p06_lock_flock__timerfd,init,100,g_port = (int)port;
+fp_p06_lock_flock__timerfd,base_mem,108,}
+fp_p06_lock_flock__timerfd,f_lock_flock_l01,111,"{ snprintf(g_path_flock, sizeof(g_path_flock), ""/tmp/criuprobe_flock_p%d"", g_port);"
+fp_p06_lock_flock__timerfd,f_lock_flock_l02,113,"int fd = open(g_path_flock, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""flock open"");"
+fp_p06_lock_flock__timerfd,f_lock_flock,116,KEEPFD(fd); }
+fp_p06_lock_flock__timerfd,f_timerfd_l01,118,"{ int fd = timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK);"
+fp_p06_lock_flock__timerfd,f_timerfd_l02,120,"if (fd < 0) die(""timerfd_create"");"
+fp_p06_lock_flock__timerfd,f_timerfd_l03,122,"struct itimerspec its = { .it_interval = { 0, 100000000L }, .it_value = { 0, 100000000L } };"
+fp_p06_lock_flock__timerfd,f_timerfd_l04,124,"if (timerfd_settime(fd, 0, &its, NULL) < 0) die(""timerfd_settime"");"
+fp_p06_lock_flock__timerfd,f_timerfd,126,KEEPFD(fd); g_tfd = fd; }
+fp_p06_lock_flock__timerfd,steady,136,"if (g_tfd >= 0) { uint64_t exp; while (read(g_tfd, &exp, sizeof(exp)) > 0) {} }"
+fp_p07_lock_flock__epoll,init,100,g_port = (int)port;
+fp_p07_lock_flock__epoll,base_mem,108,}
+fp_p07_lock_flock__epoll,f_lock_flock_l01,111,"{ snprintf(g_path_flock, sizeof(g_path_flock), ""/tmp/criuprobe_flock_p%d"", g_port);"
+fp_p07_lock_flock__epoll,f_lock_flock_l02,113,"int fd = open(g_path_flock, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""flock open"");"
+fp_p07_lock_flock__epoll,f_lock_flock,116,KEEPFD(fd); }
+fp_p07_lock_flock__epoll,f_epoll_l01,118,"{ int ep = epoll_create1(0); if (ep < 0) die(""epoll_create1"");"
+fp_p07_lock_flock__epoll,f_epoll_l02,120,"int ev = eventfd(0, EFD_NONBLOCK); if (ev < 0) die(""epoll eventfd"");"
+fp_p07_lock_flock__epoll,f_epoll_l03,122,"struct epoll_event e = { .events = EPOLLIN, .data = { .fd = ev } };"
+fp_p07_lock_flock__epoll,f_epoll_l04,124,"if (epoll_ctl(ep, EPOLL_CTL_ADD, ev, &e) < 0) die(""epoll_ctl"");"
+fp_p07_lock_flock__epoll,f_epoll,126,KEEPFD(ep); KEEPFD(ev); }
+fp_p07_lock_flock__epoll,steady,135,"probe_serve_pending(lfd, 100);"
+fp_p08_lock_flock__thread1,init,100,g_port = (int)port;
+fp_p08_lock_flock__thread1,base_mem,108,}
+fp_p08_lock_flock__thread1,f_lock_flock_l01,111,"{ snprintf(g_path_flock, sizeof(g_path_flock), ""/tmp/criuprobe_flock_p%d"", g_port);"
+fp_p08_lock_flock__thread1,f_lock_flock_l02,113,"int fd = open(g_path_flock, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""flock open"");"
+fp_p08_lock_flock__thread1,f_lock_flock,116,KEEPFD(fd); }
+fp_p08_lock_flock__thread1,f_thread1,118,"{ pthread_t t; if (pthread_create(&t, NULL, wk_sleeper, NULL) != 0) die(""pthread_create""); }"
+fp_p08_lock_flock__thread1,steady,127,"probe_serve_pending(lfd, 100);"
+fp_p09_lock_flock__large_heap,init,100,g_port = (int)port;
+fp_p09_lock_flock__large_heap,base_mem,108,}
+fp_p09_lock_flock__large_heap,f_lock_flock_l01,111,"{ snprintf(g_path_flock, sizeof(g_path_flock), ""/tmp/criuprobe_flock_p%d"", g_port);"
+fp_p09_lock_flock__large_heap,f_lock_flock_l02,113,"int fd = open(g_path_flock, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""flock open"");"
+fp_p09_lock_flock__large_heap,f_lock_flock,116,KEEPFD(fd); }
+fp_p09_lock_flock__large_heap,f_large_heap_l01,118,"{ size_t n = 300ull << 20; char *p = malloc(n); if (!p) die(""large_heap malloc"");"
+fp_p09_lock_flock__large_heap,f_large_heap_l02,120,for (size_t i = 0; i < n; i += 4096) p[i] = 1;
+fp_p09_lock_flock__large_heap,f_large_heap,122,KEEP(p); }
+fp_p09_lock_flock__large_heap,steady,131,"probe_serve_pending(lfd, 100);"
+fp_p10_lock_flock__logfile,init,100,g_port = (int)port;
+fp_p10_lock_flock__logfile,base_mem,108,}
+fp_p10_lock_flock__logfile,f_lock_flock_l01,111,"{ snprintf(g_path_flock, sizeof(g_path_flock), ""/tmp/criuprobe_flock_p%d"", g_port);"
+fp_p10_lock_flock__logfile,f_lock_flock_l02,113,"int fd = open(g_path_flock, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""flock open"");"
+fp_p10_lock_flock__logfile,f_lock_flock,116,KEEPFD(fd); }
+fp_p10_lock_flock__logfile,f_logfile_l01,118,"{ snprintf(g_path_logfile, sizeof(g_path_logfile), ""/tmp/criuprobe_log_p%d"", g_port);"
+fp_p10_lock_flock__logfile,f_logfile_l02,120,"int fd = open(g_path_logfile, O_CREAT | O_WRONLY | O_APPEND, 0644);"
+fp_p10_lock_flock__logfile,f_logfile,123,"dprintf(fd, ""start\n""); KEEPFD(fd); g_logfd = fd; }"
+fp_p10_lock_flock__logfile,steady,133,"if (g_logfd >= 0) dprintf(g_logfd, ""t\n"");"
+fp_p11_lock_flock__eventfd,init,100,g_port = (int)port;
+fp_p11_lock_flock__eventfd,base_mem,108,}
+fp_p11_lock_flock__eventfd,f_lock_flock_l01,111,"{ snprintf(g_path_flock, sizeof(g_path_flock), ""/tmp/criuprobe_flock_p%d"", g_port);"
+fp_p11_lock_flock__eventfd,f_lock_flock_l02,113,"int fd = open(g_path_flock, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""flock open"");"
+fp_p11_lock_flock__eventfd,f_lock_flock,116,KEEPFD(fd); }
+fp_p11_lock_flock__eventfd,f_eventfd,118,"{ int fd = eventfd(1, EFD_NONBLOCK); if (fd < 0) die(""eventfd""); KEEPFD(fd); }"
+fp_p11_lock_flock__eventfd,steady,127,"probe_serve_pending(lfd, 100);"
+fp_p12_lock_posix__timerfd,init,100,g_port = (int)port;
+fp_p12_lock_posix__timerfd,base_mem,108,}
+fp_p12_lock_posix__timerfd,f_lock_posix_l01,111,"{ snprintf(g_path_plock, sizeof(g_path_plock), ""/tmp/criuprobe_plock_p%d"", g_port);"
+fp_p12_lock_posix__timerfd,f_lock_posix_l02,113,"int fd = open(g_path_plock, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""plock open"");"
+fp_p12_lock_posix__timerfd,f_lock_posix_l03,115,"struct flock fl; memset(&fl, 0, sizeof(fl)); fl.l_type = F_WRLCK; fl.l_whence = SEEK_SET;"
+fp_p12_lock_posix__timerfd,f_lock_posix,118,KEEPFD(fd); }
+fp_p12_lock_posix__timerfd,f_timerfd_l01,120,"{ int fd = timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK);"
+fp_p12_lock_posix__timerfd,f_timerfd_l02,122,"if (fd < 0) die(""timerfd_create"");"
+fp_p12_lock_posix__timerfd,f_timerfd_l03,124,"struct itimerspec its = { .it_interval = { 0, 100000000L }, .it_value = { 0, 100000000L } };"
+fp_p12_lock_posix__timerfd,f_timerfd_l04,126,"if (timerfd_settime(fd, 0, &its, NULL) < 0) die(""timerfd_settime"");"
+fp_p12_lock_posix__timerfd,f_timerfd,128,KEEPFD(fd); g_tfd = fd; }
+fp_p12_lock_posix__timerfd,steady,138,"if (g_tfd >= 0) { uint64_t exp; while (read(g_tfd, &exp, sizeof(exp)) > 0) {} }"
+fp_p13_lock_posix__epoll,init,100,g_port = (int)port;
+fp_p13_lock_posix__epoll,base_mem,108,}
+fp_p13_lock_posix__epoll,f_lock_posix_l01,111,"{ snprintf(g_path_plock, sizeof(g_path_plock), ""/tmp/criuprobe_plock_p%d"", g_port);"
+fp_p13_lock_posix__epoll,f_lock_posix_l02,113,"int fd = open(g_path_plock, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""plock open"");"
+fp_p13_lock_posix__epoll,f_lock_posix_l03,115,"struct flock fl; memset(&fl, 0, sizeof(fl)); fl.l_type = F_WRLCK; fl.l_whence = SEEK_SET;"
+fp_p13_lock_posix__epoll,f_lock_posix,118,KEEPFD(fd); }
+fp_p13_lock_posix__epoll,f_epoll_l01,120,"{ int ep = epoll_create1(0); if (ep < 0) die(""epoll_create1"");"
+fp_p13_lock_posix__epoll,f_epoll_l02,122,"int ev = eventfd(0, EFD_NONBLOCK); if (ev < 0) die(""epoll eventfd"");"
+fp_p13_lock_posix__epoll,f_epoll_l03,124,"struct epoll_event e = { .events = EPOLLIN, .data = { .fd = ev } };"
+fp_p13_lock_posix__epoll,f_epoll_l04,126,"if (epoll_ctl(ep, EPOLL_CTL_ADD, ev, &e) < 0) die(""epoll_ctl"");"
+fp_p13_lock_posix__epoll,f_epoll,128,KEEPFD(ep); KEEPFD(ev); }
+fp_p13_lock_posix__epoll,steady,137,"probe_serve_pending(lfd, 100);"
+fp_p14_lock_posix__thread1,init,100,g_port = (int)port;
+fp_p14_lock_posix__thread1,base_mem,108,}
+fp_p14_lock_posix__thread1,f_lock_posix_l01,111,"{ snprintf(g_path_plock, sizeof(g_path_plock), ""/tmp/criuprobe_plock_p%d"", g_port);"
+fp_p14_lock_posix__thread1,f_lock_posix_l02,113,"int fd = open(g_path_plock, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""plock open"");"
+fp_p14_lock_posix__thread1,f_lock_posix_l03,115,"struct flock fl; memset(&fl, 0, sizeof(fl)); fl.l_type = F_WRLCK; fl.l_whence = SEEK_SET;"
+fp_p14_lock_posix__thread1,f_lock_posix,118,KEEPFD(fd); }
+fp_p14_lock_posix__thread1,f_thread1,120,"{ pthread_t t; if (pthread_create(&t, NULL, wk_sleeper, NULL) != 0) die(""pthread_create""); }"
+fp_p14_lock_posix__thread1,steady,129,"probe_serve_pending(lfd, 100);"
+fp_p15_lock_posix__large_heap,init,100,g_port = (int)port;
+fp_p15_lock_posix__large_heap,base_mem,108,}
+fp_p15_lock_posix__large_heap,f_lock_posix_l01,111,"{ snprintf(g_path_plock, sizeof(g_path_plock), ""/tmp/criuprobe_plock_p%d"", g_port);"
+fp_p15_lock_posix__large_heap,f_lock_posix_l02,113,"int fd = open(g_path_plock, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""plock open"");"
+fp_p15_lock_posix__large_heap,f_lock_posix_l03,115,"struct flock fl; memset(&fl, 0, sizeof(fl)); fl.l_type = F_WRLCK; fl.l_whence = SEEK_SET;"
+fp_p15_lock_posix__large_heap,f_lock_posix,118,KEEPFD(fd); }
+fp_p15_lock_posix__large_heap,f_large_heap_l01,120,"{ size_t n = 300ull << 20; char *p = malloc(n); if (!p) die(""large_heap malloc"");"
+fp_p15_lock_posix__large_heap,f_large_heap_l02,122,for (size_t i = 0; i < n; i += 4096) p[i] = 1;
+fp_p15_lock_posix__large_heap,f_large_heap,124,KEEP(p); }
+fp_p15_lock_posix__large_heap,steady,133,"probe_serve_pending(lfd, 100);"
+fp_p16_lock_posix__logfile,init,100,g_port = (int)port;
+fp_p16_lock_posix__logfile,base_mem,108,}
+fp_p16_lock_posix__logfile,f_lock_posix_l01,111,"{ snprintf(g_path_plock, sizeof(g_path_plock), ""/tmp/criuprobe_plock_p%d"", g_port);"
+fp_p16_lock_posix__logfile,f_lock_posix_l02,113,"int fd = open(g_path_plock, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""plock open"");"
+fp_p16_lock_posix__logfile,f_lock_posix_l03,115,"struct flock fl; memset(&fl, 0, sizeof(fl)); fl.l_type = F_WRLCK; fl.l_whence = SEEK_SET;"
+fp_p16_lock_posix__logfile,f_lock_posix,118,KEEPFD(fd); }
+fp_p16_lock_posix__logfile,f_logfile_l01,120,"{ snprintf(g_path_logfile, sizeof(g_path_logfile), ""/tmp/criuprobe_log_p%d"", g_port);"
+fp_p16_lock_posix__logfile,f_logfile_l02,122,"int fd = open(g_path_logfile, O_CREAT | O_WRONLY | O_APPEND, 0644);"
+fp_p16_lock_posix__logfile,f_logfile,125,"dprintf(fd, ""start\n""); KEEPFD(fd); g_logfd = fd; }"
+fp_p16_lock_posix__logfile,steady,135,"if (g_logfd >= 0) dprintf(g_logfd, ""t\n"");"
+fp_p17_lock_posix__eventfd,init,100,g_port = (int)port;
+fp_p17_lock_posix__eventfd,base_mem,108,}
+fp_p17_lock_posix__eventfd,f_lock_posix_l01,111,"{ snprintf(g_path_plock, sizeof(g_path_plock), ""/tmp/criuprobe_plock_p%d"", g_port);"
+fp_p17_lock_posix__eventfd,f_lock_posix_l02,113,"int fd = open(g_path_plock, O_CREAT | O_RDWR, 0644); if (fd < 0) die(""plock open"");"
+fp_p17_lock_posix__eventfd,f_lock_posix_l03,115,"struct flock fl; memset(&fl, 0, sizeof(fl)); fl.l_type = F_WRLCK; fl.l_whence = SEEK_SET;"
+fp_p17_lock_posix__eventfd,f_lock_posix,118,KEEPFD(fd); }
+fp_p17_lock_posix__eventfd,f_eventfd,120,"{ int fd = eventfd(1, EFD_NONBLOCK); if (fd < 0) die(""eventfd""); KEEPFD(fd); }"
+fp_p17_lock_posix__eventfd,steady,129,"probe_serve_pending(lfd, 100);"
+fp_p18_netlink__timerfd,init,100,g_port = (int)port;
+fp_p18_netlink__timerfd,base_mem,108,}
+fp_p18_netlink__timerfd,f_netlink_l01,111,"{ int fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_ROUTE);"
+fp_p18_netlink__timerfd,f_netlink_l02,113,"if (fd < 0) die(""netlink socket"");"
+fp_p18_netlink__timerfd,f_netlink_l03,115,"struct sockaddr_nl a; memset(&a, 0, sizeof(a)); a.nl_family = AF_NETLINK;"
+fp_p18_netlink__timerfd,f_netlink_l04,117,a.nl_groups = RTMGRP_LINK;
+fp_p18_netlink__timerfd,f_netlink_l05,119,"if (bind(fd, (struct sockaddr *)&a, sizeof(a)) < 0) die(""netlink bind"");"
+fp_p18_netlink__timerfd,f_netlink,121,KEEPFD(fd); }
+fp_p18_netlink__timerfd,f_timerfd_l01,123,"{ int fd = timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK);"
+fp_p18_netlink__timerfd,f_timerfd_l02,125,"if (fd < 0) die(""timerfd_create"");"
+fp_p18_netlink__timerfd,f_timerfd_l03,127,"struct itimerspec its = { .it_interval = { 0, 100000000L }, .it_value = { 0, 100000000L } };"
+fp_p18_netlink__timerfd,f_timerfd_l04,129,"if (timerfd_settime(fd, 0, &its, NULL) < 0) die(""timerfd_settime"");"
+fp_p18_netlink__timerfd,f_timerfd,131,KEEPFD(fd); g_tfd = fd; }
+fp_p18_netlink__timerfd,steady,141,"if (g_tfd >= 0) { uint64_t exp; while (read(g_tfd, &exp, sizeof(exp)) > 0) {} }"
+fp_p19_netlink__epoll,init,100,g_port = (int)port;
+fp_p19_netlink__epoll,base_mem,108,}
+fp_p19_netlink__epoll,f_netlink_l01,111,"{ int fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_ROUTE);"
+fp_p19_netlink__epoll,f_netlink_l02,113,"if (fd < 0) die(""netlink socket"");"
+fp_p19_netlink__epoll,f_netlink_l03,115,"struct sockaddr_nl a; memset(&a, 0, sizeof(a)); a.nl_family = AF_NETLINK;"
+fp_p19_netlink__epoll,f_netlink_l04,117,a.nl_groups = RTMGRP_LINK;
+fp_p19_netlink__epoll,f_netlink_l05,119,"if (bind(fd, (struct sockaddr *)&a, sizeof(a)) < 0) die(""netlink bind"");"
+fp_p19_netlink__epoll,f_netlink,121,KEEPFD(fd); }
+fp_p19_netlink__epoll,f_epoll_l01,123,"{ int ep = epoll_create1(0); if (ep < 0) die(""epoll_create1"");"
+fp_p19_netlink__epoll,f_epoll_l02,125,"int ev = eventfd(0, EFD_NONBLOCK); if (ev < 0) die(""epoll eventfd"");"
+fp_p19_netlink__epoll,f_epoll_l03,127,"struct epoll_event e = { .events = EPOLLIN, .data = { .fd = ev } };"
+fp_p19_netlink__epoll,f_epoll_l04,129,"if (epoll_ctl(ep, EPOLL_CTL_ADD, ev, &e) < 0) die(""epoll_ctl"");"
+fp_p19_netlink__epoll,f_epoll,131,KEEPFD(ep); KEEPFD(ev); }
+fp_p19_netlink__epoll,steady,140,"probe_serve_pending(lfd, 100);"
+fp_p20_netlink__thread1,init,100,g_port = (int)port;
+fp_p20_netlink__thread1,base_mem,108,}
+fp_p20_netlink__thread1,f_netlink_l01,111,"{ int fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_ROUTE);"
+fp_p20_netlink__thread1,f_netlink_l02,113,"if (fd < 0) die(""netlink socket"");"
+fp_p20_netlink__thread1,f_netlink_l03,115,"struct sockaddr_nl a; memset(&a, 0, sizeof(a)); a.nl_family = AF_NETLINK;"
+fp_p20_netlink__thread1,f_netlink_l04,117,a.nl_groups = RTMGRP_LINK;
+fp_p20_netlink__thread1,f_netlink_l05,119,"if (bind(fd, (struct sockaddr *)&a, sizeof(a)) < 0) die(""netlink bind"");"
+fp_p20_netlink__thread1,f_netlink,121,KEEPFD(fd); }
+fp_p20_netlink__thread1,f_thread1,123,"{ pthread_t t; if (pthread_create(&t, NULL, wk_sleeper, NULL) != 0) die(""pthread_create""); }"
+fp_p20_netlink__thread1,steady,132,"probe_serve_pending(lfd, 100);"
+fp_p21_netlink__large_heap,init,100,g_port = (int)port;
+fp_p21_netlink__large_heap,base_mem,108,}
+fp_p21_netlink__large_heap,f_netlink_l01,111,"{ int fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_ROUTE);"
+fp_p21_netlink__large_heap,f_netlink_l02,113,"if (fd < 0) die(""netlink socket"");"
+fp_p21_netlink__large_heap,f_netlink_l03,115,"struct sockaddr_nl a; memset(&a, 0, sizeof(a)); a.nl_family = AF_NETLINK;"
+fp_p21_netlink__large_heap,f_netlink_l04,117,a.nl_groups = RTMGRP_LINK;
+fp_p21_netlink__large_heap,f_netlink_l05,119,"if (bind(fd, (struct sockaddr *)&a, sizeof(a)) < 0) die(""netlink bind"");"
+fp_p21_netlink__large_heap,f_netlink,121,KEEPFD(fd); }
+fp_p21_netlink__large_heap,f_large_heap_l01,123,"{ size_t n = 300ull << 20; char *p = malloc(n); if (!p) die(""large_heap malloc"");"
+fp_p21_netlink__large_heap,f_large_heap_l02,125,for (size_t i = 0; i < n; i += 4096) p[i] = 1;
+fp_p21_netlink__large_heap,f_large_heap,127,KEEP(p); }
+fp_p21_netlink__large_heap,steady,136,"probe_serve_pending(lfd, 100);"
+fp_p22_netlink__logfile,init,100,g_port = (int)port;
+fp_p22_netlink__logfile,base_mem,108,}
+fp_p22_netlink__logfile,f_netlink_l01,111,"{ int fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_ROUTE);"
+fp_p22_netlink__logfile,f_netlink_l02,113,"if (fd < 0) die(""netlink socket"");"
+fp_p22_netlink__logfile,f_netlink_l03,115,"struct sockaddr_nl a; memset(&a, 0, sizeof(a)); a.nl_family = AF_NETLINK;"
+fp_p22_netlink__logfile,f_netlink_l04,117,a.nl_groups = RTMGRP_LINK;
+fp_p22_netlink__logfile,f_netlink_l05,119,"if (bind(fd, (struct sockaddr *)&a, sizeof(a)) < 0) die(""netlink bind"");"
+fp_p22_netlink__logfile,f_netlink,121,KEEPFD(fd); }
+fp_p22_netlink__logfile,f_logfile_l01,123,"{ snprintf(g_path_logfile, sizeof(g_path_logfile), ""/tmp/criuprobe_log_p%d"", g_port);"
+fp_p22_netlink__logfile,f_logfile_l02,125,"int fd = open(g_path_logfile, O_CREAT | O_WRONLY | O_APPEND, 0644);"
+fp_p22_netlink__logfile,f_logfile,128,"dprintf(fd, ""start\n""); KEEPFD(fd); g_logfd = fd; }"
+fp_p22_netlink__logfile,steady,138,"if (g_logfd >= 0) dprintf(g_logfd, ""t\n"");"
+fp_p23_netlink__eventfd,init,100,g_port = (int)port;
+fp_p23_netlink__eventfd,base_mem,108,}
+fp_p23_netlink__eventfd,f_netlink_l01,111,"{ int fd = socket(AF_NETLINK, SOCK_RAW, NETLINK_ROUTE);"
+fp_p23_netlink__eventfd,f_netlink_l02,113,"if (fd < 0) die(""netlink socket"");"
+fp_p23_netlink__eventfd,f_netlink_l03,115,"struct sockaddr_nl a; memset(&a, 0, sizeof(a)); a.nl_family = AF_NETLINK;"
+fp_p23_netlink__eventfd,f_netlink_l04,117,a.nl_groups = RTMGRP_LINK;
+fp_p23_netlink__eventfd,f_netlink_l05,119,"if (bind(fd, (struct sockaddr *)&a, sizeof(a)) < 0) die(""netlink bind"");"
+fp_p23_netlink__eventfd,f_netlink,121,KEEPFD(fd); }
+fp_p23_netlink__eventfd,f_eventfd,123,"{ int fd = eventfd(1, EFD_NONBLOCK); if (fd < 0) die(""eventfd""); KEEPFD(fd); }"
+fp_p23_netlink__eventfd,steady,132,"probe_serve_pending(lfd, 100);"
+fp_p24_shm_sysv__timerfd,init,100,g_port = (int)port;
+fp_p24_shm_sysv__timerfd,base_mem,108,}
+fp_p24_shm_sysv__timerfd,f_shm_sysv_l01,111,"{ int id = shmget(IPC_PRIVATE, 16ull << 20, IPC_CREAT | 0600);"
+fp_p24_shm_sysv__timerfd,f_shm_sysv_l02,113,"if (id < 0) die(""shmget"");"
+fp_p24_shm_sysv__timerfd,f_shm_sysv_l03,115,"char *p = shmat(id, NULL, 0); if (p == (void *)-1) die(""shmat"");"
+fp_p24_shm_sysv__timerfd,f_shm_sysv_l04,118,for (size_t i = 0; i < (16ull << 20); i += 4096) p[i] = 4;
+fp_p24_shm_sysv__timerfd,f_shm_sysv,120,KEEP(p); }
+fp_p24_shm_sysv__timerfd,f_timerfd_l01,122,"{ int fd = timerfd_create(CLOCK_MONOTONIC, TFD_NONBLOCK);"
+fp_p24_shm_sysv__timerfd,f_timerfd_l02,124,"if (fd < 0) die(""timerfd_create"");"
+fp_p24_shm_sysv__timerfd,f_timerfd_l03,126,"struct itimerspec its = { .it_interval = { 0, 100000000L }, .it_value = { 0, 100000000L } };"
+fp_p24_shm_sysv__timerfd,f_timerfd_l04,128,"if (timerfd_settime(fd, 0, &its, NULL) < 0) die(""timerfd_settime"");"
+fp_p24_shm_sysv__timerfd,f_timerfd,130,KEEPFD(fd); g_tfd = fd; }
+fp_p24_shm_sysv__timerfd,steady,140,"if (g_tfd >= 0) { uint64_t exp; while (read(g_tfd, &exp, sizeof(exp)) > 0) {} }"
+fp_p25_shm_sysv__epoll,init,100,g_port = (int)port;
+fp_p25_shm_sysv__epoll,base_mem,108,}
+fp_p25_shm_sysv__epoll,f_shm_sysv_l01,111,"{ int id = shmget(IPC_PRIVATE, 16ull << 20, IPC_CREAT | 0600);"
+fp_p25_shm_sysv__epoll,f_shm_sysv_l02,113,"if (id < 0) die(""shmget"");"
+fp_p25_shm_sysv__epoll,f_shm_sysv_l03,115,"char *p = shmat(id, NULL, 0); if (p == (void *)-1) die(""shmat"");"
+fp_p25_shm_sysv__epoll,f_shm_sysv_l04,118,for (size_t i = 0; i < (16ull << 20); i += 4096) p[i] = 4;
+fp_p25_shm_sysv__epoll,f_shm_sysv,120,KEEP(p); }
+fp_p25_shm_sysv__epoll,f_epoll_l01,122,"{ int ep = epoll_create1(0); if (ep < 0) die(""epoll_create1"");"
+fp_p25_shm_sysv__epoll,f_epoll_l02,124,"int ev = eventfd(0, EFD_NONBLOCK); if (ev < 0) die(""epoll eventfd"");"
+fp_p25_shm_sysv__epoll,f_epoll_l03,126,"struct epoll_event e = { .events = EPOLLIN, .data = { .fd = ev } };"
+fp_p25_shm_sysv__epoll,f_epoll_l04,128,"if (epoll_ctl(ep, EPOLL_CTL_ADD, ev, &e) < 0) die(""epoll_ctl"");"
+fp_p25_shm_sysv__epoll,f_epoll,130,KEEPFD(ep); KEEPFD(ev); }
+fp_p25_shm_sysv__epoll,steady,139,"probe_serve_pending(lfd, 100);"

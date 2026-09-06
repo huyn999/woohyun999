@@ -1,0 +1,14 @@
+name: fp_w_js_service
+# AUTO-GENERATED failprobe workload — [P] webOS-faithful: Node 기반 JS 서비스 — JIT + 버스 + 주기 타이머
+# features: mmap_exec_jit,unix_conn,timerfd
+# expected risks: mmap_exec_jit:HIGH — exec 페이지 복원; unix_conn:medium — established unix; timerfd:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_mmap_exec_jit, f_unix_conn_l01, f_unix_conn_l02, f_unix_conn_l03, f_unix_conn_l04, f_unix_conn_l05, f_unix_conn, f_timerfd_l01, f_timerfd_l02, f_timerfd_l03, f_timerfd_l04, f_timerfd, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 10

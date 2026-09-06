@@ -1,0 +1,14 @@
+name: fp_s_memfd
+# AUTO-GENERATED failprobe workload — single-feature probe: memfd + mmap (GPU/렌더 버퍼 전달)
+# features: memfd
+# expected risks: memfd:low (CRIU 4.x 지원)
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_memfd_l01, f_memfd_l02, f_memfd_l03, f_memfd_l04, f_memfd_l05, f_memfd, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 24

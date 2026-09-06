@@ -1,0 +1,14 @@
+name: fp_s_sigaltstack
+# AUTO-GENERATED failprobe workload — single-feature probe: 대체 시그널 스택 (크래시 핸들러 관례)
+# features: sigaltstack
+# expected risks: sigaltstack:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_sigaltstack_l01, f_sigaltstack_l02, f_sigaltstack, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

@@ -1,0 +1,14 @@
+name: fp_s_unix_listen
+# AUTO-GENERATED failprobe workload — single-feature probe: UNIX 도메인 listen 소켓 (luna-service 류 데몬)
+# features: unix_listen
+# expected risks: unix_listen:medium — bind 경로 재생성
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_unix_listen_l01, f_unix_listen_l02, f_unix_listen_l03, f_unix_listen_l04, f_unix_listen_l05, f_unix_listen_l06, f_unix_listen, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

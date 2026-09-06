@@ -1,0 +1,14 @@
+name: fp_c_db
+# AUTO-GENERATED failprobe workload — 임베디드 DB 서비스: 레코드 락 + 파일 매핑 + WAL 로그
+# features: lock_posix,mmap_shared,logfile
+# expected risks: lock_posix:HIGH — --file-locks 필요; mmap_shared:medium — 파일 동기화 의미; logfile:low — regular file fd
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_lock_posix_l01, f_lock_posix_l02, f_lock_posix_l03, f_lock_posix, f_mmap_shared_l01, f_mmap_shared_l02, f_mmap_shared_l03, f_mmap_shared_l04, f_mmap_shared_l05, f_mmap_shared_l06, f_mmap_shared, f_logfile_l01, f_logfile_l02, f_logfile, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 16

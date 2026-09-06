@@ -1,0 +1,14 @@
+name: fp_w_media_hls
+# AUTO-GENERATED failprobe workload — [R] webOS-faithful: HLS 스트리밍 — 원격 연결 수립 포함: tcp l05 창 재현(클러스터 ①)
+# features: tcp_established,thread4,timerfd,memfd
+# expected risks: tcp_established:HIGH — 기본 옵션 dump 거부 예상 (--tcp-established 필요); thread4:low; timerfd:low; memfd:low (CRIU 4.x 지원)
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_tcp_established_l01, f_tcp_established_l02, f_tcp_established_l03, f_tcp_established_l04, f_tcp_established_l05, f_tcp_established_l06, f_tcp_established_l07, f_tcp_established, f_thread4, f_timerfd_l01, f_timerfd_l02, f_timerfd_l03, f_timerfd_l04, f_timerfd, f_memfd_l01, f_memfd_l02, f_memfd_l03, f_memfd_l04, f_memfd_l05, f_memfd, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 32

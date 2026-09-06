@@ -1,0 +1,14 @@
+name: fp_x_s_seccomp_allow
+# AUTO-GENERATED failprobe workload — v2 extension probe: seccomp BPF 필터 설치 (샌드박스 최소형)
+# features: seccomp_allow
+# expected risks: seccomp_allow:HIGH — 필터 복원
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_seccomp_allow, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 9

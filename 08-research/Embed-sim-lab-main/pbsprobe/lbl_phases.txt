@@ -1,0 +1,37 @@
+Lsrc_001	474	long db_mib      = wl_flag_long(argc, argv, "--db_mib", 8);
+Lsrc_002	475	g_channels       = wl_flag_long(argc, argv, "--channels", 60
+Lsrc_003	476	g_slots          = wl_flag_long(argc, argv, "--slots", 48);
+Lsrc_004	477	long parse_iters = wl_flag_long(argc, argv, "--parse_iters",
+Lsrc_005	478	long index_mib   = wl_flag_long(argc, argv, "--index_mib", 1
+Lsrc_006	479	long reserve_mib = wl_flag_long(argc, argv, "--reserve_mib",
+Lsrc_007	480	long hub_conns   = wl_flag_long(argc, argv, "--hub_conns", 4
+Lsrc_008	481	g_hub_pending    = wl_flag_long(argc, argv, "--hub_pending",
+Lsrc_009	482	long hub_recon   = wl_flag_long(argc, argv, "--hub_reconnect
+Lsrc_010	483	g_selfhub        = (int)wl_flag_long(argc, argv, "--selfhub"
+Lsrc_011	484	g_tcp_mode       = wl_flag_str(argc, argv, "--tcp", "none");
+Lsrc_012	485	long refresh_ms  = wl_flag_long(argc, argv, "--refresh_ms", 
+Lsrc_013	486	long refresh_kib = wl_flag_long(argc, argv, "--refresh_kib",
+Lsrc_014	487	long use_timer   = wl_flag_long(argc, argv, "--timer", 1);
+Lsrc_015	488	long timer_s     = wl_flag_long(argc, argv, "--timer_s", 60)
+Lsrc_016	489	long use_watch   = wl_flag_long(argc, argv, "--watch", 1);
+Lsrc_017	490	long use_mmap    = wl_flag_long(argc, argv, "--mmap_db", 0);
+Lsrc_018	491	g_resume_file    = wl_flag_str(argc, argv, "--resume_file", 
+Lsrc_019	514	g_port = (int)port;
+Lsrc_020	515	g_hub_port = hub_port > 0 ? (int)hub_port : (int)port;
+Lsrc_021	522	signal(SIGUSR1, on_usr1);
+Lsrc_022	523	g_t0 = now_ms();
+Lsrc_023	556	snprintf(g_dbpath, sizeof(g_dbpath), "/tmp/pbsprobe_db_p%d.b
+Lsrc_024	557	size_t db_n = (size_t)db_mib << 20;
+Lsrc_025	575	int dbfd = open(g_dbpath, O_RDONLY);
+Lsrc_026	602	uint32_t db_x = 0;
+Lsrc_027	624	long parse_t0 = now_ms();
+Lsrc_028	625	uint32_t h = 2166136261u ^ db_x;
+Lsrc_029	639	long parse_ms = now_ms() - parse_t0;
+Lsrc_030	644	g_index_n = (size_t)index_mib << 20;
+Lsrc_031	686	g_reserve_n = (size_t)reserve_mib << 20;
+Lsrc_032	791	g_hub_total = (int)hub_conns;
+Lsrc_033	908	int tfd = -1;
+Lsrc_034	920	int ifd = -1;
+Lsrc_035	932	void *dbmap = NULL;
+Lsrc_036	940	int actual_port = 0;
+Lsrc_037	941	int lfd = serve_listen((int)port, &actual_port);

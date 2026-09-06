@@ -1,0 +1,14 @@
+name: fp_w_hub
+# AUTO-GENERATED failprobe workload — [P] webOS-faithful: ls-hubd — 중앙 교환소: listen + 성립 연결 8쌍(미소비 JSON) + epoll + pmlog
+# features: unix_fanin,epoll,logfile
+# expected risks: unix_fanin:medium — 다연결·큐잉 스케일; epoll:low; logfile:low — regular file fd
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_unix_fanin, f_epoll_l01, f_epoll_l02, f_epoll_l03, f_epoll_l04, f_epoll, f_logfile_l01, f_logfile_l02, f_logfile, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 10

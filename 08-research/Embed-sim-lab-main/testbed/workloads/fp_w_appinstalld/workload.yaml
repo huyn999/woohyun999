@@ -1,0 +1,14 @@
+name: fp_w_appinstalld
+# AUTO-GENERATED failprobe workload — [P] webOS-faithful: appinstalld — 설치 파이프라인: 워커 + 임시파일 + 감시 + 로그
+# features: child,tmpunlink,inotify,logfile
+# expected risks: child:low — 프로세스 트리 dump; tmpunlink:medium — ghost file 복원 경로; inotify:medium — watch 경로 복원; logfile:low — regular file fd
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_child, f_tmpunlink_l01, f_tmpunlink_l02, f_tmpunlink_l03, f_tmpunlink, f_inotify_l01, f_inotify_l02, f_inotify_l03, f_inotify_l04, f_inotify, f_logfile_l01, f_logfile_l02, f_logfile, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

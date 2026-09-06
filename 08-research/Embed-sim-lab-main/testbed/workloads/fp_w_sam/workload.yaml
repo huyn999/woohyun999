@@ -1,0 +1,14 @@
+name: fp_w_sam
+# AUTO-GENERATED failprobe workload — [P] webOS-faithful: SAM — 앱 생명주기 매니저: 앱 트리 + 수신 버스 (올바른 데몬화 순서)
+# features: child,grandchild,unix_listen,epoll
+# expected risks: child:low — 프로세스 트리 dump; grandchild:medium — 깊은 트리; unix_listen:medium — bind 경로 재생성; epoll:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_child, f_grandchild, f_unix_listen_l01, f_unix_listen_l02, f_unix_listen_l03, f_unix_listen_l04, f_unix_listen_l05, f_unix_listen_l06, f_unix_listen, f_epoll_l01, f_epoll_l02, f_epoll_l03, f_epoll_l04, f_epoll, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

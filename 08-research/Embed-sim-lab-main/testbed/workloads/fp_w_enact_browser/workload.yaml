@@ -1,0 +1,14 @@
+name: fp_w_enact_browser
+# AUTO-GENERATED failprobe workload — [R] webOS-faithful: Enact 브라우저 — JIT + 힙 + 원격 연결: tcp l05 창의 webOS 재현(클러스터 ①) 포함
+# features: mmap_exec_jit,large_heap,memfd,tcp_established,unix_conn
+# expected risks: mmap_exec_jit:HIGH — exec 페이지 복원; large_heap:none — dump 이미지만 커짐; memfd:low (CRIU 4.x 지원); tcp_established:HIGH — 기본 옵션 dump 거부 예상 (--tcp-established 필요); unix_conn:medium — established unix
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_mmap_exec_jit, f_large_heap_l01, f_large_heap_l02, f_large_heap, f_memfd_l01, f_memfd_l02, f_memfd_l03, f_memfd_l04, f_memfd_l05, f_memfd, f_tcp_established_l01, f_tcp_established_l02, f_tcp_established_l03, f_tcp_established_l04, f_tcp_established_l05, f_tcp_established_l06, f_tcp_established_l07, f_tcp_established, f_unix_conn_l01, f_unix_conn_l02, f_unix_conn_l03, f_unix_conn_l04, f_unix_conn_l05, f_unix_conn, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 326

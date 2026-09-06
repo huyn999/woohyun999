@@ -1,0 +1,14 @@
+name: fp_w_notificationd
+# AUTO-GENERATED failprobe workload — [P] webOS-faithful: notification — 이벤트 큐 + 만료 타이머 + 수신 버스
+# features: unix_listen,eventfd,timerfd
+# expected risks: unix_listen:medium — bind 경로 재생성; eventfd:low; timerfd:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_unix_listen_l01, f_unix_listen_l02, f_unix_listen_l03, f_unix_listen_l04, f_unix_listen_l05, f_unix_listen_l06, f_unix_listen, f_eventfd, f_timerfd_l01, f_timerfd_l02, f_timerfd_l03, f_timerfd_l04, f_timerfd, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

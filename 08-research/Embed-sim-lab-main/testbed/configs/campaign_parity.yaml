@@ -1,0 +1,14 @@
+campaign: parity
+reps: 10
+stress: {target_total_mib: 1278, workers: 29}
+axes:
+  cpu: [busy, idle]
+  kdat: [on, off]
+workloads:
+  - name: dirty
+    sweep: {param: bytes, values_mib: [50]}
+    dump_at: [served_first]      # = old "워밍업 1회 후 dump" (§4-A6)
+  - name: initburst
+    sweep: {param: iters, calibrate_from_ms: [150]}
+    dump_at: [served_first]
+warmup_pings: 1

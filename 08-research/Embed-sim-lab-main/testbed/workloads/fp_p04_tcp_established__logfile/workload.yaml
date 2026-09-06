@@ -1,0 +1,14 @@
+name: fp_p04_tcp_established__logfile
+# AUTO-GENERATED failprobe workload — pair probe: 연결 성립된 loopback TCP 쌍 (스트리밍/앱스토어 연결) + append 로그 파일 fd (모든 서비스 데몬)
+# features: tcp_established,logfile
+# expected risks: tcp_established:HIGH — 기본 옵션 dump 거부 예상 (--tcp-established 필요); logfile:low — regular file fd
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_tcp_established_l01, f_tcp_established_l02, f_tcp_established_l03, f_tcp_established_l04, f_tcp_established_l05, f_tcp_established_l06, f_tcp_established_l07, f_tcp_established, f_logfile_l01, f_logfile_l02, f_logfile, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

@@ -1,0 +1,9 @@
+exp_id,condition,n,cold_n,restore_n,pass_count,fail_count,fail_rate,median_cold_response_s,p95_cold_response_s,median_restore_response_s,p95_restore_response_s,median_cold_ready_s,median_restore_time_s,median_dump_time_s,median_image_size_bytes,median_memory_peak_bytes,median_kdat_probing_s,median_restore_work_s,median_kdat_ratio,oom_count,oom_kill_count,cold_response_s_ci_lo,cold_response_s_ci_hi,restore_response_s_ci_lo,restore_response_s_ci_hi,restore_time_s_ci_lo,restore_time_s_ci_hi,image_size_bytes_ci_lo,image_size_bytes_ci_hi
+calib,calib_it200,1,1,0,0,1,1.000,NA,NA,NA,NA,NA,NA,NA,NA,1.35527e+09,NA,NA,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA
+calib,calib_it800,1,1,0,1,0,0.000,1.19042,1.19042,NA,NA,1.17692,NA,NA,NA,1.36266e+09,NA,NA,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA
+dirty_sweep_cpubusy,dirty_70M_cpubusy,1,1,0,1,0,0.000,0.137604,0.137604,NA,NA,0.135203,NA,NA,NA,1.41083e+09,NA,NA,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA
+dirty_sweep_cpubusy,dirty_70M_cpubusy_koff,1,0,1,1,0,0.000,NA,NA,0.653858,0.653858,NA,0.648276,0.61,7.34737e+07,1.55698e+09,0.137174,0.438324,0.2116,0,0,NA,NA,NA,NA,NA,NA,NA,NA
+dirty_sweep_cpubusy,dirty_70M_cpubusy_kon,1,0,1,1,0,0.000,NA,NA,0.498919,0.498919,NA,0.49334,0.549,7.34778e+07,1.54924e+09,0.007338,0.44911,0.0149,0,0,NA,NA,NA,NA,NA,NA,NA,NA
+ib_sweep_cpubusy,ib_700ms_cpubusy,1,1,0,1,0,0.000,0.197929,0.197929,NA,NA,0.192532,NA,NA,NA,1.4109e+09,NA,NA,NA,0,0,NA,NA,NA,NA,NA,NA,NA,NA
+ib_sweep_cpubusy,ib_700ms_cpubusy_koff,1,0,1,1,0,0.000,NA,NA,0.244219,0.244219,NA,0.238687,0.232,1.1257e+06,1.42128e+09,0.137292,0.029248,0.5752,0,0,NA,NA,NA,NA,NA,NA,NA,NA
+ib_sweep_cpubusy,ib_700ms_cpubusy_kon,1,0,1,1,0,0.000,NA,NA,0.098671,0.098671,NA,0.090867,0.233,1.1257e+06,1.4215e+09,0.006154,0.046038,0.0677,0,0,NA,NA,NA,NA,NA,NA,NA,NA

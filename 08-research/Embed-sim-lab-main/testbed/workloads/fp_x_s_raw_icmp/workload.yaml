@@ -1,0 +1,14 @@
+name: fp_x_s_raw_icmp
+# AUTO-GENERATED failprobe workload — v2 extension probe: raw ICMP 소켓 (네트워크 진단 데몬)
+# features: raw_icmp
+# expected risks: raw_icmp:HIGH — raw sk 복원
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_raw_icmp_l01, f_raw_icmp_l02, f_raw_icmp_l03, f_raw_icmp, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 9

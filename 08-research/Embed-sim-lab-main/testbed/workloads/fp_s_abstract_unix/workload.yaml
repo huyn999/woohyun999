@@ -1,0 +1,14 @@
+name: fp_s_abstract_unix
+# AUTO-GENERATED failprobe workload — single-feature probe: abstract namespace UNIX listen (경로 없는 버스)
+# features: abstract_unix
+# expected risks: abstract_unix:medium
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_abstract_unix_l01, f_abstract_unix_l02, f_abstract_unix_l03, f_abstract_unix_l04, f_abstract_unix, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

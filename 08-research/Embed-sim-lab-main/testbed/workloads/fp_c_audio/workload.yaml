@@ -1,0 +1,14 @@
+name: fp_c_audio
+# AUTO-GENERATED failprobe workload — 오디오 서버: SysV shm 버퍼 + 주기 타이머 + 스레드
+# features: shm_sysv,timerfd,thread1
+# expected risks: shm_sysv:HIGH — RMID된 세그먼트 복원; timerfd:low; thread1:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_shm_sysv_l01, f_shm_sysv_l02, f_shm_sysv_l03, f_shm_sysv_l04, f_shm_sysv, f_timerfd_l01, f_timerfd_l02, f_timerfd_l03, f_timerfd_l04, f_timerfd, f_thread1, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 24

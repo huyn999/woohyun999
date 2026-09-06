@@ -1,0 +1,14 @@
+name: fp_s_inotify
+# AUTO-GENERATED failprobe workload — single-feature probe: inotify 감시 (설정/미디어 디렉터리 워처)
+# features: inotify
+# expected risks: inotify:medium — watch 경로 복원
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_inotify_l01, f_inotify_l02, f_inotify_l03, f_inotify_l04, f_inotify, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

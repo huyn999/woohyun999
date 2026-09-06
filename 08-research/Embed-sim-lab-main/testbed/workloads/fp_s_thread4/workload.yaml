@@ -1,0 +1,14 @@
+name: fp_s_thread4
+# AUTO-GENERATED failprobe workload — single-feature probe: 워커 스레드 4개 (디코더/렌더 풀)
+# features: thread4
+# expected risks: thread4:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_thread4, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 16

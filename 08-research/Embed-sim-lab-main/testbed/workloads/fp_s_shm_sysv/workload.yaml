@@ -1,0 +1,14 @@
+name: fp_s_shm_sysv
+# AUTO-GENERATED failprobe workload — single-feature probe: SysV 공유메모리, attach 후 IPC_RMID (오디오/AV 파이프라인 레거시)
+# features: shm_sysv
+# expected risks: shm_sysv:HIGH — RMID된 세그먼트 복원
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_shm_sysv_l01, f_shm_sysv_l02, f_shm_sysv_l03, f_shm_sysv_l04, f_shm_sysv, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 24

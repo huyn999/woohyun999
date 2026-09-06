@@ -1,0 +1,14 @@
+name: fp_p15_lock_posix__large_heap
+# AUTO-GENERATED failprobe workload — pair probe: fcntl POSIX 레코드 락 보유 (DB 파일 락) + 대형 힙 (브라우저/게임의 리소스 로딩)
+# features: lock_posix,large_heap
+# expected risks: lock_posix:HIGH — --file-locks 필요; large_heap:none — dump 이미지만 커짐
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_lock_posix_l01, f_lock_posix_l02, f_lock_posix_l03, f_lock_posix, f_large_heap_l01, f_large_heap_l02, f_large_heap, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 308

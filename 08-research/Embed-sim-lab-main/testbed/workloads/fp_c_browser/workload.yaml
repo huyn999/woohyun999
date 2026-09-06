@@ -1,0 +1,14 @@
+name: fp_c_browser
+# AUTO-GENERATED failprobe workload — 웹앱/브라우저 탭: 스레드풀 + 대형 힙 + 렌더 버퍼 + 내부 채널
+# features: thread4,large_heap,memfd,socketpair
+# expected risks: thread4:low; large_heap:none — dump 이미지만 커짐; memfd:low (CRIU 4.x 지원); socketpair:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_thread4, f_large_heap_l01, f_large_heap_l02, f_large_heap, f_memfd_l01, f_memfd_l02, f_memfd_l03, f_memfd_l04, f_memfd_l05, f_memfd, f_socketpair_l01, f_socketpair, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 332

@@ -1,0 +1,105 @@
+# testbed/scenario.yaml — 기준(base) 설정. 모든 조건 YAML의 출발점.
+#
+# 단발 실행: `runner/run_once.sh --config scenario.yaml` 또는
+#           `runner/run_cold_start.sh --config scenario.yaml`
+# 캠페인:   `runner/expand_campaign.py <campaign.yaml> <out_dir>`가 이 파일을 로드해
+#           campaign 스펙의 sweep/axes로 워크로드·stress·자유 축을 오버라이드한 뒤
+#           조건별 완전 YAML(out_dir/configs/<run_id>.yaml)을 만든다.
+#           주의: `sweep.calibrate_from_ms`를 쓰는 워크로드(예: initburst)는 expand_campaign.py를
+#           단독 실행할 때 `--resolve <wl>.<param>=v1,v2,...`가 필요하다(안 주면 die) —
+#           `run_campaign.sh`는 PHASE1 calibration이 이 값을 자동으로 채워 넘긴다.
+#
+# 스키마 진실은 runner/config_to_env.py (ALLOWED_TOP_LEVEL / ALLOWED_KEYS) — 여기 없는
+# top-level 키나 섹션 안의 미지 키는 config_to_env가 exit 2로 거부한다.
+#
+# 이식원: testbed_old/scenario.yaml. workload 블록만 새 계약(§4, named flags + manifest
+# 병합)으로 교체했다 — 구 `run.id`/`run.restore_gap_s`, workload의 `target_bytes`/
+# `dynamic_*`/`compute_iters`는 새 스키마에 자리가 없어 삭제(그 의미는 workload manifest +
+# dump_at phase 축이 대체). memory/cpu/stress/storage/criu는 old 값 그대로.
+#
+# Profile intent (old와 동일):
+#   LG webOS TV에서 도는 LG Channel-like app을 x86_64/RPi-class host 위에서
+#   최대한 가깝게 흉내내는 constrained baseline.
+#
+# Caveats:
+#   - 실제 target은 ARM/webOS, 이 testbed는 x86_64/Linux다.
+#   - 실제 webOS swap 정책은 unknown이다.
+#   - 실제 LG Channel process/thread tree는 아직 명세가 필요하다.
+#   - 따라서 아래 값은 정확한 TV replica가 아니라 "resource-tight embedded-like"
+#     approximation이다.
+
+# 워크로드: 새 계약(workloads/<name>/workload.yaml manifest)과 병합된다. name=디렉터리명,
+# params는 manifest의 named flag 중 override할 것만 (미지정은 manifest default). port는
+# manifest default 18080(config 경로 필수 명시값 — config_to_env.py가 `0`을 거부한다;
+# kernel-assigned `0`은 `bin/<name> --port 0` 직접 실행 전용) — 측정 캠페인에서는
+# expand_campaign이 런마다 명시 배정한다(§4-B port 규칙, `0` 금지). scenario.yaml 단독 실행
+# (quickstart)도 config 경로를 타므로 여기도 명시 포트가 필요하다.
+workload: {name: simple, params: {bytes: 52428800, port: 18080}}
+# dump 시점: manifest가 발행하는 PHASE 이름(§4-A2). served_first = ready 이후 첫 핑퐁 요청을
+# 처리한 직후 — old의 "워밍업 1회 후 dump"(warm dump)와 동치(§4-A6 warm dump 의미론).
+dump_at: served_first
+# restore 경로 전용: dump 전 ready 이후 보낼 PING 횟수(측정 제외). 0이면 "안 데워진" 상태에서
+# dump(dump_at을 ready 이전 phase로 두는 실험과 조합).
+warmup_pings: 1
+# ready(또는 dump_at phase) 도달 후 idle 대기(초). warm-up 연결을 닫고 quiesce를 확인한 뒤 dump.
+checkpoint_after_s: 1.0
+
+memory:
+  # 측정 디바이스 총 RAM ≈ 1707.8MiB, used ≈ 1347.7MiB → free+cache 여유 ≈ 360MiB.
+  # 이 ceiling 안에서 target, CRIU, 그리고 stress(배경 데몬 점유)가 경쟁한다. 배경(stress)은
+  # used에서 target 몫을 뺀 값으로 잡아(Option B absorb), 총 used가 실측과 맞고 여유가 보존되게 한다.
+  max: 1200M                # ≈ device total 1707.8MiB
+  # 디바이스는 ZRAM swap 사용 중이지만, 이 host엔 zram이 없고 swap backend(env/policy)도
+  # 아직 미구현이다. 그래서 baseline은 swap escape를 막아두고, ZRAM/eMMC-like swap은
+  # policy 축에서 별도 sweep으로 연다(범위 밖 — §11).
+  swap_max: 0
+
+cpu:
+  # 측정 디바이스: aarch64 little-endian, Cortex-A73 x4, SMT 없음 → logical CPU 4개.
+  # x86_64 host에서 ARM 절대 성능은 재현 불가(open calibration)이므로 코어 수/affinity만 맞춘다.
+  # CPU가 병목이 아니므로 4코어 전부를 bandwidth로 열어 둔다(인위적 CPU starvation 없음).
+  bandwidth_cores: 4.0      # cpu.max = 400000 100000 (4 cores)
+  cpuset_cpus: "0-3"        # 4 logical CPUs
+  frequency_khz: 1235000
+
+stress:
+  # Background load axis. 하드웨어/OS 제약이 아니라 같은 cgroup 안의 다른 프로세스 점유다.
+  # stress-ng가 설치된 환경에서만 true로 켠다. "TV에 다른 서비스들이 떠 있는 상황"을 모사한다.
+  # 캠페인 실행에서는 expand_campaign이 vm_workers/vm_bytes를 campaign의 stress.{target_total_mib,
+  # workers}로 재계산해 덮어쓴다(Option B absorb, §6-10) — 아래 값은 scenario.yaml 단독 실행 기본값.
+  enabled: true
+  vm_workers: 17
+  vm_bytes: 44M
+  # stress-ng 인스턴스 1개의 메모리 floor(MiB) — **플랫폼(아키텍처·버전) 의존 실측값**.
+  # 이 머신(x86_64/0.17) 실측 ~38-40. 다른 기기(RPi 등)로 이식하면 반드시
+  # `sudo testbed/stress/measure_floor.sh`로 재서 이 값을 갱신하라(README 이식 절) —
+  # 틀리면 워커당 점유가 목표와 어긋나 stress verify occupancy에서 FAIL한다(RPi 실증:
+  # 실제 floor ~3인데 38로 빼서 1276MB 목표에 271MB만 점유). absorb 하한 가드도 이 값 기준.
+  floor_mib: 38
+  # cpu_saturate=true: 배경 부하가 cgroup이 허용한 코어를 saturate한다(busy TV 모델).
+  # 캠페인의 내장 cpu 축(busy/idle)이 런마다 이 값을 덮어쓴다.
+  cpu_saturate: true
+  # extra: memory/cpu 외 다양한 stressor를 raw stress-ng 인자로 추가(별도 인스턴스 1개).
+  extra: ""
+  # stress 프로세스가 cgroup 안에 들어온 뒤 초기 흔들림을 줄이는 대기 시간. 측정값에는 미포함.
+  warmup_s: 2.0
+
+storage:
+  image:
+    # CRIU image 저장소 제약. eMMC/UFS-like persistent storage를 거칠게 흉내낸다.
+    enabled: true
+    capacity: 1G
+    rbps: 150M
+    wbps: 50M
+    delay:
+      enabled: true
+      read_ms: 1
+      write_ms: 3
+
+criu:
+  # kdat(kerndat) 캐시: CRIU가 restore 전에 커널을 probe한 결과를 재사용할지.
+  #   off: restore마다 재probe. on: 캐시 재사용(캐시 경로는 testbed/criu/의 /dev/shm 패치로 가능).
+  # 주의: YAML에서 off/on은 boolean으로 오독될 수 있어 따옴표로 감싼다.
+  kdat_cache: "off"
+
+policy: {}

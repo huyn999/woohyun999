@@ -1,0 +1,10 @@
+name: simple
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}    # config 경로는 명시 포트 필수 (0은 config_to_env가 거부; 커널 배정은 bin 직접 실행 전용)
+phases: [ready, served_first]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 2

@@ -1,0 +1,14 @@
+name: fp_s_dirty_churn
+# AUTO-GENERATED failprobe workload — single-feature probe: 메모리를 계속 더럽히는 상태 갱신 (EPG/캐시 갱신)
+# features: dirty_churn
+# expected risks: dirty_churn:none — dump 시점 dirty 양 변동
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_dirty_churn, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

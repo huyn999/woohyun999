@@ -1,0 +1,14 @@
+name: fp_s_signalfd
+# AUTO-GENERATED failprobe workload — single-feature probe: signalfd (시그널 기반 제어)
+# features: signalfd
+# expected risks: signalfd:low
+params:
+  bytes: {default: 52428800}
+  port:  {default: 18080}
+  phase_gap_ms: {default: 400}   # phase별 정지 창(호환성 스윕용); 시간 측정 시 0
+phases: [init, base_mem, f_signalfd_l01, f_signalfd_l02, f_signalfd, ready, served_first, steady]
+metrics: []
+resident:
+  from_param: bytes
+  bytes_per_unit: 1
+  overhead_mib: 8

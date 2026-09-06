@@ -1,0 +1,927 @@
+{
+  "axes": {
+    "cpu": [
+      "busy",
+      "idle"
+    ],
+    "free": {},
+    "kdat": [
+      "on",
+      "off"
+    ]
+  },
+  "campaign": "parity",
+  "cpu_varies": true,
+  "est_run_s": 75.0,
+  "free_varies": {},
+  "kdat_varies": true,
+  "port_base": 18100,
+  "reps": 10,
+  "runs": [
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_rep01.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18100,
+      "run_id": "dirty_cpubusy_rep01"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_kon_rep01.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18101,
+      "run_id": "dirty_cpubusy_kon_rep01"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_koff_rep01.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18102,
+      "run_id": "dirty_cpubusy_koff_rep01"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_rep02.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18103,
+      "run_id": "dirty_cpubusy_rep02"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_kon_rep02.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18104,
+      "run_id": "dirty_cpubusy_kon_rep02"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_koff_rep02.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18105,
+      "run_id": "dirty_cpubusy_koff_rep02"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_rep03.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18106,
+      "run_id": "dirty_cpubusy_rep03"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_kon_rep03.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18107,
+      "run_id": "dirty_cpubusy_kon_rep03"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_koff_rep03.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18108,
+      "run_id": "dirty_cpubusy_koff_rep03"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_rep04.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18109,
+      "run_id": "dirty_cpubusy_rep04"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_kon_rep04.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18110,
+      "run_id": "dirty_cpubusy_kon_rep04"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_koff_rep04.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18111,
+      "run_id": "dirty_cpubusy_koff_rep04"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_rep05.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18112,
+      "run_id": "dirty_cpubusy_rep05"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_kon_rep05.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18113,
+      "run_id": "dirty_cpubusy_kon_rep05"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_koff_rep05.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18114,
+      "run_id": "dirty_cpubusy_koff_rep05"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_rep06.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18115,
+      "run_id": "dirty_cpubusy_rep06"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_kon_rep06.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18116,
+      "run_id": "dirty_cpubusy_kon_rep06"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_koff_rep06.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18117,
+      "run_id": "dirty_cpubusy_koff_rep06"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_rep07.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18118,
+      "run_id": "dirty_cpubusy_rep07"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_kon_rep07.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18119,
+      "run_id": "dirty_cpubusy_kon_rep07"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_koff_rep07.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18120,
+      "run_id": "dirty_cpubusy_koff_rep07"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_rep08.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18121,
+      "run_id": "dirty_cpubusy_rep08"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_kon_rep08.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18122,
+      "run_id": "dirty_cpubusy_kon_rep08"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_koff_rep08.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18123,
+      "run_id": "dirty_cpubusy_koff_rep08"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_rep09.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18124,
+      "run_id": "dirty_cpubusy_rep09"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_kon_rep09.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18125,
+      "run_id": "dirty_cpubusy_kon_rep09"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_koff_rep09.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18126,
+      "run_id": "dirty_cpubusy_koff_rep09"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_rep10.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18127,
+      "run_id": "dirty_cpubusy_rep10"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_kon_rep10.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18128,
+      "run_id": "dirty_cpubusy_kon_rep10"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpubusy_koff_rep10.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18129,
+      "run_id": "dirty_cpubusy_koff_rep10"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_rep01.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18130,
+      "run_id": "dirty_cpuidle_rep01"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_kon_rep01.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18131,
+      "run_id": "dirty_cpuidle_kon_rep01"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_koff_rep01.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18132,
+      "run_id": "dirty_cpuidle_koff_rep01"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_rep02.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18133,
+      "run_id": "dirty_cpuidle_rep02"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_kon_rep02.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18134,
+      "run_id": "dirty_cpuidle_kon_rep02"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_koff_rep02.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18135,
+      "run_id": "dirty_cpuidle_koff_rep02"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_rep03.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18136,
+      "run_id": "dirty_cpuidle_rep03"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_kon_rep03.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18137,
+      "run_id": "dirty_cpuidle_kon_rep03"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_koff_rep03.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18138,
+      "run_id": "dirty_cpuidle_koff_rep03"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_rep04.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18139,
+      "run_id": "dirty_cpuidle_rep04"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_kon_rep04.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18140,
+      "run_id": "dirty_cpuidle_kon_rep04"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_koff_rep04.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18141,
+      "run_id": "dirty_cpuidle_koff_rep04"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_rep05.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18142,
+      "run_id": "dirty_cpuidle_rep05"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_kon_rep05.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18143,
+      "run_id": "dirty_cpuidle_kon_rep05"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_koff_rep05.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18144,
+      "run_id": "dirty_cpuidle_koff_rep05"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_rep06.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18145,
+      "run_id": "dirty_cpuidle_rep06"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_kon_rep06.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18146,
+      "run_id": "dirty_cpuidle_kon_rep06"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_koff_rep06.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18147,
+      "run_id": "dirty_cpuidle_koff_rep06"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_rep07.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18148,
+      "run_id": "dirty_cpuidle_rep07"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_kon_rep07.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18149,
+      "run_id": "dirty_cpuidle_kon_rep07"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_koff_rep07.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18150,
+      "run_id": "dirty_cpuidle_koff_rep07"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_rep08.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18151,
+      "run_id": "dirty_cpuidle_rep08"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_kon_rep08.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18152,
+      "run_id": "dirty_cpuidle_kon_rep08"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_koff_rep08.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18153,
+      "run_id": "dirty_cpuidle_koff_rep08"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_rep09.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18154,
+      "run_id": "dirty_cpuidle_rep09"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_kon_rep09.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18155,
+      "run_id": "dirty_cpuidle_kon_rep09"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_koff_rep09.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18156,
+      "run_id": "dirty_cpuidle_koff_rep09"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_rep10.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18157,
+      "run_id": "dirty_cpuidle_rep10"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_kon_rep10.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18158,
+      "run_id": "dirty_cpuidle_kon_rep10"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/dirty_cpuidle_koff_rep10.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18159,
+      "run_id": "dirty_cpuidle_koff_rep10"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_rep01.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18160,
+      "run_id": "initburst_cpubusy_rep01"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_kon_rep01.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18161,
+      "run_id": "initburst_cpubusy_kon_rep01"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_koff_rep01.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18162,
+      "run_id": "initburst_cpubusy_koff_rep01"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_rep02.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18163,
+      "run_id": "initburst_cpubusy_rep02"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_kon_rep02.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18164,
+      "run_id": "initburst_cpubusy_kon_rep02"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_koff_rep02.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18165,
+      "run_id": "initburst_cpubusy_koff_rep02"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_rep03.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18166,
+      "run_id": "initburst_cpubusy_rep03"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_kon_rep03.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18167,
+      "run_id": "initburst_cpubusy_kon_rep03"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_koff_rep03.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18168,
+      "run_id": "initburst_cpubusy_koff_rep03"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_rep04.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18169,
+      "run_id": "initburst_cpubusy_rep04"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_kon_rep04.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18170,
+      "run_id": "initburst_cpubusy_kon_rep04"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_koff_rep04.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18171,
+      "run_id": "initburst_cpubusy_koff_rep04"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_rep05.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18172,
+      "run_id": "initburst_cpubusy_rep05"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_kon_rep05.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18173,
+      "run_id": "initburst_cpubusy_kon_rep05"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_koff_rep05.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18174,
+      "run_id": "initburst_cpubusy_koff_rep05"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_rep06.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18175,
+      "run_id": "initburst_cpubusy_rep06"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_kon_rep06.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18176,
+      "run_id": "initburst_cpubusy_kon_rep06"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_koff_rep06.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18177,
+      "run_id": "initburst_cpubusy_koff_rep06"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_rep07.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18178,
+      "run_id": "initburst_cpubusy_rep07"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_kon_rep07.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18179,
+      "run_id": "initburst_cpubusy_kon_rep07"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_koff_rep07.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18180,
+      "run_id": "initburst_cpubusy_koff_rep07"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_rep08.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18181,
+      "run_id": "initburst_cpubusy_rep08"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_kon_rep08.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18182,
+      "run_id": "initburst_cpubusy_kon_rep08"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_koff_rep08.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18183,
+      "run_id": "initburst_cpubusy_koff_rep08"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_rep09.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18184,
+      "run_id": "initburst_cpubusy_rep09"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_kon_rep09.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18185,
+      "run_id": "initburst_cpubusy_kon_rep09"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_koff_rep09.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18186,
+      "run_id": "initburst_cpubusy_koff_rep09"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_rep10.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18187,
+      "run_id": "initburst_cpubusy_rep10"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_kon_rep10.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18188,
+      "run_id": "initburst_cpubusy_kon_rep10"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpubusy_koff_rep10.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18189,
+      "run_id": "initburst_cpubusy_koff_rep10"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_rep01.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18190,
+      "run_id": "initburst_cpuidle_rep01"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_kon_rep01.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18191,
+      "run_id": "initburst_cpuidle_kon_rep01"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_koff_rep01.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18192,
+      "run_id": "initburst_cpuidle_koff_rep01"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_rep02.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18193,
+      "run_id": "initburst_cpuidle_rep02"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_kon_rep02.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18194,
+      "run_id": "initburst_cpuidle_kon_rep02"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_koff_rep02.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18195,
+      "run_id": "initburst_cpuidle_koff_rep02"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_rep03.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18196,
+      "run_id": "initburst_cpuidle_rep03"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_kon_rep03.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18197,
+      "run_id": "initburst_cpuidle_kon_rep03"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_koff_rep03.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18198,
+      "run_id": "initburst_cpuidle_koff_rep03"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_rep04.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18199,
+      "run_id": "initburst_cpuidle_rep04"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_kon_rep04.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18200,
+      "run_id": "initburst_cpuidle_kon_rep04"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_koff_rep04.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18201,
+      "run_id": "initburst_cpuidle_koff_rep04"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_rep05.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18202,
+      "run_id": "initburst_cpuidle_rep05"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_kon_rep05.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18203,
+      "run_id": "initburst_cpuidle_kon_rep05"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_koff_rep05.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18204,
+      "run_id": "initburst_cpuidle_koff_rep05"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_rep06.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18205,
+      "run_id": "initburst_cpuidle_rep06"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_kon_rep06.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18206,
+      "run_id": "initburst_cpuidle_kon_rep06"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_koff_rep06.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18207,
+      "run_id": "initburst_cpuidle_koff_rep06"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_rep07.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18208,
+      "run_id": "initburst_cpuidle_rep07"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_kon_rep07.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18209,
+      "run_id": "initburst_cpuidle_kon_rep07"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_koff_rep07.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18210,
+      "run_id": "initburst_cpuidle_koff_rep07"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_rep08.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18211,
+      "run_id": "initburst_cpuidle_rep08"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_kon_rep08.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18212,
+      "run_id": "initburst_cpuidle_kon_rep08"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_koff_rep08.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18213,
+      "run_id": "initburst_cpuidle_koff_rep08"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_rep09.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18214,
+      "run_id": "initburst_cpuidle_rep09"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_kon_rep09.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18215,
+      "run_id": "initburst_cpuidle_kon_rep09"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_koff_rep09.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18216,
+      "run_id": "initburst_cpuidle_koff_rep09"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_rep10.yaml",
+      "kdat": "-",
+      "kind": "cold",
+      "port": 18217,
+      "run_id": "initburst_cpuidle_rep10"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_kon_rep10.yaml",
+      "kdat": "on",
+      "kind": "restore",
+      "port": 18218,
+      "run_id": "initburst_cpuidle_kon_rep10"
+    },
+    {
+      "config": "/root/Embed-sim-lab/testbed/experiments/parity/configs/initburst_cpuidle_koff_rep10.yaml",
+      "kdat": "off",
+      "kind": "restore",
+      "port": 18219,
+      "run_id": "initburst_cpuidle_koff_rep10"
+    }
+  ],
+  "total_runs": 120,
+  "workloads": [
+    {
+      "cells": [
+        {
+          "cpu": "busy",
+          "free_axes": {},
+          "resident_bytes": 54525952,
+          "sweep_value": 50,
+          "target_total_mib": 1278,
+          "vm_bytes_per_worker": 44329454
+        },
+        {
+          "cpu": "idle",
+          "free_axes": {},
+          "resident_bytes": 54525952,
+          "sweep_value": 50,
+          "target_total_mib": 1278,
+          "vm_bytes_per_worker": 44329454
+        }
+      ],
+      "dump_at": [
+        "served_first"
+      ],
+      "name": "dirty",
+      "sweep_param": "bytes",
+      "values": [
+        50
+      ],
+      "values_actual": [
+        52428800
+      ]
+    },
+    {
+      "cells": [
+        {
+          "cpu": "busy",
+          "free_axes": {},
+          "resident_bytes": 4194304,
+          "sweep_value": 150,
+          "target_total_mib": 1278,
+          "vm_bytes_per_worker": 46065028
+        },
+        {
+          "cpu": "idle",
+          "free_axes": {},
+          "resident_bytes": 4194304,
+          "sweep_value": 150,
+          "target_total_mib": 1278,
+          "vm_bytes_per_worker": 46065028
+        }
+      ],
+      "dump_at": [
+        "served_first"
+      ],
+      "name": "initburst",
+      "sweep_param": "iters",
+      "values": [
+        150
+      ],
+      "values_actual": [
+        103
+      ]
+    }
+  ]
+}
