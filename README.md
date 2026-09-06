@@ -39,7 +39,7 @@ LG전자 산학과제로 진행한 임베디드 리눅스 CRIU 적용 가능성 
 | 저장소 | 내용 |
 |---|---|
 | [Embed-sim-lab-fixed](Embed-sim-lab-fixed) | 실행 환경 전체. 테스트베드, 실험 스크립트, 문서, 측정 결과 |
-| [Embed-sim-lab-clean](Embed-sim-lab-clean) | 코드만 정리한 버전 |
+| [Embed-sim-lab-main](Embed-sim-lab-main) | 코드만 정리한 버전 |
 
 **주요 내용**
 
