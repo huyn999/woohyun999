@@ -36,9 +36,7 @@ LG전자 산학과제로 진행한 임베디드 리눅스 CRIU 적용 가능성 
 실제 서비스와 동일한 커널 자원을 점유하는 모사 환경을 구축하고,
 자원 종류와 획득 시점을 조합해 dump/restore 성공 여부를 전수 측정했습니다.
 
-| 저장소 | 내용 |
-|---|---|
-| [Embed-sim-lab-main](Embed-sim-lab-main) | 코드만 정리한 버전 |
+코드와 실행 환경은 [Embed-sim-lab-main](Embed-sim-lab-main)에 있습니다.
 
 **주요 내용**
 
