@@ -1,0 +1,12 @@
+*.o
+*.d
+*.exe
+*.out
+*.class
+build/
+.vscode/
+.DS_Store
+__pycache__/
+*.tar
+*.tar.gz
+*.zip
